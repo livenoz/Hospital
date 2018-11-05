@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="IUserBusiness.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HMS.Entities\HMS.Entities.csproj" />
+  </ItemGroup>
+
+</Project>
