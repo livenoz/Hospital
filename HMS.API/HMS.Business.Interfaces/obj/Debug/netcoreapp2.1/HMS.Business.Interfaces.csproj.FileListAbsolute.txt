@@ -1,0 +1,11 @@
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Business.Interfaces\obj\Debug\netcoreapp2.1\HMS.Business.Interfaces.csproj.CoreCompileInputs.cache
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Business.Interfaces\obj\Debug\netcoreapp2.1\HMS.Business.Interfaces.AssemblyInfoInputs.cache
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Business.Interfaces\obj\Debug\netcoreapp2.1\HMS.Business.Interfaces.AssemblyInfo.cs
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Business.Interfaces\bin\Debug\netcoreapp2.1\HMS.Business.Interfaces.deps.json
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Business.Interfaces\bin\Debug\netcoreapp2.1\HMS.Business.Interfaces.dll
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Business.Interfaces\bin\Debug\netcoreapp2.1\HMS.Business.Interfaces.pdb
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Business.Interfaces\bin\Debug\netcoreapp2.1\HMS.Entities.dll
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Business.Interfaces\bin\Debug\netcoreapp2.1\HMS.Entities.pdb
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Business.Interfaces\obj\Debug\netcoreapp2.1\HMS.Business.Interfaces.csproj.CopyComplete
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Business.Interfaces\obj\Debug\netcoreapp2.1\HMS.Business.Interfaces.dll
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Business.Interfaces\obj\Debug\netcoreapp2.1\HMS.Business.Interfaces.pdb

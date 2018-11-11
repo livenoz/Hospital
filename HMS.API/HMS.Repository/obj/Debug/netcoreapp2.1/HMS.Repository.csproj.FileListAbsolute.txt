@@ -1,0 +1,14 @@
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Repository\obj\Debug\netcoreapp2.1\HMS.Repository.csproj.CoreCompileInputs.cache
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Repository\obj\Debug\netcoreapp2.1\HMS.Repository.AssemblyInfoInputs.cache
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Repository\obj\Debug\netcoreapp2.1\HMS.Repository.AssemblyInfo.cs
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Repository\bin\Debug\netcoreapp2.1\HMS.Repository.deps.json
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Repository\bin\Debug\netcoreapp2.1\HMS.Repository.dll
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Repository\bin\Debug\netcoreapp2.1\HMS.Repository.pdb
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Repository\bin\Debug\netcoreapp2.1\HMS.Entities.dll
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Repository\bin\Debug\netcoreapp2.1\HMS.Repository.Interfaces.dll
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Repository\bin\Debug\netcoreapp2.1\HMS.Entities.pdb
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Repository\bin\Debug\netcoreapp2.1\HMS.Repository.Interfaces.pdb
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Repository\obj\Debug\netcoreapp2.1\HMS.Repository.csprojAssemblyReference.cache
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Repository\obj\Debug\netcoreapp2.1\HMS.Repository.csproj.CopyComplete
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Repository\obj\Debug\netcoreapp2.1\HMS.Repository.dll
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Repository\obj\Debug\netcoreapp2.1\HMS.Repository.pdb

@@ -1,0 +1,4 @@
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Business\obj\Debug\netcoreapp2.1\HMS.Business.csproj.CoreCompileInputs.cache
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Business\obj\Debug\netcoreapp2.1\HMS.Business.AssemblyInfoInputs.cache
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Business\obj\Debug\netcoreapp2.1\HMS.Business.AssemblyInfo.cs
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Business\obj\Debug\netcoreapp2.1\HMS.Business.csprojAssemblyReference.cache

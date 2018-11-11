@@ -1,0 +1,11 @@
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Entities\obj\Debug\netcoreapp2.1\HMS.Entities.csproj.CoreCompileInputs.cache
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Entities\obj\Debug\netcoreapp2.1\HMS.Entities.AssemblyInfoInputs.cache
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Entities\obj\Debug\netcoreapp2.1\HMS.Entities.AssemblyInfo.cs
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Entities\bin\Debug\netcoreapp2.1\HMS.Entities.deps.json
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Entities\bin\Debug\netcoreapp2.1\HMS.Entities.runtimeconfig.json
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Entities\bin\Debug\netcoreapp2.1\HMS.Entities.runtimeconfig.dev.json
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Entities\bin\Debug\netcoreapp2.1\HMS.Entities.dll
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Entities\bin\Debug\netcoreapp2.1\HMS.Entities.pdb
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Entities\obj\Debug\netcoreapp2.1\HMS.Entities.csprojAssemblyReference.cache
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Entities\obj\Debug\netcoreapp2.1\HMS.Entities.dll
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Entities\obj\Debug\netcoreapp2.1\HMS.Entities.pdb
