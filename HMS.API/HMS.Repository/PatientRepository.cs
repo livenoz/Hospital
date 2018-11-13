@@ -10,9 +10,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HMS.Repository
 {
-    public class UserRepository : Repository<Users>, IUserRepository, IRepository<Users>
+    public class PatientRepository : BaseRepository<Users>, IUserRepository
     {
-        public UserRepository(HMSContext context)
+        public PatientRepository(HMSContext context)
             : base(context)
         {
         }

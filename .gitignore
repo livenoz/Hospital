@@ -2,3 +2,12 @@
 /HMS.API/HMS.API/*
 /HMS.API/HMS.Repository/*.user
 /HMS.API/HMS.API/*.user
+/HMS.API/HMS.Repository.Interfaces/obj
+/HMS.API/HMS.Repository.Interfaces/bin
+/HMS.API/HMS.Repository/obj
+/HMS.API/HMS.Repository/bin
+/HMS.API/HMS.Entities/obj
+/HMS.API/HMS.Entities/bin
+/HMS.API/HMS.Business.Interfaces/obj
+/HMS.API/HMS.Business.Interfaces/bin
+/HMS.API/HMS.Business/obj

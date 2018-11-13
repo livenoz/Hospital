@@ -6,8 +6,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Repository.cs" />
-    <Compile Include="UserRepository.cs" />
+    <Compile Include="BaseRepository.cs" />
+    <Compile Include="PatientRepository.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -37,7 +37,7 @@ namespace HMS.API
             var connection = @"Server=DESKTOP-AOAUJO9\SQLEXPRESS;Database=HMS;Trusted_Connection=True;ConnectRetryCount=0";
             services.AddDbContext<HMSContext>(options => options.UseSqlServer(connection));
             services.AddTransient<IUserBusiness, UserBusiness>();
-            services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserRepository, PatientRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

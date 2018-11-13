@@ -7,34 +7,58 @@ namespace HMS.Business
 {
     public class UserBusiness : IUserBusiness
     {
-        IUserRepository _userRepository;
-        public UserBusiness(IUserRepository userRepository)
-        {
-            _userRepository = userRepository;
-        }
+        //IUserRepository _userRepository;
+        //public UserBusiness(IUserRepository userRepository)
+        //{
+        //    _userRepository = userRepository;
+        //}
+        //public Users AddUser(Users user)
+        //{
+        //    return _userRepository.Add(user);
+        //}
+
+        //public bool DeleteUser(int userId)
+        //{
+        //    return _userRepository.Delete(userId);
+        //}
+
+        //public IEnumerable<Users> GetAllUser()
+        //{
+        //    return _userRepository.Get();
+        //}
+
+        //public Users GetUserById(int userId)
+        //{
+        //    return _userRepository.Get(userId);
+        //}
+
+        //public bool UpdateUser(Users user)
+        //{
+        //    return _userRepository.Update(user);
+        //}
         public Users AddUser(Users user)
         {
-            return _userRepository.Add(user);
+            throw new System.NotImplementedException();
         }
 
         public bool DeleteUser(int userId)
         {
-            return _userRepository.Delete(userId);
+            throw new System.NotImplementedException();
         }
 
         public IEnumerable<Users> GetAllUser()
         {
-            return _userRepository.Get();
+            throw new System.NotImplementedException();
         }
 
         public Users GetUserById(int userId)
         {
-            return _userRepository.Get(userId);
+            throw new System.NotImplementedException();
         }
 
         public bool UpdateUser(Users user)
         {
-            return _userRepository.Update(user);
+            throw new System.NotImplementedException();
         }
     }
 }

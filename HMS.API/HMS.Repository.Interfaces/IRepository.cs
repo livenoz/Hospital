@@ -1,23 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace HMS.Repository.Interfaces
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<TEntity> where TEntity : class
     {
-        IQueryable<T> Repo { get; }
-        IEnumerable<T> GetAll();
-        Task<IEnumerable<T>> GetAllAsync();
-        T Get(int id);
-        Task<T> GetAsync(int id);
-        T Add(T entity);
-        void Delete(int id);
+        IQueryable<TEntity> Repo { get; }
+        Task<IEnumerable<TEntity>> GetAllAsync();
+        Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression);
+        Task<TEntity> GetAsync(int id);
+        TEntity Add(TEntity entity);
+        void Delete(TEntity entity);
         Task DeleteAsync(int id);
-        void Update(T entity);
-        int SaveChange();
+        void Update(TEntity entity);
         Task<int> SaveChangeAsync();
     }
 }
