@@ -1,0 +1,30 @@
+table {
+  width: 100%;
+}
+
+th {
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #fafafa;
+  color: #212529;
+}
+
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell{
+  width: 20%;
+}
+
+.cdk-column-control{
+  text-align: center;
+}
+
+.cdk-column-control i, .cdk-column-control fa-icon{
+  cursor: pointer;
+}
+
+.mat-form-field {
+  display: contents !important;
+}
+
+/deep/ .form-group .mat-form-field-infix{
+  border-top: 0;
+}
