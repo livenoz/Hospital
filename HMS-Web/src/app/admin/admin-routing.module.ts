@@ -10,6 +10,8 @@ const routes: Routes = [
             { path: '', redirectTo: 'dashboard', pathMatch: 'prefix' },
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'patient-profiles', loadChildren: './patient-profiles/patient-profiles.module#PatientProfilesModule' },
+            { path: 'add-update-patient-profiles', loadChildren: './patient-profiles/add-update-patient-profiles/add-update-patient-profiles.module#AddUpdatePatientProfilesModule' },
+            { path: 'add-update-patient-profiles/:id', loadChildren: './patient-profiles/add-update-patient-profiles/add-update-patient-profiles.module#AddUpdatePatientProfilesModule' },
         ]
     }
 ];

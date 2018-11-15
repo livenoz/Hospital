@@ -13,4 +13,4 @@ import { PageHeaderModule } from "./../../../shared";
   ],
   declarations: [AddUpdatePatientProfilesComponent]
 })
-export class PatientProfilesModule {}
+export class AddUpdatePatientProfilesModule {}

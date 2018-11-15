@@ -1,11 +1,12 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { SelectionModel } from "@angular/cdk/collections";
 import { MatPaginator, MatTableDataSource } from "@angular/material";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { faBriefcase } from "@fortawesome/fontawesome-free-solid";
 import { NgxSpinnerService } from "ngx-spinner";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
+import { NgbdModalComponent } from './../../shared/modules/modal/modal-component';
 
 export interface PatientElement {
   id: number;
@@ -21,7 +22,7 @@ export interface PatientElement {
   styleUrls: ["./patient-profiles.component.scss"]
 })
 export class PatientProfilesComponent implements OnInit {
-  constructor(private spinner: NgxSpinnerService) {}
+  constructor(private spinner: NgxSpinnerService, private modal: NgbModal) {}
 
   // icon
   faBriefcase = faBriefcase;
@@ -262,19 +263,15 @@ export class PatientProfilesComponent implements OnInit {
     "control"
   ];
   dataSource = new MatTableDataSource<PatientElement>(this.patientGroups);
-  selection = new SelectionModel<PatientElement>(true, []);
-  // Data list [End]
 
-  onAdd() {
-    alert("Clicked");
-  }
+  // Data list [End]
 
   onUpdate() {
     alert("Clicked");
   }
 
   onDisable() {
-    alert("Clicked");
+    this.modal.open(NgbdModalComponent);
   }
 
   onViewTreatment() {
