@@ -1,0 +1,9 @@
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Common\bin\Debug\netstandard2.0\HMS.Common.deps.json
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Common\bin\Debug\netstandard2.0\HMS.Common.dll
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Common\bin\Debug\netstandard2.0\HMS.Common.pdb
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Common\obj\Debug\netstandard2.0\HMS.Common.csprojAssemblyReference.cache
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Common\obj\Debug\netstandard2.0\HMS.Common.csproj.CoreCompileInputs.cache
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Common\obj\Debug\netstandard2.0\HMS.Common.AssemblyInfoInputs.cache
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Common\obj\Debug\netstandard2.0\HMS.Common.AssemblyInfo.cs
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Common\obj\Debug\netstandard2.0\HMS.Common.dll
+C:\Working\Learn\LTNC\Assignment\Hospital\HMS.API\HMS.Common\obj\Debug\netstandard2.0\HMS.Common.pdb

@@ -11,67 +11,44 @@ namespace HMS.Repository
 {
     public class BaseRepository<TEntity> : IRepository<TEntity> where TEntity : class
     {
-        protected readonly HMSContext _context;
+        protected readonly HealthContext _context;
 
-        public IQueryable<TEntity> Repo => _context.Set<TEntity>();
+        public virtual IQueryable<TEntity> Repo => _context.Set<TEntity>();
 
-        public BaseRepository(HMSContext context)
+        public BaseRepository(HealthContext context)
         {
             _context = context;
         }
 
-        public TEntity Add(TEntity entity)
+        public virtual TEntity Add(TEntity entity)
         {
             return _context.Set<TEntity>().Add(entity).Entity;
         }
 
-        public void Delete(int id)
-        {
-            var model = _context.Set<TEntity>().Find(id);
-            if (model != null)
-            {
-                _context.Set<TEntity>().Remove(model);
-            }
-        }
-
-        public void Update(TEntity entity)
+        public virtual void Update(TEntity entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual async Task<IList<TEntity>> GetAllAsync()
         {
             var models = await _context.Set<TEntity>().ToListAsync();
             return models;
         }
 
-        public async Task<IEnumerable<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression)
+        public virtual async Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression)
         {
             var models = await _context.Set<TEntity>().Where(expression).ToListAsync();
             return models;
         }
 
-        public async Task<TEntity> GetAsync(int id)
+        public virtual async Task<TEntity> GetAsync(int id)
         {
             var model = await _context.Set<TEntity>().FindAsync(id);
             return model;
         }
 
-        public int SaveChange()
-        {
-            int result = 0;
-            try
-            {
-                result = _context.SaveChanges();
-            }
-            catch (Exception ex)
-            {
-                //TODO: write log here
-            }
-            return result;
-        }
-
-        public async Task<int> SaveChangeAsync()
+        public virtual async Task<int> SaveChangeAsync()
         {
             int result = 0;
             try
@@ -85,7 +62,7 @@ namespace HMS.Repository
             return result;
         }
 
-        public async Task DeleteAsync(int id)
+        public virtual async Task DeleteAsync(int id)
         {
             var model = await _context.Set<TEntity>().FindAsync(id);
             if (model != null)
@@ -94,7 +71,7 @@ namespace HMS.Repository
             }
         }
 
-        public void Delete(TEntity entity)
+        public virtual void Delete(TEntity entity)
         {
             _context.Set<TEntity>().Remove(entity);
         }

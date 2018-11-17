@@ -6,7 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="PatientBusiness.cs" />
     <Compile Include="UserBusiness.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="5.0.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,10 +5,10 @@ namespace HMS.Business.Interfaces
 {
     public interface IUserBusiness
     {
-        Users AddUser(Users user);
-        bool UpdateUser(Users user);
-        bool DeleteUser(int userId);
-        IEnumerable<Users> GetAllUser();
-        Users GetUserById(int userId);
+        TUser Add(TUser user);
+        bool Update(TUser user);
+        bool Delete(int userId);
+        IEnumerable<TUser> GetAll();
+        TUser GetById(int userId);
     }
 }

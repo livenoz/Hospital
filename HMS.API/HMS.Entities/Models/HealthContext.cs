@@ -4,13 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace HMS.Entities.Models
 {
-    public partial class HMSContext : DbContext
+    public partial class HealthContext : DbContext
     {
-        public HMSContext()
+        public HealthContext()
         {
         }
 
-        public HMSContext(DbContextOptions<HMSContext> options)
+        public HealthContext(DbContextOptions<HealthContext> options)
             : base(options)
         {
         }
@@ -24,17 +24,23 @@ namespace HMS.Entities.Models
         public virtual DbSet<TDisease> TDisease { get; set; }
         public virtual DbSet<TDiseaseGroup> TDiseaseGroup { get; set; }
         public virtual DbSet<TDistrict> TDistrict { get; set; }
+        public virtual DbSet<TDrug> TDrug { get; set; }
+        public virtual DbSet<TDrugGroup> TDrugGroup { get; set; }
+        public virtual DbSet<TDrugUse> TDrugUse { get; set; }
         public virtual DbSet<TEmployee> TEmployee { get; set; }
         public virtual DbSet<TEmployeeType> TEmployeeType { get; set; }
         public virtual DbSet<THospital> THospital { get; set; }
         public virtual DbSet<TMedicalRecord> TMedicalRecord { get; set; }
         public virtual DbSet<TMedicalRecordStatus> TMedicalRecordStatus { get; set; }
         public virtual DbSet<TPatient> TPatient { get; set; }
+        public virtual DbSet<TPrescription> TPrescription { get; set; }
+        public virtual DbSet<TPrescriptionDetail> TPrescriptionDetail { get; set; }
         public virtual DbSet<TProvince> TProvince { get; set; }
         public virtual DbSet<TRight> TRight { get; set; }
         public virtual DbSet<TRole> TRole { get; set; }
         public virtual DbSet<TTreatment> TTreatment { get; set; }
         public virtual DbSet<TTreatmentDisease> TTreatmentDisease { get; set; }
+        public virtual DbSet<TUnit> TUnit { get; set; }
         public virtual DbSet<TUser> TUser { get; set; }
         public virtual DbSet<TUserEmployee> TUserEmployee { get; set; }
 
@@ -42,7 +48,8 @@ namespace HMS.Entities.Models
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //Connection string
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
+                optionsBuilder.UseSqlServer("Server=103.7.43.28;Database=Healthcare;User Id= healthcare;Password=care@123");
             }
         }
 
@@ -226,6 +233,61 @@ namespace HMS.Entities.Models
                     .HasForeignKey(d => d.ProvinceId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TDistrict_TProvince");
+            });
+
+            modelBuilder.Entity<TDrug>(entity =>
+            {
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasMaxLength(48);
+
+                entity.Property(e => e.Description).HasMaxLength(512);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(128);
+
+                entity.Property(e => e.Note).HasMaxLength(512);
+
+                entity.HasOne(d => d.Group)
+                    .WithMany(p => p.TDrug)
+                    .HasForeignKey(d => d.GroupId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TDrug_TDrugGroup");
+
+                entity.HasOne(d => d.Unit)
+                    .WithMany(p => p.TDrug)
+                    .HasForeignKey(d => d.UnitId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TDrug_TUnit");
+
+                entity.HasOne(d => d.Use)
+                    .WithMany(p => p.TDrug)
+                    .HasForeignKey(d => d.UseId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TDrug_TDrugUse");
+            });
+
+            modelBuilder.Entity<TDrugGroup>(entity =>
+            {
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasMaxLength(24);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(48);
+            });
+
+            modelBuilder.Entity<TDrugUse>(entity =>
+            {
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasMaxLength(48);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(128);
             });
 
             modelBuilder.Entity<TEmployee>(entity =>
@@ -518,6 +580,74 @@ namespace HMS.Entities.Models
                     .HasConstraintName("FK_TPatient_TProvince");
             });
 
+            modelBuilder.Entity<TPrescription>(entity =>
+            {
+                entity.Property(e => e.CreatedTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Diagnose)
+                    .IsRequired()
+                    .HasMaxLength(512);
+
+                entity.Property(e => e.Note).HasMaxLength(512);
+
+                entity.Property(e => e.UpdatedTime).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Doctor)
+                    .WithMany(p => p.TPrescription)
+                    .HasForeignKey(d => d.DoctorId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TPrescription_TEmployee");
+
+                entity.HasOne(d => d.MedicalRecord)
+                    .WithMany(p => p.TPrescription)
+                    .HasForeignKey(d => d.MedicalRecordId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TPrescription_TMedicalRecord");
+
+                entity.HasOne(d => d.Treatment)
+                    .WithMany(p => p.TPrescription)
+                    .HasForeignKey(d => d.TreatmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TPrescription_TTreatment");
+            });
+
+            modelBuilder.Entity<TPrescriptionDetail>(entity =>
+            {
+                entity.Property(e => e.CreatedTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Diagnose)
+                    .IsRequired()
+                    .HasMaxLength(512);
+
+                entity.Property(e => e.Note).HasMaxLength(512);
+
+                entity.Property(e => e.UpdatedTime).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Drug)
+                    .WithMany(p => p.TPrescriptionDetail)
+                    .HasForeignKey(d => d.DrugId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TPrescriptionDetail_TDrug");
+
+                entity.HasOne(d => d.Prescription)
+                    .WithMany(p => p.TPrescriptionDetail)
+                    .HasForeignKey(d => d.PrescriptionId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TPrescriptionDetail_TPrescription");
+
+                entity.HasOne(d => d.Unit)
+                    .WithMany(p => p.TPrescriptionDetail)
+                    .HasForeignKey(d => d.UnitId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TPrescriptionDetail_TUnit");
+
+                entity.HasOne(d => d.Use)
+                    .WithMany(p => p.TPrescriptionDetail)
+                    .HasForeignKey(d => d.UseId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TPrescriptionDetail_TDrugUse");
+            });
+
             modelBuilder.Entity<TProvince>(entity =>
             {
                 entity.Property(e => e.Id).ValueGeneratedNever();
@@ -609,6 +739,17 @@ namespace HMS.Entities.Models
                     .HasForeignKey(d => d.TreatmentId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TTreatmentDisease_TTreatment");
+            });
+
+            modelBuilder.Entity<TUnit>(entity =>
+            {
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasMaxLength(24);
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(48);
             });
 
             modelBuilder.Entity<TUser>(entity =>

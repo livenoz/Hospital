@@ -12,12 +12,12 @@ namespace HMS.API.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        private readonly HMSContext _context;
+        //private readonly HMSContext _context;
 
-        public ValuesController(HMSContext context)
-        {
-            _context = context;
-        }
+        //public ValuesController(HMSContext context)
+        //{
+        //    _context = context;
+        //}
 
         // GET api/values
         public ActionResult<IEnumerable<string>> Get()

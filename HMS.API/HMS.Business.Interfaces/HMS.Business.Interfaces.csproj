@@ -6,10 +6,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="IPatientBusiness.cs" />
     <Compile Include="IUserBusiness.cs" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HMS.Common\HMS.Common.csproj" />
     <ProjectReference Include="..\HMS.Entities\HMS.Entities.csproj" />
   </ItemGroup>
 

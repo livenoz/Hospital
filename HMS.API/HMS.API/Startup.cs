@@ -16,6 +16,7 @@ using HMS.Business.Interfaces;
 using HMS.Business;
 using HMS.Repository.Interfaces;
 using HMS.Repository;
+using AutoMapper;
 
 namespace HMS.API
 {
@@ -35,9 +36,10 @@ namespace HMS.API
 
             // Inject DB connection
             var connection = @"Server=DESKTOP-AOAUJO9\SQLEXPRESS;Database=HMS;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<HMSContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<HealthContext>(options => options.UseSqlServer(connection), ServiceLifetime.Scoped);
+            services.AddAutoMapper();
             services.AddTransient<IUserBusiness, UserBusiness>();
-            services.AddTransient<IUserRepository, PatientRepository>();
+            services.AddTransient<IPatientRepository, PatientRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

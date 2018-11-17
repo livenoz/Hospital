@@ -22,9 +22,9 @@ namespace HMS.API.Controllers
 
         // GET api/values
         [HttpGet]
-        public IEnumerable<Users> GetUsers()
+        public IEnumerable<TUser> GetUsers()
         {
-            return _userBusiness.GetAllUser();
+            return _userBusiness.GetAll();
         }
 
         // GET api/values/5
