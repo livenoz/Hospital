@@ -6,6 +6,8 @@ using HMS.Business.Interfaces;
 using HMS.Common.Dtos;
 using HMS.Entities.Models;
 using HMS.Repository.Interfaces;
+using HMS.Business.Interfaces.Paginated;
+using HMS.Business.Paginated;
 
 namespace HMS.Business
 {
@@ -19,9 +21,12 @@ namespace HMS.Business
             _patientRepository = patientRepository;
         }
 
-        public Task<PatientDto> Add(PatientDto model)
+        public async Task<PatientDto> Add(PatientDto model)
         {
-            throw new System.NotImplementedException();
+            var entity = _patientRepository.Add(_mapper.Map<TPatient>(model));
+            await _patientRepository.SaveChangeAsync();
+            model.Id = entity.Id;
+            return model;
         }
 
         public Task<bool> Delete(int id)
@@ -29,10 +34,14 @@ namespace HMS.Business
             throw new System.NotImplementedException();
         }
 
-        public async Task<IList<PatientDto>> GetAll()
+        public async Task<IPaginatedList<PatientDto>> GetAll(int pageIndex = 0, int pageSize = 20)
         {
-            var result = await _patientRepository.GetAllAsync();
-            return result.Select(_mapper.Map<PatientDto>).ToList();
+            var result = await _patientRepository.Repo
+                .Select(c => new PatientDto
+                {
+                    Id = c.Id
+                }).ToPaginatedListAsync(pageIndex, pageSize);
+            return result;
         }
 
         public Task<PatientDto> GetById(int id)

@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using HMS.Entities.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using HMS.Business.Interfaces;
 using HMS.Business;
 using HMS.Repository.Interfaces;
@@ -35,11 +29,12 @@ namespace HMS.API
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Inject DB connection
-            var connection = @"Server=DESKTOP-AOAUJO9\SQLEXPRESS;Database=HMS;Trusted_Connection=True;ConnectRetryCount=0";
-            services.AddDbContext<HealthContext>(options => options.UseSqlServer(connection), ServiceLifetime.Scoped);
+            services.AddDbContext<HealthContext>(options 
+                => options.UseSqlServer(Configuration.GetConnectionString("HealthConnection"), 
+                        sqlServerOptions => sqlServerOptions.UseRowNumberForPaging()), ServiceLifetime.Scoped);
             services.AddAutoMapper();
-            services.AddTransient<IUserBusiness, UserBusiness>();
-            services.AddTransient<IPatientRepository, PatientRepository>();
+            services.AddScoped<IPatientRepository, PatientRepository>();
+            services.AddScoped<IPatientBusiness, PatientBusiness>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
