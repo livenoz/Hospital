@@ -1,5 +1,6 @@
 /HMS.API/.vs
-/HMS.API/HMS.API/*
+/HMS.API/HMS.API/obj
+/HMS.API/HMS.API/bin
 /HMS.API/HMS.Repository/*.user
 /HMS.API/HMS.API/*.user
 /HMS.API/HMS.Repository.Interfaces/obj
