@@ -33,8 +33,19 @@ namespace HMS.API
                 => options.UseSqlServer(Configuration.GetConnectionString("HealthConnection"), 
                         sqlServerOptions => sqlServerOptions.UseRowNumberForPaging()), ServiceLifetime.Scoped);
             services.AddAutoMapper();
-            services.AddScoped<IPatientRepository, PatientRepository>();
             services.AddScoped<IPatientBusiness, PatientBusiness>();
+            services.AddScoped<IUserBusiness, UserBusiness>();
+
+            services.AddScoped<IBranchRepository, BranchRepository>();
+            services.AddScoped<ICountryRepository, CountryRepository>();
+            services.AddScoped<IProvinceRepository, ProvinceRepository>();
+            services.AddScoped<IDistrictRepository, DistrictRepository>();
+            services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
+            services.AddScoped<IPatientRepository, PatientRepository>();
+            services.AddScoped<IPrescriptionDetailRepository, PrescriptionDetailRepository>();
+            services.AddScoped<IPrescriptionRepository, PrescriptionRepository>();
+            services.AddScoped<ITreatmentRepository, TreatmentRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

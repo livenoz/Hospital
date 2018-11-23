@@ -7,6 +7,15 @@
 
   <ItemGroup>
     <Compile Include="BaseRepository.cs" />
+    <Compile Include="BranchRepository.cs" />
+    <Compile Include="CountryRepository.cs" />
+    <Compile Include="DistrictRepository.cs" />
+    <Compile Include="PrescriptionDetailRepository.cs" />
+    <Compile Include="PrescriptionRepository.cs" />
+    <Compile Include="ProvinceRepository.cs" />
+    <Compile Include="MedicalRecordRepository.cs" />
+    <Compile Include="TreatmentRepository.cs" />
+    <Compile Include="UserRepository.cs" />
     <Compile Include="PatientRepository.cs" />
   </ItemGroup>
 

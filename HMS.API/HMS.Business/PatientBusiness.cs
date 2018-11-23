@@ -16,21 +16,18 @@ namespace HMS.Business
     {
         private readonly IMapper _mapper;
         private readonly IPatientRepository _patientRepository;
-        private readonly IBranchRepository _branchRepository;
         private readonly ICountryRepository _countryRepository;
         private readonly IProvinceRepository _provinceRepository;
         private readonly IDistrictRepository _districtRepository;
 
         public PatientBusiness(IMapper mapper, 
             IPatientRepository patientRepository,
-            IBranchRepository branchRepository,
             ICountryRepository countryRepository,
             IProvinceRepository provinceRepository,
             IDistrictRepository districtRepository)
         {
             _mapper = mapper;
             _patientRepository = patientRepository;
-            _branchRepository = branchRepository;
             _countryRepository = countryRepository;
             _provinceRepository = provinceRepository;
             _districtRepository = districtRepository;
@@ -106,55 +103,63 @@ namespace HMS.Business
 
         public async Task<PatientDto> GetById(int id)
         {
-            var result = await (from patient in _patientRepository.Repo.Where(c => c.Id == id)
-                         join country in _countryRepository.Repo on patient.CountryId equals country.Id
-                         join province in _provinceRepository.Repo on patient.ProvinceId equals province.Id
-                         join district in _districtRepository.Repo on patient.DistrictId equals district.Id
-                         join nCountry in _countryRepository.Repo on patient.NativeCountryId equals nCountry.Id
-                         join nProvince in _provinceRepository.Repo on patient.NativeDistrictId equals nProvince.Id
-                         join nDistrict in _districtRepository.Repo on patient.NativeDistrictId equals nDistrict.Id
-                         select new PatientDto
-                         {
-                             Id = patient.Id,
-                             Code = patient.Code,
-                             FirstName = patient.FirstName,
-                             LastName = patient.LastName,
-                             MiddleName = patient.MiddleName,
-                             CountryId = patient.CountryId,
-                             ProvinceId = patient.ProvinceId,
-                             DistrictId = patient.DistrictId,
-                             Address = patient.Address,
-                             NativeCountryId = patient.NativeCountryId,
-                             NativeProvinceId = patient.NativeProvinceId,
-                             NativeDistrictId = patient.NativeDistrictId,
-                             NativeAddress = patient.NativeAddress,
-                             Sex = patient.Sex,
-                             Phone = patient.Phone,
-                             Email = patient.Email,
-                             Birthday = patient.Birthday,
-                             IdentifyCardNo = patient.IdentifyCardNo,
-                             DateOfIssue = patient.DateOfIssue,
-                             PlaceOfIssue = patient.PlaceOfIssue,
-                             ImageUrl = patient.ImageUrl,
-                             FatherName = patient.FatherName,
-                             FatherIdentifyCardNo = patient.FatherIdentifyCardNo,
-                             MotherName = patient.MotherName,
-                             MotherIdentifyCardNo = patient.MotherIdentifyCardNo,
-                             Description = patient.Description,
-                             CreatedTime = patient.CreatedTime,
-                             CreatedBy = patient.CreatedBy,
-                             UpdatedTime = patient.UpdatedTime,
-                             UpdatedBy = patient.UpdatedBy,
-                             IsActived = patient.IsActived,
-                             IsDeleted = patient.IsDeleted,
-                             ContryName = country.Name,
-                             ProvinceName = province.Name,
-                             DistrictName = district.Name,
-                             NativeCountryName = nCountry.Name,
-                             NativeProvinceName = nProvince.Name,
-                             NativeDistrictName = nDistrict.Name,
-                         }).FirstOrDefaultAsync();
-            return result;
+            var result = await _patientRepository.Repo.Where(c => c.Id == id)
+                .Include(c => c.Country)
+                .Include(c => c.Province)
+                .Include(c => c.District)
+                .Include(c => c.NativeCountry)
+                .Include(c => c.NativeProvince)
+                .Include(c => c.NativeDistrict)
+                .FirstOrDefaultAsync();
+            //var result = await (from patient in _patientRepository.Repo.Where(c => c.Id == id)
+            //             join country in _countryRepository.Repo on patient.CountryId equals country.Id
+            //             join province in _provinceRepository.Repo on patient.ProvinceId equals province.Id
+            //             join district in _districtRepository.Repo on patient.DistrictId equals district.Id
+            //             join nCountry in _countryRepository.Repo on patient.NativeCountryId equals nCountry.Id
+            //             join nProvince in _provinceRepository.Repo on patient.NativeDistrictId equals nProvince.Id
+            //             join nDistrict in _districtRepository.Repo on patient.NativeDistrictId equals nDistrict.Id
+            //             select new PatientDto
+            //             {
+            //                 Id = patient.Id,
+            //                 Code = patient.Code,
+            //                 FirstName = patient.FirstName,
+            //                 LastName = patient.LastName,
+            //                 MiddleName = patient.MiddleName,
+            //                 CountryId = patient.CountryId,
+            //                 ProvinceId = patient.ProvinceId,
+            //                 DistrictId = patient.DistrictId,
+            //                 Address = patient.Address,
+            //                 NativeCountryId = patient.NativeCountryId,
+            //                 NativeProvinceId = patient.NativeProvinceId,
+            //                 NativeDistrictId = patient.NativeDistrictId,
+            //                 NativeAddress = patient.NativeAddress,
+            //                 Sex = patient.Sex,
+            //                 Phone = patient.Phone,
+            //                 Email = patient.Email,
+            //                 Birthday = patient.Birthday,
+            //                 IdentifyCardNo = patient.IdentifyCardNo,
+            //                 DateOfIssue = patient.DateOfIssue,
+            //                 PlaceOfIssue = patient.PlaceOfIssue,
+            //                 ImageUrl = patient.ImageUrl,
+            //                 FatherName = patient.FatherName,
+            //                 FatherIdentifyCardNo = patient.FatherIdentifyCardNo,
+            //                 MotherName = patient.MotherName,
+            //                 MotherIdentifyCardNo = patient.MotherIdentifyCardNo,
+            //                 Description = patient.Description,
+            //                 CreatedTime = patient.CreatedTime,
+            //                 CreatedBy = patient.CreatedBy,
+            //                 UpdatedTime = patient.UpdatedTime,
+            //                 UpdatedBy = patient.UpdatedBy,
+            //                 IsActived = patient.IsActived,
+            //                 IsDeleted = patient.IsDeleted,
+            //                 ContryName = country.Name,
+            //                 ProvinceName = province.Name,
+            //                 DistrictName = district.Name,
+            //                 NativeCountryName = nCountry.Name,
+            //                 NativeProvinceName = nProvince.Name,
+            //                 NativeDistrictName = nDistrict.Name,
+            //             }).FirstOrDefaultAsync();
+            return _mapper.Map<PatientDto>(result);
         }
 
         public Task<bool> Update(PatientDto model)
