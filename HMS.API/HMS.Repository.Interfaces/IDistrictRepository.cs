@@ -2,7 +2,7 @@
 
 namespace HMS.Repository.Interfaces
 {
-    public interface ITreamentRepository : IRepository<TTreatment>
+    public interface IDistrictRepository : IRepository<TDistrict>
     {
         
     }

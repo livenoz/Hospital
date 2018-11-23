@@ -12,36 +12,37 @@ namespace HMS.API.Controllers.V1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class PatientController : ControllerBase
+    public class MedicalRecordController : ControllerBase
     {
         private readonly IPatientBusiness _patientBusiness;
 
-        public PatientController(IPatientBusiness patientBusiness)
+        public MedicalRecordController(IPatientBusiness patientBusiness)
         {
             _patientBusiness = patientBusiness;
         }
 
-        // GET: api/Patient
+        // GET: api/MedicalRecord
         [HttpGet]
-        public async Task<IPaginatedList<PatientDto>> Get(int pageIndex, int pageSize)
+        public async Task<IPaginatedList<PatientDto>> Get()
         {
-            return await _patientBusiness.GetAll(pageIndex, pageSize);
+            var result = await _patientBusiness.GetAll(0, 20);
+            return result;
         }
 
-        // GET: api/Patient/5
+        // GET: api/MedicalRecord/5
         [HttpGet("{id}")]
-        public async Task<PatientDto> Get(int id)
+        public string Get(int id)
         {
-            return await _patientBusiness.GetById(id);
+            return "value";
         }
 
-        // POST: api/Patient
+        // POST: api/MedicalRecord
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/Patient/5
+        // PUT: api/MedicalRecord/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {

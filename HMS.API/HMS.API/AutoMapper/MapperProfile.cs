@@ -13,6 +13,8 @@ namespace HMS.API.AutoMapper
         public MapperProfile()
         {
             CreateMap<TPatient, PatientDto>();
+            CreateMap<PatientDto, TPatient>()
+                .ForMember(des => des.Code, opt => opt.MapFrom(c => c.Code));
         }
     }
 }
