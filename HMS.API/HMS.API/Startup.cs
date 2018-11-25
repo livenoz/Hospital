@@ -11,6 +11,8 @@ using HMS.Business;
 using HMS.Repository.Interfaces;
 using HMS.Repository;
 using AutoMapper;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 
 namespace HMS.API
 {
@@ -33,6 +35,18 @@ namespace HMS.API
                 => options.UseSqlServer(Configuration.GetConnectionString("HealthConnection"), 
                         sqlServerOptions => sqlServerOptions.UseRowNumberForPaging()), ServiceLifetime.Scoped);
             services.AddAutoMapper();
+            services.AddDataProtection()
+                .UseCustomCryptographicAlgorithms(
+                new CngGcmAuthenticatedEncryptorConfiguration()
+                {
+                    // Passed to BCryptOpenAlgorithmProvider
+                    EncryptionAlgorithm = "AES",
+                    EncryptionAlgorithmProvider = null,
+
+
+                    // Specified in bits
+                    EncryptionAlgorithmKeySize = 256
+                });
             services.AddScoped<IPatientBusiness, PatientBusiness>();
             services.AddScoped<IUserBusiness, UserBusiness>();
 

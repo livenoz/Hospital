@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using HMS.Entities;
 using HMS.Entities.Models;
 using HMS.Business.Interfaces;
+using HMS.Common.Dtos.User;
+using HMS.Common.Responses.User;
 
 namespace HMS.API.Controllers.V1
 {
-    [Route("api/v1/users")]
+    [Route("api/v1/[controller]/[action]")]
     [ApiController]
     public class UsersController : ControllerBase
     {
@@ -18,6 +17,12 @@ namespace HMS.API.Controllers.V1
         public UsersController(IUserBusiness userBusiness)
         {
             _userBusiness = userBusiness;
+        }
+
+        [HttpPost]
+        public async Task<LoginResponse> Login(LoginDto model)
+        {
+            return await _userBusiness.Login(model);
         }
 
         // GET api/values
