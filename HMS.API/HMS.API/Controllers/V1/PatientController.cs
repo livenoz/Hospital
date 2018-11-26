@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HMS.API.Attributes;
 using HMS.Business.Interfaces;
 using HMS.Business.Interfaces.Paginated;
 using HMS.Common.Dtos;
@@ -29,6 +30,7 @@ namespace HMS.API.Controllers.V1
         }
 
         // GET: api/Patient/5
+        [BearerAuthorize]
         [HttpGet("{id}")]
         public async Task<PatientDto> Get(int id)
         {

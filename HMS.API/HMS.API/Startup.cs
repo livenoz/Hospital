@@ -35,6 +35,7 @@ namespace HMS.API
                 => options.UseSqlServer(Configuration.GetConnectionString("HealthConnection"), 
                         sqlServerOptions => sqlServerOptions.UseRowNumberForPaging()), ServiceLifetime.Scoped);
             services.AddAutoMapper();
+            services.AddResponseCompression();
             services.AddDataProtection()
                 .UseCustomCryptographicAlgorithms(
                 new CngGcmAuthenticatedEncryptorConfiguration()
@@ -73,7 +74,7 @@ namespace HMS.API
             {
                 app.UseHsts();
             }
-
+            app.UseResponseCompression();
             app.UseHttpsRedirection();
             app.UseMvc();
         }
