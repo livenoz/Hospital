@@ -1,12 +1,18 @@
 ﻿using HMS.Business.Interfaces;
+using HMS.Common.Dtos.User;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
+using System.Security.Claims;
+using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace HMS.API.Attributes
@@ -25,7 +31,7 @@ namespace HMS.API.Attributes
         {
             if (_isAuthen)
             {
-                var isAuthenticated = false;
+                AuthenticationDto authenTicket = null;
                 var hasAuthorizationHeader = context.HttpContext.Request.Headers.ContainsKey("Authorization");
                 if (hasAuthorizationHeader)
                 {
@@ -33,10 +39,18 @@ namespace HMS.API.Attributes
                     if (authHeader != null && authHeader.Scheme == "Bearer" && !string.IsNullOrEmpty(authHeader.Parameter))
                     {
                         var service = context.HttpContext.RequestServices.GetService(typeof(IUserBusiness)) as IUserBusiness;
-                        isAuthenticated = service.CheckAuthentication(authHeader.Parameter);
+                        authenTicket = service.CheckAuthentication(authHeader.Parameter);
+                        var claims = new[] 
+                        {
+                            new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(authenTicket))
+                        };
+                        var identity = new ClaimsIdentity(claims, authHeader.Scheme);
+                        var principal = new ClaimsPrincipal(identity);
+                        context.HttpContext.User = principal;
+                        Thread.CurrentPrincipal = principal;
                     }
                 }
-                if (!isAuthenticated)
+                if (authenTicket == null)
                 {
                     context.Result = new UnauthorizedResult();
                 }

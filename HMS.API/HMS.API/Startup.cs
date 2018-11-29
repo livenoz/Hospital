@@ -13,6 +13,8 @@ using HMS.Repository;
 using AutoMapper;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace HMS.API
 {
@@ -48,6 +50,7 @@ namespace HMS.API
                     // Specified in bits
                     EncryptionAlgorithmKeySize = 256
                 });
+            services.AddHttpContextAccessor();
             services.AddScoped<IPatientBusiness, PatientBusiness>();
             services.AddScoped<IUserBusiness, UserBusiness>();
 

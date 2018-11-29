@@ -10,6 +10,7 @@
     <Compile Include="BranchRepository.cs" />
     <Compile Include="CountryRepository.cs" />
     <Compile Include="DistrictRepository.cs" />
+    <Compile Include="Extensions\EntityFrameworkExtension.cs" />
     <Compile Include="PrescriptionDetailRepository.cs" />
     <Compile Include="PrescriptionRepository.cs" />
     <Compile Include="ProvinceRepository.cs" />

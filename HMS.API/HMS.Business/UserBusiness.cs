@@ -35,15 +35,14 @@ namespace HMS.Business
             throw new System.NotImplementedException();
         }
 
-        public bool CheckAuthentication(string accessToken)
+        public AuthenticationDto CheckAuthentication(string accessToken)
         {
-            var result = false;
             var model = JsonConvert.DeserializeObject<AuthenticationDto>(_protector.Unprotect(accessToken));
-            if(model.UserId > 0)
+            if(model == null || model.UserId <= 0)
             {
-                result = true;
+                model = null;
             }
-            return result;
+            return model;
         }
 
         public bool Delete(int userId)

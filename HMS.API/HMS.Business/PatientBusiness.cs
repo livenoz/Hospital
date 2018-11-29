@@ -41,9 +41,11 @@ namespace HMS.Business
             return model;
         }
 
-        public Task<bool> Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            throw new System.NotImplementedException();
+            _patientRepository.Delete(id);
+            var recordUpdated = await _patientRepository.SaveChangeAsync();
+            return recordUpdated > 0;
         }
 
         public async Task<IPaginatedList<PatientDto>> GetAll(int pageIndex = 0, int pageSize = 20)
@@ -114,9 +116,11 @@ namespace HMS.Business
             return _mapper.Map<PatientDto>(result);
         }
 
-        public Task<bool> Update(PatientDto model)
+        public async Task<bool> Update(PatientDto model)
         {
-            throw new System.NotImplementedException();
+            _patientRepository.Update(_mapper.Map<TPatient>(model));
+            var recordUpdated = await _patientRepository.SaveChangeAsync();
+            return recordUpdated > 0;
         }
     }
 }

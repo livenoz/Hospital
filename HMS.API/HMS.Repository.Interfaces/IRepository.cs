@@ -14,7 +14,7 @@ namespace HMS.Repository.Interfaces
         Task<TEntity> GetAsync(int id);
         TEntity Add(TEntity entity);
         void Delete(TEntity entity);
-        Task DeleteAsync(int id);
+        void Delete(int id);
         void Update(TEntity entity);
         Task<int> SaveChangeAsync();
     }

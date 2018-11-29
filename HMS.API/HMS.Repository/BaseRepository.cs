@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Linq.Expressions;
+using HMS.Repository.Extensions;
 
 namespace HMS.Repository
 {
@@ -62,13 +63,9 @@ namespace HMS.Repository
             return result;
         }
 
-        public virtual async Task DeleteAsync(int id)
+        public virtual void Delete(int id)
         {
-            var model = await _context.Set<TEntity>().FindAsync(id);
-            if (model != null)
-            {
-                _context.Set<TEntity>().Remove(model);
-            }
+            throw new NotImplementedException();
         }
 
         public virtual void Delete(TEntity entity)

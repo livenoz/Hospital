@@ -1,24 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using HMS.API.Attributes;
+using HMS.API.Extensions;
 using HMS.Business.Interfaces;
 using HMS.Business.Interfaces.Paginated;
 using HMS.Common.Dtos;
+using HMS.Common.Dtos.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMS.API.Controllers.V1
 {
     [Route("api/v1/[controller]")]
+    [BearerAuthorize]
     [ApiController]
     public class PatientController : ControllerBase
     {
+        private readonly AuthenticationDto _authenticationDto;
         private readonly IPatientBusiness _patientBusiness;
 
-        public PatientController(IPatientBusiness patientBusiness)
+        public PatientController(IHttpContextAccessor httpContextAccessor, IPatientBusiness patientBusiness)
         {
+            _authenticationDto = httpContextAccessor.HttpContext.User.ToAuthenticationDto();
             _patientBusiness = patientBusiness;
         }
 
@@ -30,7 +36,6 @@ namespace HMS.API.Controllers.V1
         }
 
         // GET: api/Patient/5
-        [BearerAuthorize]
         [HttpGet("{id}")]
         public async Task<PatientDto> Get(int id)
         {
@@ -39,20 +44,43 @@ namespace HMS.API.Controllers.V1
 
         // POST: api/Patient
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<int> Post(PatientDto model)
         {
+            var result = 0;
+            if (ModelState.IsValid)
+            {
+                var dateTimeUtcNow = DateTime.UtcNow;
+                model.CreatedBy = _authenticationDto.UserId;
+                model.CreatedTime = dateTimeUtcNow;
+                model.UpdatedBy = _authenticationDto.UserId;
+                model.UpdatedTime = dateTimeUtcNow;
+                var modelInsert = await _patientBusiness.Add(model);
+                result = modelInsert.Id;
+            }
+            return result;
         }
 
         // PUT: api/Patient/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<bool> Put(PatientDto model)
         {
+            var result = false;
+            if (ModelState.IsValid)
+            {
+                var dateTimeUtcNow = DateTime.UtcNow;
+                model.UpdatedBy = _authenticationDto.UserId;
+                model.UpdatedTime = dateTimeUtcNow;
+                result = await _patientBusiness.Update(model);
+            }
+            return result;
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<bool> Delete(int id)
         {
+            var result = await _patientBusiness.Delete(id);
+            return result;
         }
     }
 }

@@ -15,6 +15,6 @@ namespace HMS.Business.Interfaces
         TUser GetById(int userId);
 
         Task<LoginResponse> Login(LoginDto model);
-        bool CheckAuthentication(string accessToken);
+        AuthenticationDto CheckAuthentication(string accessToken);
     }
 }
