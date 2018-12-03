@@ -47,7 +47,7 @@ namespace HMS.API.Controllers.V1
             throw new NotImplementedException();
         }
 
-        public async Task<IPaginatedList<PrescriptionDto>> GetPrescriptionByTreatmentId(int treatmentId, 
+        public async Task<IPaginatedList<PrescriptionDto>> GetByTreatmentId(int treatmentId, 
             int pageIndex, int pageSize)
         {
             throw new NotImplementedException();

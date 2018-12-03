@@ -8,6 +8,7 @@
   <ItemGroup>
     <Compile Include="Paginated\PaginatedList.cs" />
     <Compile Include="Paginated\PaginatedListExtension.cs" />
+    <Compile Include="TreatmentBusiness.cs" />
     <Compile Include="PatientBusiness.cs" />
     <Compile Include="UserBusiness.cs" />
   </ItemGroup>
