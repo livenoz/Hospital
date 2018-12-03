@@ -3,12 +3,12 @@ using System.Threading.Tasks;
 using System.Linq;
 using AutoMapper;
 using HMS.Business.Interfaces;
-using HMS.Common.Dtos;
 using HMS.Entities.Models;
 using HMS.Repository.Interfaces;
 using HMS.Business.Interfaces.Paginated;
 using HMS.Business.Paginated;
 using Microsoft.EntityFrameworkCore;
+using HMS.Common.Dtos.Patient;
 
 namespace HMS.Business
 {

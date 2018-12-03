@@ -1,5 +1,5 @@
 ﻿using HMS.Business.Interfaces.Paginated;
-using HMS.Common.Dtos;
+using HMS.Common.Dtos.Patient;
 using HMS.Entities.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using HMS.API.Attributes;
 using HMS.API.Extensions;
 using HMS.Business.Interfaces;
 using HMS.Business.Interfaces.Paginated;
-using HMS.Common.Dtos;
+using HMS.Common.Dtos.Patient;
 using HMS.Common.Dtos.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +19,8 @@ namespace HMS.API.Controllers.V1
         private readonly AuthenticationDto _authenticationDto;
         private readonly IPatientBusiness _patientBusiness;
 
-        public PatientController(IHttpContextAccessor httpContextAccessor, IPatientBusiness patientBusiness)
+        public PatientController(IHttpContextAccessor httpContextAccessor, 
+            IPatientBusiness patientBusiness)
         {
             _authenticationDto = httpContextAccessor.HttpContext.User.ToAuthenticationDto();
             _patientBusiness = patientBusiness;

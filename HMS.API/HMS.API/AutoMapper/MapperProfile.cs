@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using HMS.Entities.Models;
-using HMS.Common.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using HMS.Common.Dtos.Patient;
 
 namespace HMS.API.AutoMapper
 {
