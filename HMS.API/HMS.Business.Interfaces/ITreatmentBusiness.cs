@@ -10,6 +10,7 @@ namespace HMS.Business.Interfaces
         Task<bool> Update(TreatmentDto model);
         Task<bool> Delete(int id);
         Task<IPaginatedList<TreatmentDto>> GetByMedicalRecordId(int medicalRecordId, int pageIndex, int pageSize);
+        Task<IPaginatedList<TreatmentDto>> GetByPatientId(int patientId, int pageIndex, int pageSize);
         Task<TreatmentDto> GetById(int id);
     }
 }

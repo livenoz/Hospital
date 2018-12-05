@@ -1,47 +1,78 @@
 ﻿using System;
 using System.Threading.Tasks;
 using HMS.API.Attributes;
+using HMS.API.Extensions;
+using HMS.Business.Interfaces;
 using HMS.Business.Interfaces.Paginated;
+using HMS.Common.Constants;
 using HMS.Common.Dtos.Patient;
+using HMS.Common.Dtos.User;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMS.API.Controllers.V1
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/[controller]/[action]")]
     [BearerAuthorize]
     [ApiController]
     public class MedicalRecordController : ControllerBase
     {
-        public MedicalRecordController()
+        private readonly AuthenticationDto _authenticationDto;
+        private readonly IMedicalRecordBusiness _medicalRecordBusiness;
+
+        public MedicalRecordController(IHttpContextAccessor httpContextAccessor,
+            IMedicalRecordBusiness medicalRecordBusiness)
         {
+            _authenticationDto = httpContextAccessor.HttpContext.User.ToAuthenticationDto();
+            _medicalRecordBusiness = medicalRecordBusiness;
         }
 
         // GET: api/MedicalRecord
         [HttpGet]
-        public async Task<IPaginatedList<MedicalRecordDto>> Get()
+        public Task<IPaginatedList<MedicalRecordDto>> Get(
+            int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {
-            throw new NotImplementedException();
+            return _medicalRecordBusiness.GetAll(pageIndex, pageSize);
         }
 
         // GET: api/MedicalRecord/5
         [HttpGet("{id}")]
-        public async Task<MedicalRecordDto> Get(int id)
+        public Task<MedicalRecordDto> Get(int id)
         {
-            throw new NotImplementedException();
+            return _medicalRecordBusiness.GetById(id);
         }
 
         // POST: api/MedicalRecord
         [HttpPost]
         public async Task<int> Post(MedicalRecordDto model)
         {
-            throw new NotImplementedException();
+            var result = 0;
+            if (ModelState.IsValid)
+            {
+                var dateTimeUtcNow = DateTime.UtcNow;
+                model.CreatedBy = _authenticationDto.UserId;
+                model.CreatedTime = dateTimeUtcNow;
+                model.UpdatedBy = _authenticationDto.UserId;
+                model.UpdatedTime = dateTimeUtcNow;
+                var modelInsert = await _medicalRecordBusiness.Add(model);
+                result = modelInsert.Id;
+            }
+            return result;
         }
 
         // PUT: api/MedicalRecord/5
         [HttpPut("{id}")]
         public async Task<bool> Put(MedicalRecordDto model)
         {
-            throw new NotImplementedException();
+            var result = false;
+            if (ModelState.IsValid)
+            {
+                var dateTimeUtcNow = DateTime.UtcNow;
+                model.UpdatedBy = _authenticationDto.UserId;
+                model.UpdatedTime = dateTimeUtcNow;
+                result = await _medicalRecordBusiness.Update(model);
+            }
+            return result;
         }
 
         // DELETE: api/ApiWithActions/5
@@ -51,10 +82,10 @@ namespace HMS.API.Controllers.V1
             throw new NotImplementedException();
         }
 
-        public async Task<IPaginatedList<MedicalRecordDto>> GetByPatientId(
-            int patientId, int pageIndex, int pageSize)
+        public Task<IPaginatedList<MedicalRecordDto>> GetByPatientId(int patientId, 
+            int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {
-            throw new NotImplementedException();
+            return _medicalRecordBusiness.GetByPatientId(patientId, pageIndex, pageSize);
         }
     }
 }

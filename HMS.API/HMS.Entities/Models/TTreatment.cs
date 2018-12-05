@@ -12,6 +12,7 @@ namespace HMS.Entities.Models
         }
 
         public int Id { get; set; }
+        public int PatientId { get; set; }
         public int MedicalRecordId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
@@ -29,6 +30,7 @@ namespace HMS.Entities.Models
         public TEmployee Doctor { get; set; }
         public TMedicalRecord MedicalRecord { get; set; }
         public TEmployee Nurse { get; set; }
+        public TPatient Patient { get; set; }
         public ICollection<TPrescription> TPrescription { get; set; }
         public ICollection<TTreatmentDisease> TTreatmentDisease { get; set; }
     }

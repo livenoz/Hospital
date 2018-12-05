@@ -42,53 +42,75 @@ namespace HMS.Business
             return recordUpdated > 0;
         }
 
-        public async Task<IPaginatedList<TreatmentDto>> GetByMedicalRecordId(int medicalRecordId, int pageIndex, int pageSize)
+        public Task<IPaginatedList<TreatmentDto>> GetByMedicalRecordId(int medicalRecordId, int pageIndex, int pageSize)
         {
-            var result = await (from treatment in _treatmentRepository.Repo.Where(c => c.IsActived)
-                                join doctor in _employeeRepository.Repo on treatment.DoctorId equals doctor.Id
-                                into leftDoctors
-                                from doctor in leftDoctors.DefaultIfEmpty()
-                                join nurse in _employeeRepository.Repo on treatment.NurseId equals nurse.Id
-                                into leftNurses
-                                from nurse in leftNurses.DefaultIfEmpty()
-                                select new TreatmentDto
-                                {
-                                    Id = treatment.Id,
-                                    MedicalRecordId = treatment.MedicalRecordId,
-                                    StartDate = treatment.StartDate,
-                                    EndDate = treatment.EndDate,
-                                    DoctorId = treatment.DoctorId,
-                                    NurseId = treatment.NurseId,
-                                    Content = treatment.Content,
-                                    Note = treatment.Note,
-                                    CreatedTime = treatment.CreatedTime,
-                                    CreatedBy = treatment.CreatedBy,
-                                    UpdatedTime = treatment.UpdatedTime,
-                                    UpdatedBy = treatment.UpdatedBy,
-                                    IsActived = treatment.IsActived,
-                                    IsDeleted = treatment.IsDeleted,
-                                    DoctorFirstName = doctor.FirstName,
-                                    DoctorLastName = doctor.LastName,
-                                    NurseFirstName = nurse.FirstName,
-                                    NurseLastName = nurse.LastName,
-                                })
-                                .OrderByDescending(c => c.Id)
-                                .ToPaginatedListAsync(pageIndex, pageSize);
+            var result = (from treatment in _treatmentRepository.Repo
+                          .Where(c => c.MedicalRecordId == medicalRecordId && c.IsActived)
+                          join doctor in _employeeRepository.Repo on treatment.DoctorId equals doctor.Id
+                          into leftDoctors
+                          from doctor in leftDoctors.DefaultIfEmpty()
+                          join nurse in _employeeRepository.Repo on treatment.NurseId equals nurse.Id
+                          into leftNurses
+                          from nurse in leftNurses.DefaultIfEmpty()
+                          select new TreatmentDto
+                          {
+                              Id = treatment.Id,
+                              MedicalRecordId = treatment.MedicalRecordId,
+                              StartDate = treatment.StartDate,
+                              EndDate = treatment.EndDate,
+                              DoctorId = treatment.DoctorId,
+                              NurseId = treatment.NurseId,
+                              Content = treatment.Content,
+                              Note = treatment.Note,
+                              CreatedTime = treatment.CreatedTime,
+                              CreatedBy = treatment.CreatedBy,
+                              UpdatedTime = treatment.UpdatedTime,
+                              UpdatedBy = treatment.UpdatedBy,
+                              IsActived = treatment.IsActived,
+                              IsDeleted = treatment.IsDeleted,
+                              DoctorFirstName = doctor.FirstName,
+                              DoctorLastName = doctor.LastName,
+                              NurseFirstName = nurse.FirstName,
+                              NurseLastName = nurse.LastName,
+                          })
+                          .OrderByDescending(c => c.Id)
+                          .ToPaginatedListAsync(pageIndex, pageSize);
             return result;
         }
 
-        public async Task<TreatmentDto> GetById(int id)
+        public Task<TreatmentDto> GetById(int id)
         {
-            //var result = await _treatmentRepository.Repo.Where(c => c.Id == id)
-            //    .Include(c => c.Country)
-            //    .Include(c => c.Province)
-            //    .Include(c => c.District)
-            //    .Include(c => c.NativeCountry)
-            //    .Include(c => c.NativeProvince)
-            //    .Include(c => c.NativeDistrict)
-            //    .FirstOrDefaultAsync();
-            //return _mapper.Map<TreatmentDto>(result);
-            return null;
+            var result = (from treatment in _treatmentRepository.Repo
+                          .Where(c => c.Id == id && c.IsActived)
+                          join doctor in _employeeRepository.Repo on treatment.DoctorId equals doctor.Id
+                          into leftDoctors
+                          from doctor in leftDoctors.DefaultIfEmpty()
+                          join nurse in _employeeRepository.Repo on treatment.NurseId equals nurse.Id
+                          into leftNurses
+                          from nurse in leftNurses.DefaultIfEmpty()
+                          select new TreatmentDto
+                          {
+                              Id = treatment.Id,
+                              MedicalRecordId = treatment.MedicalRecordId,
+                              StartDate = treatment.StartDate,
+                              EndDate = treatment.EndDate,
+                              DoctorId = treatment.DoctorId,
+                              NurseId = treatment.NurseId,
+                              Content = treatment.Content,
+                              Note = treatment.Note,
+                              CreatedTime = treatment.CreatedTime,
+                              CreatedBy = treatment.CreatedBy,
+                              UpdatedTime = treatment.UpdatedTime,
+                              UpdatedBy = treatment.UpdatedBy,
+                              IsActived = treatment.IsActived,
+                              IsDeleted = treatment.IsDeleted,
+                              DoctorFirstName = doctor.FirstName,
+                              DoctorLastName = doctor.LastName,
+                              NurseFirstName = nurse.FirstName,
+                              NurseLastName = nurse.LastName,
+                          })
+                          .FirstOrDefaultAsync();
+            return result;
         }
 
         public async Task<bool> Update(TreatmentDto model)
@@ -96,6 +118,42 @@ namespace HMS.Business
             _treatmentRepository.Update(_mapper.Map<TTreatment>(model));
             var recordUpdated = await _treatmentRepository.SaveChangeAsync();
             return recordUpdated > 0;
+        }
+
+        public Task<IPaginatedList<TreatmentDto>> GetByPatientId(int patientId, int pageIndex, int pageSize)
+        {
+            var result = (from treatment in _treatmentRepository.Repo
+                          .Where(c => c.PatientId == patientId && c.IsActived)
+                          join doctor in _employeeRepository.Repo on treatment.DoctorId equals doctor.Id
+                          into leftDoctors
+                          from doctor in leftDoctors.DefaultIfEmpty()
+                          join nurse in _employeeRepository.Repo on treatment.NurseId equals nurse.Id
+                          into leftNurses
+                          from nurse in leftNurses.DefaultIfEmpty()
+                          select new TreatmentDto
+                          {
+                              Id = treatment.Id,
+                              MedicalRecordId = treatment.MedicalRecordId,
+                              StartDate = treatment.StartDate,
+                              EndDate = treatment.EndDate,
+                              DoctorId = treatment.DoctorId,
+                              NurseId = treatment.NurseId,
+                              Content = treatment.Content,
+                              Note = treatment.Note,
+                              CreatedTime = treatment.CreatedTime,
+                              CreatedBy = treatment.CreatedBy,
+                              UpdatedTime = treatment.UpdatedTime,
+                              UpdatedBy = treatment.UpdatedBy,
+                              IsActived = treatment.IsActived,
+                              IsDeleted = treatment.IsDeleted,
+                              DoctorFirstName = doctor.FirstName,
+                              DoctorLastName = doctor.LastName,
+                              NurseFirstName = nurse.FirstName,
+                              NurseLastName = nurse.LastName,
+                          })
+                          .OrderByDescending(c => c.Id)
+                          .ToPaginatedListAsync(pageIndex, pageSize);
+            return result;
         }
     }
 }
