@@ -2,45 +2,90 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HMS.API.Attributes;
+using HMS.API.Extensions;
+using HMS.Business.Interfaces;
+using HMS.Business.Interfaces.Paginated;
+using HMS.Common.Constants;
+using HMS.Common.Dtos.Patient;
+using HMS.Common.Dtos.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMS.API.Controllers.V1
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/[controller]/[action]")]
+    [BearerAuthorize]
     [ApiController]
     public class TreatmentController : ControllerBase
     {
-        // GET: api/Treatment
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly AuthenticationDto _authenticationDto;
+        private readonly ITreatmentBusiness _treatmentBusiness;
+
+        public TreatmentController(IHttpContextAccessor httpContextAccessor,
+            ITreatmentBusiness treatmentBusiness)
         {
-            return new string[] { "value1", "value2" };
+            _authenticationDto = httpContextAccessor.HttpContext.User.ToAuthenticationDto();
+            _treatmentBusiness = treatmentBusiness;
         }
 
         // GET: api/Treatment/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Task<TreatmentDto> Get(int id)
         {
-            return "value";
+            return _treatmentBusiness.GetById(id);
         }
 
         // POST: api/Treatment
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<int> Post(TreatmentDto model)
         {
+            var result = 0;
+            if (ModelState.IsValid)
+            {
+                var dateTimeUtcNow = DateTime.UtcNow;
+                model.CreatedBy = _authenticationDto.UserId;
+                model.CreatedTime = dateTimeUtcNow;
+                model.UpdatedBy = _authenticationDto.UserId;
+                model.UpdatedTime = dateTimeUtcNow;
+                var modelInsert = await _treatmentBusiness.Add(model);
+                result = modelInsert.Id;
+            }
+            return result;
         }
 
         // PUT: api/Treatment/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<bool> Put(TreatmentDto model)
         {
+            var result = false;
+            if (ModelState.IsValid)
+            {
+                var dateTimeUtcNow = DateTime.UtcNow;
+                model.UpdatedBy = _authenticationDto.UserId;
+                model.UpdatedTime = dateTimeUtcNow;
+                result = await _treatmentBusiness.Update(model);
+            }
+            return result;
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<bool> Delete(int id)
         {
+            throw new NotImplementedException();
+        }
+
+        public Task<IPaginatedList<TreatmentDto>> GetByMedicalRecordId(int medicalRecordId, 
+            int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
+        {
+            return _treatmentBusiness.GetByMedicalRecordId(medicalRecordId, pageIndex, pageSize);
+        }
+
+        public Task<IPaginatedList<TreatmentDto>> GetByPatientId(int patientId,
+            int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
+        {
+            return _treatmentBusiness.GetByPatientId(patientId, pageIndex, pageSize);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace HMS.Common.Dtos
+namespace HMS.Common.Dtos.Patient
 {
     public class PatientDto
     {

@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using HMS.API.Attributes;
 using HMS.Business.Interfaces.Paginated;
 using HMS.Common.Dtos.Employee;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HMS.API.Controllers.V1
@@ -13,29 +10,28 @@ namespace HMS.API.Controllers.V1
     [Route("api/v1/[controller]")]
     [BearerAuthorize]
     [ApiController]
-    public class EmployeeController : ControllerBase
+    public class DiseaseController : ControllerBase
     {
-        // GET: api/Employee
+        // GET: api/Disease
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IPaginatedList<DiseaseDto>> Get(int pageIndex, int pageSize)
         {
-            return new string[] { "value1", "value2" };
+            throw new NotImplementedException();
         }
 
-        // GET: api/Employee/5
-        [HttpGet("{id}")]
+        // GET: api/Disease/5
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST: api/Employee
+        // POST: api/Disease
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT: api/Employee/5
+        // PUT: api/Disease/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
@@ -45,17 +41,6 @@ namespace HMS.API.Controllers.V1
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
-        }
-
-        public async Task<IPaginatedList<DoctorDto>> GetDoctors()
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public async Task<IPaginatedList<DoctorDto>> GetNurses()
-        {
-            throw new NotImplementedException();
         }
     }
 }

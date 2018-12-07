@@ -53,6 +53,7 @@ namespace HMS.Entities.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<TAccessRight>(entity =>
             {
                 entity.HasKey(e => new { e.RoleId, e.RightId });
@@ -544,37 +545,31 @@ namespace HMS.Entities.Models
                 entity.HasOne(d => d.Country)
                     .WithMany(p => p.TPatientCountry)
                     .HasForeignKey(d => d.CountryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TPatient_TCountry");
 
                 entity.HasOne(d => d.District)
                     .WithMany(p => p.TPatientDistrict)
                     .HasForeignKey(d => d.DistrictId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TPatient_TDistrict");
 
                 entity.HasOne(d => d.NativeCountry)
                     .WithMany(p => p.TPatientNativeCountry)
                     .HasForeignKey(d => d.NativeCountryId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TPatient_TCountry_Native");
 
                 entity.HasOne(d => d.NativeDistrict)
                     .WithMany(p => p.TPatientNativeDistrict)
                     .HasForeignKey(d => d.NativeDistrictId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TPatient_TDistrict_Native");
 
                 entity.HasOne(d => d.NativeProvince)
                     .WithMany(p => p.TPatientNativeProvince)
                     .HasForeignKey(d => d.NativeProvinceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TPatient_TProvince_Native");
 
                 entity.HasOne(d => d.Province)
                     .WithMany(p => p.TPatientProvince)
                     .HasForeignKey(d => d.ProvinceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TPatient_TProvince");
             });
 
@@ -648,8 +643,6 @@ namespace HMS.Entities.Models
 
             modelBuilder.Entity<TProvince>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Code)
                     .IsRequired()
                     .HasMaxLength(8)
@@ -716,6 +709,12 @@ namespace HMS.Entities.Models
                     .WithMany(p => p.TTreatmentNurse)
                     .HasForeignKey(d => d.NurseId)
                     .HasConstraintName("FK_TTreatment_TEmployee_Nurse");
+
+                entity.HasOne(d => d.Patient)
+                    .WithMany(p => p.TTreatment)
+                    .HasForeignKey(d => d.PatientId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TTreatment_TPatient");
             });
 
             modelBuilder.Entity<TTreatmentDisease>(entity =>

@@ -1,10 +1,6 @@
 ﻿using AutoMapper;
 using HMS.Entities.Models;
-using HMS.Common.Dtos;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using HMS.Common.Dtos.Patient;
 
 namespace HMS.API.AutoMapper
 {
@@ -13,8 +9,16 @@ namespace HMS.API.AutoMapper
         public MapperProfile()
         {
             CreateMap<TPatient, PatientDto>();
-            CreateMap<PatientDto, TPatient>()
-                .ForMember(des => des.Code, opt => opt.MapFrom(c => c.Code));
+            CreateMap<PatientDto, TPatient>();
+
+            CreateMap<TMedicalRecord, MedicalRecordDto>();
+            CreateMap<MedicalRecordDto, TMedicalRecord>();
+
+            CreateMap<TTreatment, TreatmentDto>();
+            CreateMap<TreatmentDto, TTreatment>();
+
+            CreateMap<TPrescription, PrescriptionDto>();
+            CreateMap<PrescriptionDto, TPrescription>();
         }
     }
 }

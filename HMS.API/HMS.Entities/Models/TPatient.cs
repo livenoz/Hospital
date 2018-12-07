@@ -8,6 +8,7 @@ namespace HMS.Entities.Models
         public TPatient()
         {
             TMedicalRecord = new HashSet<TMedicalRecord>();
+            TTreatment = new HashSet<TTreatment>();
         }
 
         public int Id { get; set; }
@@ -50,5 +51,6 @@ namespace HMS.Entities.Models
         public TProvince NativeProvince { get; set; }
         public TProvince Province { get; set; }
         public ICollection<TMedicalRecord> TMedicalRecord { get; set; }
+        public ICollection<TTreatment> TTreatment { get; set; }
     }
 }
