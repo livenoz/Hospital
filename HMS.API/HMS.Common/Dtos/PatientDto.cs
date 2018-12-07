@@ -8,7 +8,7 @@ namespace HMS.Common.Dtos
         public string Code { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string MiddleName { get; set; }
+        public string FullName { get; set; }
         public int CountryId { get; set; }
         public int ProvinceId { get; set; }
         public int DistrictId { get; set; }

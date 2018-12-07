@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { MatPaginator, MatTableDataSource } from "@angular/material";
+import { MatPaginator, MatTableDataSource, PageEvent } from "@angular/material";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
@@ -7,14 +7,9 @@ import { faBriefcase } from "@fortawesome/fontawesome-free-solid";
 import { NgxSpinnerService } from "ngx-spinner";
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgbdModalComponent } from './../../shared/modules/modal/modal-component';
-
-export interface PatientElement {
-  id: number;
-  patientCode: string;
-  name: string;
-  phoneNumber: string;
-  ssn: string;
-}
+import { Constants } from './../../shared/constants/Constants';
+import { PatientService } from './../../shared/services/patient.service'
+import { PatientProfileModel } from './patient-profiles-model'
 
 @Component({
   selector: "app-patient-profiles",
@@ -22,227 +17,44 @@ export interface PatientElement {
   styleUrls: ["./patient-profiles.component.scss"]
 })
 export class PatientProfilesComponent implements OnInit {
-  constructor(private spinner: NgxSpinnerService, private modal: NgbModal) {}
+  constructor(private spinner: NgxSpinnerService, private modal: NgbModal, private patientService: PatientService) {
+    
+  }
 
   // icon
   faBriefcase = faBriefcase;
 
-  patientGroups: PatientElement[] = [
-    {
-      id: 1,
-      patientCode: "HSM00001",
-      name: "Manh",
-      phoneNumber: "01239123707",
-      ssn: "0222733444"
-    },
-    {
-      id: 2,
-      patientCode: "HSM00002",
-      name: "Hoa",
-      phoneNumber: "01239123708",
-      ssn: "0222383444"
-    },
-    {
-      id: 3,
-      patientCode: "HSM00003",
-      name: "Thanh",
-      phoneNumber: "01239123709",
-      ssn: "0229333444"
-    },
-    {
-      id: 4,
-      patientCode: "HSM00004",
-      name: "Hien",
-      phoneNumber: "01239123710",
-      ssn: "0222033444"
-    },
-    {
-      id: 5,
-      patientCode: "HSM00005",
-      name: "Duy",
-      phoneNumber: "01239123719",
-      ssn: "02987210394"
-    },
-    {
-      id: 6,
-      patientCode: "HSM00006",
-      name: "Toan",
-      phoneNumber: "01239123711",
-      ssn: "0222133444"
-    },
-    {
-      id: 7,
-      patientCode: "HSM00007",
-      name: "Quy",
-      phoneNumber: "01239123712",
-      ssn: "0222323444"
-    },
-    {
-      id: 8,
-      patientCode: "HSM00008",
-      name: "Uyen",
-      phoneNumber: "01239123706",
-      ssn: "022333444"
-    },
-    {
-      id: 9,
-      patientCode: "HSM00009",
-      name: "Hau",
-      phoneNumber: "01239123705",
-      ssn: "0222433444"
-    },
-    {
-      id: 10,
-      patientCode: "HSM00010",
-      name: "Hong",
-      phoneNumber: "01239123704",
-      ssn: "0225333444"
-    },
-    {
-      id: 11,
-      patientCode: "HSM00011",
-      name: "Tam",
-      phoneNumber: "01239123703",
-      ssn: "0222633444"
-    },
-    {
-      id: 6,
-      patientCode: "HSM00006",
-      name: "Toan",
-      phoneNumber: "01239123711",
-      ssn: "0222133444"
-    },
-    {
-      id: 7,
-      patientCode: "HSM00007",
-      name: "Quy",
-      phoneNumber: "01239123712",
-      ssn: "0222323444"
-    },
-    {
-      id: 8,
-      patientCode: "HSM00008",
-      name: "Uyen",
-      phoneNumber: "01239123706",
-      ssn: "022333444"
-    },
-    {
-      id: 9,
-      patientCode: "HSM00009",
-      name: "Hau",
-      phoneNumber: "01239123705",
-      ssn: "0222433444"
-    },
-    {
-      id: 10,
-      patientCode: "HSM00010",
-      name: "Hong",
-      phoneNumber: "01239123704",
-      ssn: "0225333444"
-    },
-    {
-      id: 11,
-      patientCode: "HSM00011",
-      name: "Tam",
-      phoneNumber: "01239123703",
-      ssn: "0222633444"
-    },
-    {
-      id: 7,
-      patientCode: "HSM00007",
-      name: "Quy",
-      phoneNumber: "01239123712",
-      ssn: "0222323444"
-    },
-    {
-      id: 8,
-      patientCode: "HSM00008",
-      name: "Uyen",
-      phoneNumber: "01239123706",
-      ssn: "022333444"
-    },
-    {
-      id: 9,
-      patientCode: "HSM00009",
-      name: "Hau",
-      phoneNumber: "01239123705",
-      ssn: "0222433444"
-    },
-    {
-      id: 10,
-      patientCode: "HSM00010",
-      name: "Hong",
-      phoneNumber: "01239123704",
-      ssn: "0225333444"
-    },
-    {
-      id: 11,
-      patientCode: "HSM00011",
-      name: "Tam",
-      phoneNumber: "01239123703",
-      ssn: "0222633444"
-    },
-    {
-      id: 6,
-      patientCode: "HSM00006",
-      name: "Toan",
-      phoneNumber: "01239123711",
-      ssn: "0222133444"
-    },
-    {
-      id: 7,
-      patientCode: "HSM00007",
-      name: "Quy",
-      phoneNumber: "01239123712",
-      ssn: "0222323444"
-    },
-    {
-      id: 8,
-      patientCode: "HSM00008",
-      name: "Uyen",
-      phoneNumber: "01239123706",
-      ssn: "022333444"
-    },
-    {
-      id: 9,
-      patientCode: "HSM00009",
-      name: "Hau",
-      phoneNumber: "01239123705",
-      ssn: "0222433444"
-    },
-    {
-      id: 10,
-      patientCode: "HSM00010",
-      name: "Hong",
-      phoneNumber: "01239123704",
-      ssn: "0225333444"
-    },
-    {
-      id: 11,
-      patientCode: "HSM00011",
-      name: "Tam",
-      phoneNumber: "01239123703",
-      ssn: "0222633444"
-    }
-  ];
-
-  // Search AutoComplete [Start]
+  patientGroups: PatientProfileModel[] = [];
+  // Search AutoComplete
   searchControl = new FormControl();
-  options: string[] = this.patientGroups.map(x => x.name);
   filteredOptions: Observable<string[]>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  options: string[] = [];
+
   ngOnInit() {
-    this.searchConfig(() => this.spinner.hide());
+    this.searchConfig();
   }
 
-  searchConfig(callback) {
+  searchConfig() {
     setTimeout(() => {
       this.filteredOptions = this.searchControl.valueChanges.pipe(
         startWith(""),
         map(value => this._filter(value))
       );
       this.dataSource.paginator = this.paginator;
-      callback();
+      let params = {
+        pageIndex: this.paginator.pageIndex, 
+        pageSize: this.paginator.pageSize
+      };
+      this.patientService.get(params).subscribe(
+        (data: any) => {
+          this.patientGroups = data;
+          this.options = this.patientGroups.map(x => x.fullName);
+        },
+        (err) => this.spinner.hide(),
+        // The 3rd callback handles the "complete" event.
+        () => this.spinner.hide()
+      );
     }, 0);
   }
 
@@ -252,17 +64,35 @@ export class PatientProfilesComponent implements OnInit {
       option.toLowerCase().includes(filterValue)
     );
   }
-  // Search AutoComplete [End]
+
+  public onPageChange(event?: PageEvent){
+    this.spinner.show();
+    let params = {
+      pageIndex: this.paginator.pageIndex, 
+      pageSize: this.paginator.pageSize
+    };
+    this.patientService.get(params).subscribe(
+      (data: any) => {
+        this.patientGroups = data;
+        this.options = this.patientGroups.map(x => x.fullName);
+      },
+      (err) => this.spinner.hide(),
+      // The 3rd callback handles the "complete" event.
+      () => this.spinner.hide()
+    );
+  }
 
   // Data list [Start]
   displayedColumns: string[] = [
-    "patientCode",
-    "name",
-    "phoneNumber",
-    "ssn",
+    "Code",
+    "FullName",
+    "IdentifyCardNo",
+    "Phone",
+    "Address",
+    "Sex",
     "control"
   ];
-  dataSource = new MatTableDataSource<PatientElement>(this.patientGroups);
+  dataSource = new MatTableDataSource<PatientProfileModel>(this.patientGroups);
 
   // Data list [End]
 
@@ -271,7 +101,12 @@ export class PatientProfilesComponent implements OnInit {
   }
 
   onDisable() {
-    this.modal.open(NgbdModalComponent);
+    const modalRef = this.modal.open(NgbdModalComponent);
+    modalRef.componentInstance.header = Constants.MODAL.DISABLE_HEADER;
+    modalRef.componentInstance.content = Constants.MODAL.DISABLE_CONTENT;
+    modalRef.result.then(result => {
+      alert(result);
+    });
   }
 
   onViewTreatment() {

@@ -32,6 +32,16 @@ namespace HMS.API
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            // Enable CORS for call API from javascript
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllHeaders",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             // Inject DB connection
             services.AddDbContext<HealthContext>(options 
                 => options.UseSqlServer(Configuration.GetConnectionString("HealthConnection"), 
@@ -79,6 +89,7 @@ namespace HMS.API
             }
             app.UseResponseCompression();
             app.UseHttpsRedirection();
+            app.UseCors("AllowAllHeaders");
             app.UseMvc();
         }
     }

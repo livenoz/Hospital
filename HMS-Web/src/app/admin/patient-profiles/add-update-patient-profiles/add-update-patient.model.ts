@@ -1,0 +1,32 @@
+export class AddUpdatePatient {
+    id: number;
+    code: string;
+    firstName: string;
+    lastName: string;
+    sex: number;
+    phone: number;
+    email: string;
+    birthday: Date;
+    identifyCardNo: string;
+    dateOfIssue: Date;
+    placeOfIssue: string;
+    address: string;
+    countryId: number;
+    countryName: string;
+    provinceId: number;
+    provinceName: string;
+    districtId: number;
+    districtName: string;
+    nativeAddress: string;
+    nativeCountryId: number;
+    nativeCountryName: string;
+    nativeProvinceId: number;
+    nativeProvinceName: string;
+    nativeDistrictId: number;
+    nativeDistrictName: string;
+    fatherName: string;
+    fatherIdentifyCardNo: string;
+    motherName: string;
+    motherIdentifyCardNo: string;
+    isDeleted: boolean;
+}

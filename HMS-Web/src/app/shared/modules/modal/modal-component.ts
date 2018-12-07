@@ -1,4 +1,4 @@
-import { Component, OnInit  } from "@angular/core";
+import { Component, OnInit, Input, Output, EventEmitter  } from "@angular/core";
 import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
@@ -7,8 +7,10 @@ import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
 })
 
 export class NgbdModalComponent implements OnInit {
-    withAutoComponent = `<button type="button" ngbAutocomponent class="btn btn-danger"
-        (click)="modal.close('Ok click')">Ok</button>`;
+    @Input() header: string;
+    @Input() content: string;
+    @Output() event: EventEmitter<any> = new EventEmitter();
+
     constructor(public modal: NgbActiveModal) {}
 
     ngOnInit() {

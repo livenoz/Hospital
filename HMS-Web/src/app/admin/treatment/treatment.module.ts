@@ -1,8 +1,8 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { PatientProfilesRoutingModule } from "./patient-profiles-routing.module";
-import { PatientProfilesComponent } from "./patient-profiles.component";
+import { TreatmentRoutingModule } from "./treatment-routing.module";
+import { TreatmentComponent } from "./treatment.component";
 import { PageHeaderModule } from "./../../shared";
 import { MatTableModule } from "@angular/material";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -12,7 +12,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 @NgModule({
   imports: [
     CommonModule,
-    PatientProfilesRoutingModule,
+    TreatmentRoutingModule,
     PageHeaderModule,
     MatTableModule,
     FormsModule,
@@ -25,6 +25,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     FormsModule,
     ReactiveFormsModule
   ],
-  declarations: [PatientProfilesComponent],
+  declarations: [TreatmentComponent]
 })
-export class PatientProfilesModule {}
+export class TreatmentModule {}

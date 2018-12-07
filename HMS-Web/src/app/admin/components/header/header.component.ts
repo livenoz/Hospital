@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { UserService } from "../../../shared/services/user.service";
 
 @Component({
     selector: 'app-header',
@@ -9,7 +10,7 @@ import { Router, NavigationEnd } from '@angular/router';
 export class HeaderComponent implements OnInit {
     pushRightClass: string = 'push-right';
 
-    constructor() {
+    constructor(private userService: UserService) {
 
     }
 
@@ -31,6 +32,6 @@ export class HeaderComponent implements OnInit {
     // }
 
     onLoggedout() {
-        localStorage.removeItem('isLoggedin');
+        this.userService.logout();
     }
 }

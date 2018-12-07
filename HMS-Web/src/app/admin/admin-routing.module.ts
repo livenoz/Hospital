@@ -12,6 +12,7 @@ const routes: Routes = [
             { path: 'patient-profiles', loadChildren: './patient-profiles/patient-profiles.module#PatientProfilesModule' },
             { path: 'add-update-patient-profiles', loadChildren: './patient-profiles/add-update-patient-profiles/add-update-patient-profiles.module#AddUpdatePatientProfilesModule' },
             { path: 'add-update-patient-profiles/:id', loadChildren: './patient-profiles/add-update-patient-profiles/add-update-patient-profiles.module#AddUpdatePatientProfilesModule' },
+            { path: 'treatment', loadChildren: './treatment/treatment.module#TreatmentModule' },
         ]
     }
 ];

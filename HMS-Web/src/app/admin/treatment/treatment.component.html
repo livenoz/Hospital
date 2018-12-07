@@ -1,0 +1,28 @@
+<div class="form-group">
+    <div class="card">
+        <div class="card-body d-flex justify-content-center">
+          <div class="form-inline">
+            <label for="searchCode" class="col-form-label text-right font-weight-bold mr-2">Mã bệnh nhân</label>
+            <input id="searchCode" type="text" class="form-control mr-2" [(ngModel)]="searchModel" [ngbTypeahead]="search"/>
+            <button type="button" class="btn btn-primary float-right">Tìm kiếm</button>
+          </div>
+        </div>
+      </div>
+</div>
+
+<div class="card">
+  <div class="card-body">
+    <ngb-tabset>
+      <ngb-tab title="Tab 1">
+        <ng-template ngbTabContent>
+          Hello there
+        </ng-template>
+      </ngb-tab>
+      <ngb-tab title="Tab 2">
+        <ng-template ngbTabContent>
+          Hello thereeeee !!!
+        </ng-template>
+      </ngb-tab>
+    </ngb-tabset>
+  </div>
+</div>

@@ -1,3 +1,202 @@
-<p>
-  add-update-patient-profiles works!
-</p>
+<app-page-header [heading]="patientControl" [icon]="'fa-edit'"></app-page-header>
+<fieldset class="fieldset-border">
+  <legend class="legend-border">Thông tin bệnh nhân</legend>
+  <div class="form-group row">
+    <div class="col-3">
+      <label for="code" class="col-form-label text-right font-weight-bold">Mã bệnh nhân</label>
+      <input class="form-control" type="text" value="" id="code" [(ngModel)]="inputData.code">
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-3">
+      <label for="firstName" class="col-form-label text-right font-weight-bold">Họ</label>
+      <input class="form-control" type="text" value="" id="firstName" [(ngModel)]="inputData.firstName">
+    </div>
+    <div class="col-3">
+      <label for="lastName" class="col-form-label text-right font-weight-bold">Tên</label>
+      <input class="form-control" type="text" value="" id="lastName" [(ngModel)]="inputData.lastName">
+    </div>
+    <div class="col-3">
+      <label for="province" class="col-form-label text-right font-weight-bold">Giới tính</label>
+      <div id="sex">
+        <div class="custom-control custom-radio custom-control-inline" [(ngModel)]="inputData.sex">
+          <input type="radio" class="custom-control-input" id="male" name="sex" mdbInputDirective checked>
+          <label class="custom-control-label" for="male">Nam</label>
+        </div>
+        <div class="custom-control custom-radio custom-control-inline">
+          <input type="radio" class="custom-control-input" id="female" name="sex" mdbInputDirective>
+          <label class="custom-control-label" for="female">Nữ</label>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group row">
+    <div class="col-3">
+      <label for="phone" class="col-form-label text-right font-weight-bold">Số điện thoại</label>
+      <input class="form-control" type="text" value="" id="phone" [(ngModel)]="inputData.phone">
+    </div>
+    <div class="col-3">
+      <label for="email" class="col-form-label text-right font-weight-bold">Email</label>
+      <input class="form-control" type="text" value="" id="email" [(ngModel)]="inputData.email">
+    </div>
+    <div class="col-3">
+      <label for="birdthday" class="col-form-label text-right font-weight-bold">Ngày sinh</label>
+      <ngbd-datepicker-config [(ngModel)]="inputData.birthday"></ngbd-datepicker-config>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="form-group row">
+        <div class="col-3">
+          <label for="identifyNumber" class="col-form-label text-right font-weight-bold">CMND</label>
+          <input class="form-control" type="text" value="" id="identifyNumber" [(ngModel)]="inputData.identifyCardNo">
+        </div>
+        <div class="col-3">
+          <label for="dateOfIssue" class="col-form-label text-right">Ngày cấp</label>
+          <input class="form-control" type="text" value="" id="dateOfIssue" [(ngModel)]="inputData.dateOfIssue">
+        </div>
+        <div class="col-3">
+          <label for="placeOfIssue" class="col-form-label text-right">Nơi cấp</label>
+          <input class="form-control" type="text" value="" id="placeOfIssue" [(ngModel)]="inputData.placeOfIssue">
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card mt-4">
+    <div class="card-body">
+      <div class="form-group row">
+        <div class="col-3">
+          <label for="address" class="col-form-label text-right font-weight-bold">Địa chỉ thường trú</label>
+          <input class="form-control" type="text" value="" id="address" [(ngModel)]="inputData.address">
+        </div>
+        <div class="col-3">
+          <label for="country" class="col-form-label text-right">Quốc gia</label>
+          <mat-form-field class="example-full-width" style="display: block">
+            <input type="text" id="country" caria-label="String" matInput [formControl]="countryControl"
+              [matAutocomplete]="autoCountry" [(ngModel)]="inputData.countryId">
+            <mat-autocomplete #autoCountry="matAutocomplete">
+              <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
+                {{country}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <label for="province" class="col-form-label text-right">Thành phố</label>
+          <mat-form-field class="example-full-width" style="display: block">
+            <input type="text" id="province" caria-label="String" matInput [formControl]="provinceControl"
+              [matAutocomplete]="autoProvince" [(ngModel)]="inputData.provinceId">
+            <mat-autocomplete #autoProvince="matAutocomplete">
+              <mat-option *ngFor="let province of filterProvinces | async" [value]="province">
+                {{province}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <label for="province" class="col-form-label text-right">Quận</label>
+          <mat-form-field class="example-full-width" style="display: block">
+            <input type="text" id="province" caria-label="String" matInput [formControl]="districtControl"
+              [matAutocomplete]="autoDistrict" [(ngModel)]="inputData.districtId">
+            <mat-autocomplete #autoDistrict="matAutocomplete">
+              <mat-option *ngFor="let province of filterDistrictes | async" [value]="province">
+                {{province}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card mt-4">
+    <div class="card-body">
+      <div class="form-group row">
+        <div class="col-3">
+          <label for="address" class="col-form-label text-right font-weight-bold">Địa chỉ tạm trú</label>
+          <input class="form-control" type="text" value="" id="address" [(ngModel)]="inputData.nativeAddress">
+        </div>
+        <div class="col-3">
+          <label for="country" class="col-form-label text-right">Quốc gia</label>
+          <mat-form-field class="example-full-width" style="display: block">
+            <input type="text" id="country" caria-label="String" matInput [formControl]="countryControl"
+              [matAutocomplete]="autoCountry" [(ngModel)]="inputData.nativeCountryId">
+            <mat-autocomplete #autoCountry="matAutocomplete">
+              <mat-option *ngFor="let country of filteredCountries | async" [value]="country">
+                {{country}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <label for="province" class="col-form-label text-right">Thành phố</label>
+          <mat-form-field class="example-full-width" style="display: block">
+            <input type="text" id="province" caria-label="String" matInput [formControl]="provinceControl"
+              [matAutocomplete]="autoProvince" [(ngModel)]="inputData.nativeProvinceId">
+            <mat-autocomplete #autoProvince="matAutocomplete">
+              <mat-option *ngFor="let province of filterProvinces | async" [value]="province">
+                {{province}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <label for="province" class="col-form-label text-right">Quận</label>
+          <mat-form-field class="example-full-width" style="display: block">
+            <input type="text" id="province" caria-label="String" matInput [formControl]="districtControl"
+              [matAutocomplete]="autoDistrict" [(ngModel)]="inputData.nativeDistrictId">
+            <mat-autocomplete #autoDistrict="matAutocomplete">
+              <mat-option *ngFor="let province of filterDistrictes | async" [value]="province">
+                {{province}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </div>
+  <fieldset class="fieldset-border">
+    <legend class="legend-border">Thông tin người thân 1</legend>
+    <div class="form-group row">
+      <div class="col-3">
+        <label for="phone" class="col-form-label text-right font-weight-bold">Họ tên</label>
+        <input class="form-control" type="text" value="" id="phone" [(ngModel)]="inputData.fatherName">
+      </div>
+      <div class="col-3">
+        <label for="phone" class="col-form-label text-right font-weight-bold">Số điện thoại</label>
+        <input class="form-control" type="text" value="" id="phone">
+      </div>
+      <div class="col-3">
+        <label for="phone" class="col-form-label text-right font-weight-bold">CMND</label>
+        <input class="form-control" type="text" value="" id="phone" [(ngModel)]="inputData.fatherIdentifyCardNo">
+      </div>
+      <div class="col-3">
+        <label for="phone" class="col-form-label text-right font-weight-bold">Quan hệ với bệnh nhân</label>
+        <input class="form-control" type="text" value="" id="phone">
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="fieldset-border">
+    <legend class="legend-border">Thông tin người thân 2</legend>
+    <div class="form-group row">
+      <div class="col-3">
+        <label for="phone" class="col-form-label text-right font-weight-bold">Họ tên</label>
+        <input class="form-control" type="text" value="" id="phone" [(ngModel)]="inputData.motherName">
+      </div>
+      <div class="col-3">
+        <label for="phone" class="col-form-label text-right font-weight-bold">Số điện thoại</label>
+        <input class="form-control" type="text" value="" id="phone">
+      </div>
+      <div class="col-3">
+        <label for="phone" class="col-form-label text-right font-weight-bold">CMND</label>
+        <input class="form-control" type="text" value="" id="phone" [(ngModel)]="inputData.motherIdentifyCardNo">
+      </div>
+      <div class="col-3">
+        <label for="phone" class="col-form-label text-right font-weight-bold">Quan hệ với bệnh nhân</label>
+        <input class="form-control" type="text" value="" id="phone">
+      </div>
+    </div>
+  </fieldset>
+</fieldset>
+<button type="button" class="btn float-right" [routerLink]="['/patient-profiles']" [routerLinkActive]="['router-link-active']">Quay
+  lại</button>
+<button type="button" class="btn btn-primary float-right mr-2">Thêm mới</button>

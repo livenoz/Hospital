@@ -51,19 +51,13 @@ namespace HMS.Business
         public async Task<IPaginatedList<PatientDto>> GetAll(int pageIndex = 0, int pageSize = 20)
         {
             var result = await (from patient in _patientRepository.Repo.Where(c => c.IsActived)
-                                join country in _countryRepository.Repo on patient.CountryId equals country.Id
-                                join province in _provinceRepository.Repo on patient.ProvinceId equals province.Id
-                                join district in _districtRepository.Repo on patient.DistrictId equals district.Id
-                                join nCountry in _countryRepository.Repo on patient.NativeCountryId equals nCountry.Id
-                                join nProvince in _provinceRepository.Repo on patient.NativeDistrictId equals nProvince.Id
-                                join nDistrict in _districtRepository.Repo on patient.NativeDistrictId equals nDistrict.Id
                                 select new PatientDto
                                 {
                                     Id = patient.Id,
                                     Code = patient.Code,
                                     FirstName = patient.FirstName,
                                     LastName = patient.LastName,
-                                    MiddleName = patient.MiddleName,
+                                    FullName = string.Concat(patient.FirstName, " ", patient.LastName),
                                     CountryId = patient.CountryId,
                                     ProvinceId = patient.ProvinceId,
                                     DistrictId = patient.DistrictId,
@@ -90,13 +84,7 @@ namespace HMS.Business
                                     UpdatedTime = patient.UpdatedTime,
                                     UpdatedBy = patient.UpdatedBy,
                                     IsActived = patient.IsActived,
-                                    IsDeleted = patient.IsDeleted,
-                                    ContryName = country.Name,
-                                    ProvinceName = province.Name,
-                                    DistrictName = district.Name,
-                                    NativeCountryName = nCountry.Name,
-                                    NativeProvinceName = nProvince.Name,
-                                    NativeDistrictName = nDistrict.Name,
+                                    IsDeleted = patient.IsDeleted
                                 })
                                 .OrderByDescending(c => c.Id)
                                 .ToPaginatedListAsync(pageIndex, pageSize);

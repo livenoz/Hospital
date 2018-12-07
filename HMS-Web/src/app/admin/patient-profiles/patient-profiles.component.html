@@ -33,27 +33,34 @@
         <div class="card mb-12">
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
                 <!-- Patient Code Column -->
-                <ng-container matColumnDef="patientCode">
+                <ng-container matColumnDef="Code">
                     <th mat-header-cell *matHeaderCellDef> Mã bệnh nhân</th>
-                    <td mat-cell *matCellDef="let element"> {{element.patientCode}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.Code}} </td>
                 </ng-container>
 
-                <!-- Name Column -->
-                <ng-container matColumnDef="name">
+                <ng-container matColumnDef="FullName">
                     <th mat-header-cell *matHeaderCellDef> Họ và Tên </th>
-                    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.FullName}} </td>
                 </ng-container>
 
-                <!-- Weight Column -->
-                <ng-container matColumnDef="phoneNumber">
-                    <th mat-header-cell *matHeaderCellDef> Điện thoại </th>
-                    <td mat-cell *matCellDef="let element"> {{element.phoneNumber}} </td>
-                </ng-container>
-
-                <!-- Symbol Column -->
-                <ng-container matColumnDef="ssn">
+                <ng-container matColumnDef="IdentifyCardNo">
                     <th mat-header-cell *matHeaderCellDef> CMND </th>
-                    <td mat-cell *matCellDef="let element"> {{element.ssn}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.IdentifyCardNo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Phone">
+                    <th mat-header-cell *matHeaderCellDef> Điện thoại </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Phone}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Address">
+                    <th mat-header-cell *matHeaderCellDef> Địa chỉ </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Address}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Sex">
+                    <th mat-header-cell *matHeaderCellDef> Giới tính </th>
+                    <td mat-cell *matCellDef="let element" [(ngModel)]="element.Sex"></td>
                 </ng-container>
 
                 <!-- Control Column -->
@@ -71,7 +78,8 @@
                 </tr>
             </table>
             <!-- Paging -->
-            <mat-paginator [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[10, 20, 50]"
+             (page)="pageEvent = onPageChange($event)" showFirstLastButtons></mat-paginator>
         </div>
     </div>
 </div>
