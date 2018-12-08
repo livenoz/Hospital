@@ -1,6 +1,6 @@
 <div class="form-group">
     <div class="input-group datepicker-input" [ngClass]="{'has-danger': c.status != 'VALID'}">
-        <input class="form-control" placeholder="yyyy-mm-dd" name="dp" #c="ngModel" [(ngModel)]="model"
+        <input class="form-control" placeholder="yyyy-mm-dd" id="dp" name="dp" #c="ngModel" [(ngModel)]="selectedDate"
             ngbDatepicker #d="ngbDatepicker">
         <button class="input-group-addon" (click)="d.toggle()" type="button">
             <span class="fa fa-calendar"></span>

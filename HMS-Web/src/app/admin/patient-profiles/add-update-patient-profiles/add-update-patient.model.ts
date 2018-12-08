@@ -3,7 +3,7 @@ export class AddUpdatePatient {
     code: string;
     firstName: string;
     lastName: string;
-    sex: number;
+    sex: string;
     phone: number;
     email: string;
     birthday: Date;

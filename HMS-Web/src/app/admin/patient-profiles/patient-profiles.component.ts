@@ -24,7 +24,19 @@ export class PatientProfilesComponent implements OnInit {
   // icon
   faBriefcase = faBriefcase;
 
-  patientGroups: PatientProfileModel[] = [];
+  patientGroups: PatientProfileModel[] = [
+    {
+      id: 1,
+      code: "HMS111",
+      firstName: "Ong",
+      lastName: "Tan Manh",
+      fullName: "Ong Tan Manh",
+      identifyCardNo: "025098873",
+      address: "417",
+      sex: 1,
+      phone: "01239123707"
+    },
+  ];
   // Search AutoComplete
   searchControl = new FormControl();
   filteredOptions: Observable<string[]>;
@@ -71,15 +83,16 @@ export class PatientProfilesComponent implements OnInit {
       pageIndex: this.paginator.pageIndex, 
       pageSize: this.paginator.pageSize
     };
-    this.patientService.get(params).subscribe(
-      (data: any) => {
-        this.patientGroups = data;
-        this.options = this.patientGroups.map(x => x.fullName);
-      },
-      (err) => this.spinner.hide(),
-      // The 3rd callback handles the "complete" event.
-      () => this.spinner.hide()
-    );
+    // this.patientService.get(params).subscribe(
+    //   (data: any) => {
+    //     this.patientGroups = data;
+    //     this.options = this.patientGroups.map(x => x.fullName);
+    //   },
+    //   (err) => this.spinner.hide(),
+    //   // The 3rd callback handles the "complete" event.
+    //   () => this.spinner.hide()
+    // );
+    this.spinner.hide()
   }
 
   // Data list [Start]
@@ -104,6 +117,7 @@ export class PatientProfilesComponent implements OnInit {
     const modalRef = this.modal.open(NgbdModalComponent);
     modalRef.componentInstance.header = Constants.MODAL.DISABLE_HEADER;
     modalRef.componentInstance.content = Constants.MODAL.DISABLE_CONTENT;
+    modalRef.componentInstance.isDisplayCancel = true;
     modalRef.result.then(result => {
       alert(result);
     });

@@ -29,8 +29,8 @@ export class PatientService{
         return this.http.post(this.patientUrl, { headers: this.headers, params: patientProfileModel });
     }
 
-    public update(patientProfileModel: any) {
-        return this.http.put(this.patientUrl, { headers: this.headers, params: patientProfileModel });
+    public update(id: any) {
+        return this.http.put(this.patientUrl, { headers: this.headers, params: id });
     }
 
     public delete(id: any) {

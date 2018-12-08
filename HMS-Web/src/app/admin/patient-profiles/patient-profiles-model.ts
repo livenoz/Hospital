@@ -5,7 +5,7 @@ export class PatientProfileModel {
     lastName: string;
     fullName: string;
     identifyCardNo: string;
-    phone: number;
+    phone: string;
     address: string;
     sex: number;
 }

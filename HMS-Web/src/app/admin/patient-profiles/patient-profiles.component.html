@@ -35,39 +35,39 @@
                 <!-- Patient Code Column -->
                 <ng-container matColumnDef="Code">
                     <th mat-header-cell *matHeaderCellDef> Mã bệnh nhân</th>
-                    <td mat-cell *matCellDef="let element"> {{element.Code}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.code}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="FullName">
                     <th mat-header-cell *matHeaderCellDef> Họ và Tên </th>
-                    <td mat-cell *matCellDef="let element"> {{element.FullName}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.fullName}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="IdentifyCardNo">
                     <th mat-header-cell *matHeaderCellDef> CMND </th>
-                    <td mat-cell *matCellDef="let element"> {{element.IdentifyCardNo}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.identifyCardNo}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="Phone">
                     <th mat-header-cell *matHeaderCellDef> Điện thoại </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Phone}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="Address">
                     <th mat-header-cell *matHeaderCellDef> Địa chỉ </th>
-                    <td mat-cell *matCellDef="let element"> {{element.Address}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.address}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="Sex">
                     <th mat-header-cell *matHeaderCellDef> Giới tính </th>
-                    <td mat-cell *matCellDef="let element" [(ngModel)]="element.Sex"></td>
+                    <td mat-cell *matCellDef="let element">{{ element.sex == 1 ? 'Nam' : 'Nữ' }}</td>
                 </ng-container>
 
                 <!-- Control Column -->
                 <ng-container matColumnDef="control" stickyEnd>
                     <th mat-header-cell *matHeaderCellDef> Tác vụ </th>
                     <td mat-cell *matCellDef="let element">
-                        <i class="fa fa-edit fa-lg mr-5" title="Cập nhật" [routerLink]="['/add-update-patient-profiles',  element.patientCode ]"></i>
+                        <i class="fa fa-edit fa-lg mr-5" title="Cập nhật" [routerLink]="['/add-update-patient-profiles',  element.id ]"></i>
                         <i class="fa fa-ban fa-lg mr-5" title="Vô hiệu hóa" (click)="onDisable()"></i>
                         <fa-icon [icon]="faBriefcase" class="fa-lg" style="color: #673ab7" title="Xem bệnh án" (click)="onViewTreatment()"></fa-icon>
                     </td>

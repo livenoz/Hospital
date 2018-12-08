@@ -8,7 +8,7 @@ import {NgbDatepickerConfig, NgbCalendar, NgbDate, NgbDateStruct} from '@ng-boot
 })
 export class NgbdDatepickerConfig {
 
-  model: NgbDateStruct;
+  selectedDate: any;
 
   constructor(config: NgbDatepickerConfig, calendar: NgbCalendar) {
     // customize default values of datepickers used by this component tree
