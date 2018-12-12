@@ -9,6 +9,7 @@
     <Compile Include="IPatientBusiness.cs" />
     <Compile Include="IMedicalRecordBusiness.cs" />
     <Compile Include="ITreatmentBusiness.cs" />
+    <Compile Include="IAddressBusiness.cs" />
     <Compile Include="IUserBusiness.cs" />
     <Compile Include="Paginated\IPaginatedList.cs" />
   </ItemGroup>

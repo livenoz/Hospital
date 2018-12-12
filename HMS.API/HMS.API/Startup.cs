@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 
 namespace HMS.API
 {
@@ -30,7 +31,6 @@ namespace HMS.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Enable CORS for call API from javascript
             services.AddCors(options =>
@@ -41,6 +41,8 @@ namespace HMS.API
                     .AllowAnyHeader()
                     .AllowCredentials());
             });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // Inject DB connection
             services.AddDbContext<HealthContext>(options 
@@ -79,8 +81,10 @@ namespace HMS.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddFile(Configuration.GetSection("Logging"));
+            app.UseCors("AllowAllHeaders");
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -91,7 +95,6 @@ namespace HMS.API
             }
             app.UseResponseCompression();
             app.UseHttpsRedirection();
-            app.UseCors("AllowAllHeaders");
             app.UseMvc();
         }
     }

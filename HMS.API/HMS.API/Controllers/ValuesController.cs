@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using HMS.Entities;
 using HMS.Entities.Models;
+using Microsoft.Extensions.Logging;
 
 namespace HMS.API.Controllers
 {
@@ -12,6 +13,8 @@ namespace HMS.API.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
+        private readonly ILogger _logger;
+
         //private readonly HMSContext _context;
 
         //public ValuesController(HMSContext context)
@@ -19,9 +22,15 @@ namespace HMS.API.Controllers
         //    _context = context;
         //}
 
+        public ValuesController(ILogger<ValuesController> logger)
+        {
+            _logger = logger;
+        }
+
         // GET api/values
         public ActionResult<IEnumerable<string>> Get()
         {
+            _logger.LogWarning("Test herre");
             return new string[] { "value1", "value2" };
         }
 

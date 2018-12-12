@@ -11,6 +11,7 @@
     <Compile Include="MedicalRecordBusiness.cs" />
     <Compile Include="TreatmentBusiness.cs" />
     <Compile Include="PatientBusiness.cs" />
+    <Compile Include="AddressBusiness.cs" />
     <Compile Include="UserBusiness.cs" />
   </ItemGroup>
 

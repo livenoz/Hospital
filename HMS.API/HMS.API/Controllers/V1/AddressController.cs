@@ -1,63 +1,47 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using AutoMapper;
 using HMS.API.Attributes;
+using HMS.Business.Interfaces;
 using HMS.Business.Interfaces.Paginated;
 using HMS.Common.Dtos.Address;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace HMS.API.Controllers.V1
 {
-    [Route("api/v1/[controller]")]
+    [Route("api/v1/[controller]/[action]")]
     [BearerAuthorize]
     [ApiController]
     public class AddressController : ControllerBase
     {
-        // GET: api/Address
-        [HttpGet]
-        public IEnumerable<string> Get()
+        private readonly ILogger _logger;
+        private readonly IMapper _mapper;
+        private readonly IAddressBusiness _addressBusiness;
+
+        public AddressController(ILogger<AddressController> logger,
+            IMapper mapper,
+            IAddressBusiness addressBusiness)
         {
-            return new string[] { "value1", "value2" };
+            _logger = logger;
+            _mapper = mapper;
+            _addressBusiness = addressBusiness;
         }
 
-        // GET: api/Address/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public Task<IPaginatedList<CountryDto>> GetCountries(int pageIndex, int pageSize)
         {
-            return "value";
+            return _addressBusiness.GetCountries(pageIndex, pageSize);
         }
 
-        // POST: api/Address
-        [HttpPost]
-        public void Post([FromBody] string value)
+        public Task<IPaginatedList<ProvinceDto>> GetProvinces(int pageIndex, int pageSize)
         {
+            return _addressBusiness.GetProvinces(pageIndex, pageSize);
         }
 
-        // PUT: api/Address/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public Task<IPaginatedList<DistrictDto>> GetDistricts(int pageIndex, int pageSize)
         {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
-
-        public async Task<IPaginatedList<CountryDto>> GetCountries(int pageIndex, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IPaginatedList<ProvinceDto>> GetProvinces(int pageIndex, int pageSize)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IPaginatedList<DistrictDto>> GetDistricts(int pageIndex, int pageSize)
-        {
-            throw new NotImplementedException();
+            return _addressBusiness.GetDistricts(pageIndex, pageSize);
         }
 
     }

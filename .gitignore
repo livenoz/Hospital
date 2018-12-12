@@ -16,3 +16,5 @@
 /HMS.API/HMS.API/appsettings.Development.json
 /HMS.API/HMS.Common/bin
 /HMS.API/HMS.Common/obj
+/HMS.API/HMS.API/Logs
+/HMS.API/HMS.API/appsettings.json

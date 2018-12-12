@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using HMS.Entities.Models;
 using HMS.Business.Interfaces;
 using HMS.Common.Dtos.User;
 using HMS.Common.Responses.User;
+using Microsoft.Extensions.Logging;
 
 namespace HMS.API.Controllers.V1
 {
@@ -12,16 +11,20 @@ namespace HMS.API.Controllers.V1
     [ApiController]
     public class UsersController : ControllerBase
     {
+        private readonly ILogger<UsersController> _logger;
         private readonly IUserBusiness _userBusiness;
 
-        public UsersController(IUserBusiness userBusiness)
+        public UsersController(ILogger<UsersController> logger,
+            IUserBusiness userBusiness)
         {
+            _logger = logger;
             _userBusiness = userBusiness;
         }
 
         [HttpPost]
         public async Task<LoginResponse> Login(LoginDto model)
         {
+            _logger.LogWarning("Tes t sdkfjdkfjf");
             return await _userBusiness.Login(model);
         }
     }
