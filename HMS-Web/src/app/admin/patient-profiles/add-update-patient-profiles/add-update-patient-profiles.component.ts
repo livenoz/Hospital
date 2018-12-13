@@ -6,7 +6,7 @@ import { AddUpdatePatient } from "./add-update-patient.model"
 import { PatientService } from './../../../shared/services/patient.service'
 import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { NgbdModalComponent } from './../../../shared/modules/modal/modal-component';
-import { Constants } from './../../../shared/constants/Constants';
+import { Constants } from './../../../shared/constants/constants';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
