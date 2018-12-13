@@ -8,5 +8,6 @@ namespace HMS.Business.Interfaces.Paginated
         int TotalPages { get; }
         bool HasPreviousPage { get; }
         bool HasNextPage { get; }
+        IEnumerable<T> Items { get; }
     }
 }
