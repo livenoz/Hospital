@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Constants } from '../constants/constants';
 
 @Injectable()
-export class UserService{
+export class UserService {
     private headers: HttpHeaders;
 
-    constructor (private http: HttpClient){ 
+    constructor (private http: HttpClient) {
         this.headers = new HttpHeaders({
-            "Content-Type": "application/json; charset=utf-8"
+            'Content-Type': 'application/json; charset=utf-8'
         });
     }
     baseUrl: string = Constants.BASE_URL + Constants.API_URL + Constants.API_VERSION_1;
     loginUrl: string = this.baseUrl + Constants.API_USERS.login;
 
     login(username: string, password: string) {
-        let user = {'Username': username, 'password': password};
+        const user = {'Username': username, 'password': password};
         return this.http.post(this.loginUrl, user, {
             headers: this.headers
         });

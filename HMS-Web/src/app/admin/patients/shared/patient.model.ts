@@ -8,7 +8,7 @@ export class PatientModel {
     provinceId: number;
     districtId: number;
     address: string;
-    nativeCountryId: 237;
+    nativeCountryId: number;
     nativeProvinceId: number;
     nativeDistrictId: number;
     nativeAddress: string;

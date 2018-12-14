@@ -9,9 +9,9 @@ const routes: Routes = [
         children: [
             { path: '', redirectTo: 'dashboard', pathMatch: 'prefix' },
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
-            { path: 'patient-profiles', loadChildren: './patient-profiles/patient-profiles.module#PatientProfilesModule' },
-            { path: 'add-update-patient-profiles', loadChildren: './patient-profiles/add-update-patient-profiles/add-update-patient-profiles.module#AddUpdatePatientProfilesModule' },
-            { path: 'add-update-patient-profiles/:id', loadChildren: './patient-profiles/add-update-patient-profiles/add-update-patient-profiles.module#AddUpdatePatientProfilesModule' },
+            { path: 'patients', loadChildren: './patients/patients.module#PatientsModule' },
+            { path: 'patient-add', loadChildren: './patients/patient-add/patient-add.module#PatientAddModule' },
+            { path: 'patient-update/:id', loadChildren: './patients/patient-update/patient-update.module#PatientUpdateModule' },
             { path: 'treatment', loadChildren: './treatment/treatment.module#TreatmentModule' },
         ]
     }

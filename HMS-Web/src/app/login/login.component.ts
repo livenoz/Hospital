@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgxSpinnerService } from "ngx-spinner";
-import { UserService } from "../shared/services/user.service"
+import { NgxSpinnerService } from 'ngx-spinner';
+import { UserService } from '../shared/services/user.service';
 
 @Component({
     selector: 'app-login',
@@ -11,7 +11,7 @@ import { UserService } from "../shared/services/user.service"
 export class LoginComponent implements OnInit {
     constructor(public router: Router, private spinner: NgxSpinnerService, private userService: UserService) { }
 
-    user = {"username": "", "password": ""};
+    user = {'username': '', 'password': ''};
     ngOnInit() {
         this.spinner.hide();
     }
@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
             if (data && data.accessToken) {
                 localStorage.setItem('accessToken', data.accessToken);
                 this.router.navigate(['/dashboard']);
-            } 
+            }
         });
     }
 }

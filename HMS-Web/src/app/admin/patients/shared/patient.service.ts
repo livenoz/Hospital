@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Constants } from '../constants/constants';
-import { Observer, Observable } from 'rxjs';
-import { PatientsResponse } from '../models/patient/PatientsResponse';
+import { Constants } from '../../../shared/constants/constants';
+import { Observable } from 'rxjs';
+import { PaginatedListModel } from '../../../shared/models/paginated-list.model';
+import { PatientModel } from './patient.model';
 
 @Injectable()
 export class PatientService {
@@ -19,12 +20,12 @@ export class PatientService {
     baseUrl: string = Constants.BASE_URL + Constants.API_URL + Constants.API_VERSION_1;
     patientUrl: string = this.baseUrl + Constants.API_PATIENTS.patient;
 
-    public get(params: any): Observable<PatientsResponse> {
-        return this.http.get<PatientsResponse>(this.patientUrl, { headers: this.headers, params: params });
+    public get(params: any): Observable<PaginatedListModel<PatientModel>> {
+        return this.http.get<PaginatedListModel<PatientModel>>(this.patientUrl, { headers: this.headers, params: params });
     }
 
-    public getDetail(id: any) {
-        return this.http.get(this.patientUrl, { headers: this.headers, params: id });
+    public getDetail(id: any): Observable<PatientModel> {
+        return this.http.get<PatientModel>(this.patientUrl + '/' + id, { headers: this.headers });
     }
 
     public add(patientProfileModel: any) {
