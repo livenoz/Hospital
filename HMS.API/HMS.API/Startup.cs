@@ -66,6 +66,7 @@ namespace HMS.API
             services.AddScoped<IPatientBusiness, PatientBusiness>();
             services.AddScoped<IUserBusiness, UserBusiness>();
             services.AddScoped<ITreatmentBusiness, TreatmentBusiness>();
+            services.AddScoped<IAddressBusiness, AddressBusiness>();
 
             services.AddScoped<IBranchRepository, BranchRepository>();
             services.AddScoped<ICountryRepository, CountryRepository>();

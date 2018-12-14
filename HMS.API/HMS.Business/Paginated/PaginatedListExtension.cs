@@ -13,7 +13,7 @@ namespace HMS.Business.Paginated
         public static async Task<IPaginatedList<T>> ToPaginatedListAsync<T>(this IQueryable<T> source, int pageIndex, int pageSize)
         {
             var countTask = source.CountAsync();
-            var itemsTask = source.Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+            var itemsTask = source.Skip((pageIndex) * pageSize).Take(pageSize).ToListAsync();
             await Task.WhenAll(countTask, itemsTask);
             IPaginatedList<T> result = new PaginatedList<T>(itemsTask.Result, countTask.Result, pageIndex, pageSize);
             return result;

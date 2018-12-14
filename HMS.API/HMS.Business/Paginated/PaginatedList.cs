@@ -13,6 +13,7 @@ namespace HMS.Business.Paginated
         {
             PageIndex = pageIndex;
             TotalPages = (int)Math.Ceiling(count / (double)pageSize);
+            TotalItems = count;
 
             Clear();
             AddRange(items);
@@ -39,5 +40,7 @@ namespace HMS.Business.Paginated
                 return (PageIndex < TotalPages);
             }
         }
+
+        public int TotalItems { get; private set; }
     }
 }

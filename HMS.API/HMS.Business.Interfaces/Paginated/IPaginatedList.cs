@@ -6,6 +6,7 @@ namespace HMS.Business.Interfaces.Paginated
     {
         int PageIndex { get; }
         int TotalPages { get; }
+        int TotalItems { get; }
         bool HasPreviousPage { get; }
         bool HasNextPage { get; }
         IEnumerable<T> Items { get; }
