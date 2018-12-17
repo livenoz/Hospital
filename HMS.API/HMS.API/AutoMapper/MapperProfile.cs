@@ -19,6 +19,9 @@ namespace HMS.API.AutoMapper
 
             CreateMap<TPrescription, PrescriptionDto>();
             CreateMap<PrescriptionDto, TPrescription>();
+
+            CreateMap<TDisease, DiseaseDto>();
+            CreateMap<DiseaseDto, TDisease>();
         }
     }
 }
