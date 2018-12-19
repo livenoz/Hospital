@@ -115,40 +115,7 @@ export class PatientAddComponent implements core.OnInit {
       return;
     }
 
-    if (this.patientRouteId) {
-      this.onUpdate();
-    } else {
-      this.onAdd();
-    }
-  }
-
-  public onUpdate(): void {
-    this.patientService.update(this.patientRouteId).subscribe(
-      () => {
-        const modalRef = this.modal.open(NgbdModalComponent);
-        modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
-        modalRef.componentInstance.content = Constants.MODAL.UPDATE_SUCCESS;
-        modalRef.componentInstance.isDisplayCancel = false;
-        modalRef.result.then(_result => {
-          this.spinner.hide();
-          location.href = '/patient-profiles';
-        });
-      },
-      (_err) => {
-        this.spinner.hide();
-        const modalRef = this.modal.open(NgbdModalComponent);
-        modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
-        modalRef.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
-        modalRef.componentInstance.isDisplayCancel = false;
-      },
-      () => {
-        this.spinner.hide();
-        const modalRef = this.modal.open(NgbdModalComponent);
-        modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
-        modalRef.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
-        modalRef.componentInstance.isDisplayCancel = false;
-      }
-    );
+    this.onAdd();
   }
 
   public onAdd(): void {

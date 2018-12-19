@@ -6,7 +6,12 @@
       <div class="col-3">
         <label for="code" class="col-form-label text-right font-weight-bold">Mã bệnh nhân</label>
         <input class="form-control" type="text" value="" id="code" [(ngModel)]="inputData.code" [ngModelOptions]="{standalone:true}"
-          required>
+          #code="ngModel" required>
+        <div *ngIf="code.invalid && (code.dirty || code.touched)" class="alert alert-danger">
+          <div *ngIf="code.errors.required">
+            Mã bệnh nhân là thông tin bắt buộc.
+          </div>
+        </div>
       </div>
     </div>
     <div class="form-group row">

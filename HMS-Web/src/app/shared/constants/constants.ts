@@ -13,7 +13,7 @@ export class Constants {
     public static readonly ADD_FAIL = 'Thêm mới thất bại !';
   };
 
-  public static readonly BASE_URL = 'http://10.211.55.4:8082';
+  public static readonly BASE_URL = 'https://10.211.55.4:5001';
   public static readonly API_URL = '/api';
   public static readonly API_VERSION_1 = '/v1';
 

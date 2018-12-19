@@ -1,9 +1,9 @@
-import { Component, OnInit, Input, Output, EventEmitter  } from "@angular/core";
-import { NgbActiveModal } from "@ng-bootstrap/ng-bootstrap";
+import { Component, OnInit, Input, Output, EventEmitter  } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
-  selector: "ngbd-modal-component",
-  templateUrl: "./modal-component.html"
+  selector: 'app-modal-component',
+  templateUrl: './modal-component.html'
 })
 
 export class NgbdModalComponent implements OnInit {

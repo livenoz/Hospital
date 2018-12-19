@@ -29,14 +29,14 @@ export class PatientService {
     }
 
     public add(patientProfileModel: any) {
-        return this.http.post(this.patientUrl, { headers: this.headers, params: patientProfileModel });
+        return this.http.post(this.patientUrl, patientProfileModel, { headers: this.headers});
     }
 
-    public update(id: any) {
-        return this.http.put(this.patientUrl, { headers: this.headers, params: id });
+    public update(params: PatientModel): Observable<boolean> {
+        return this.http.put<boolean>(this.patientUrl + '/' + params.id, params, { headers: this.headers});
     }
 
-    public delete(id: any) {
-        return this.http.delete(this.patientUrl, { headers: this.headers, params: id });
+    public delete(id: number) {
+        return this.http.delete(this.patientUrl + '/' + id, { headers: this.headers});
     }
 }

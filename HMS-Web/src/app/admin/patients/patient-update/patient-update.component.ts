@@ -146,31 +146,31 @@ export class PatientUpdateComponent implements OnInit {
 
   public onSubmit(): void {
 
-    if (this.myForm.invalid) {
-      this.submitted = true;
-      return;
-    }
+    // if (this.myForm.invalid) {
+    //   this.submitted = true;
+    //   return;
+    // }
 
-    if (this.patientRouteId) {
-      this.onUpdate();
-    } else {
-      this.onAdd();
-    }
+    this.onUpdate();
   }
 
-  public onUpdate(): void {
-    this.patientService.update(this.patientRouteId).subscribe(
-      (_data: any) => {
-        const modalRef = this.modal.open(NgbdModalComponent);
-        modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
-        modalRef.componentInstance.content = Constants.MODAL.UPDATE_SUCCESS;
-        modalRef.componentInstance.isDisplayCancel = false;
-        modalRef.result.then(_result => {
-          this.spinner.hide();
-          location.href = '/patients';
-        });
+  private onUpdate(): void {
+    this.patientService.update(this.inputData).subscribe(
+      (data: boolean) => {
+        if (data) {
+          const modalRef = this.modal.open(NgbdModalComponent);
+          modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
+          modalRef.componentInstance.content = Constants.MODAL.UPDATE_SUCCESS;
+          modalRef.componentInstance.isDisplayCancel = false;
+          modalRef.result.then(_result => {
+            this.spinner.hide();
+            location.href = '/patients';
+          });
+        } else {
+
+        }
       },
-      (_err) => {
+      (err) => {
         this.spinner.hide();
         const modalRef = this.modal.open(NgbdModalComponent);
         modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
@@ -178,40 +178,11 @@ export class PatientUpdateComponent implements OnInit {
         modalRef.componentInstance.isDisplayCancel = false;
       },
       () => {
-        this.spinner.hide();
-        const modalRef = this.modal.open(NgbdModalComponent);
-        modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
-        modalRef.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
-        modalRef.componentInstance.isDisplayCancel = false;
-      }
-    );
-  }
-
-  public onAdd(): void {
-    this.patientService.add(this.inputData).subscribe(
-      (_data: any) => {
-        const modalRef = this.modal.open(NgbdModalComponent);
-        modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
-        modalRef.componentInstance.content = Constants.MODAL.ADD_SUCCESS;
-        modalRef.componentInstance.isDisplayCancel = false;
-        modalRef.result.then(_result => {
-          this.spinner.hide();
-          location.href = '/patients';
-        });
-      },
-      (_err) => {
-        this.spinner.hide();
-        const modalRef = this.modal.open(NgbdModalComponent);
-        modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
-        modalRef.componentInstance.content = Constants.MODAL.ADD_FAIL;
-        modalRef.componentInstance.isDisplayCancel = false;
-      },
-      () => {
-        this.spinner.hide();
-        const modalRef = this.modal.open(NgbdModalComponent);
-        modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
-        modalRef.componentInstance.content = Constants.MODAL.ADD_FAIL;
-        modalRef.componentInstance.isDisplayCancel = false;
+        // this.spinner.hide();
+        // const modalRef = this.modal.open(NgbdModalComponent);
+        // modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
+        // modalRef.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+        // modalRef.componentInstance.isDisplayCancel = false;
       }
     );
   }
