@@ -9,6 +9,7 @@
     <Compile Include="BaseRepository.cs" />
     <Compile Include="BranchRepository.cs" />
     <Compile Include="CountryRepository.cs" />
+    <Compile Include="DiseaseGroupRepository.cs" />
     <Compile Include="DistrictRepository.cs" />
     <Compile Include="Extensions\EntityFrameworkExtension.cs" />
     <Compile Include="PrescriptionDetailRepository.cs" />
@@ -17,6 +18,7 @@
     <Compile Include="MedicalRecordRepository.cs" />
     <Compile Include="EmployeeRepository.cs" />
     <Compile Include="MedicalRecordStatusRepository.cs" />
+    <Compile Include="DiseaseRepository.cs" />
     <Compile Include="TreatmentRepository.cs" />
     <Compile Include="UserRepository.cs" />
     <Compile Include="PatientRepository.cs" />
