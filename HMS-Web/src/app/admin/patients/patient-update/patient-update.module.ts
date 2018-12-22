@@ -5,7 +5,8 @@ import { PatientUpdateRoutingModule } from './patient-update-routing.module';
 import { PatientUpdateComponent } from './patient-update.component';
 import { PageHeaderModule } from '../../../shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule, MatInputModule, MatPaginatorModule  } from '@angular/material';
+// tslint:disable-next-line:max-line-length
+import { MatAutocompleteModule, MatInputModule, MatPaginatorModule, MatDatepickerModule, MatNativeDateModule, MatRadioModule  } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdDatepickerConfig } from '../../../shared/datepicker/datepicker-config';
 
@@ -19,7 +20,10 @@ import { NgbdDatepickerConfig } from '../../../shared/datepicker/datepicker-conf
     MatAutocompleteModule,
     MatInputModule,
     MatPaginatorModule,
-    NgbModule
+    NgbModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatRadioModule
   ],
   declarations: [PatientUpdateComponent, NgbdDatepickerConfig]
 })
