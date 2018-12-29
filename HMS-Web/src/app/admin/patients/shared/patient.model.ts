@@ -20,10 +20,14 @@ export class PatientModel {
     dateOfIssue: Date;
     placeOfIssue: string;
     imageUrl: string;
-    fatherName: string;
-    fatherIdentifyCardNo: string;
-    motherName: string;
-    motherIdentifyCardNo: string;
+    firstRelativeName: string;
+    firstRelativePhone: string;
+    firstRelativeIdentifyCardNo: string;
+    firstRelativeDescription: string;
+    secondRelativeName: string;
+    secondRelativePhone: string;
+    secondRelativeIdentifyCardNo: string;
+    secondRelativeDescription: string;
     description: string;
     createdTime: Date;
     createdBy: number;

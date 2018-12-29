@@ -21,7 +21,7 @@ import { DistrictModel } from '../../../shared/models/address/district.model';
 export class PatientUpdateComponent implements OnInit {
   myForm: FormGroup;
   submitted = false;
-  patientControl = 'Thêm mới bệnh nhân';
+  patientControl = 'Cập nhật bệnh nhân';
   countryControl: FormControl;
   provinceControl: FormControl;
   districtControl: FormControl;
