@@ -8,7 +8,7 @@ namespace HMS.Common.Dtos.Patient
         public string Code { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public string FullName { get; set; }
+        public string FullName => $"{FirstName} {LastName}";
         public int CountryId { get; set; }
         public int ProvinceId { get; set; }
         public int DistrictId { get; set; }
@@ -25,10 +25,14 @@ namespace HMS.Common.Dtos.Patient
         public DateTime? DateOfIssue { get; set; }
         public string PlaceOfIssue { get; set; }
         public string ImageUrl { get; set; }
-        public string FatherName { get; set; }
-        public string FatherIdentifyCardNo { get; set; }
-        public string MotherName { get; set; }
-        public string MotherIdentifyCardNo { get; set; }
+        public string FirstRelativeName { get; set; }
+        public string FirstRelativeIdentifyCardNo { get; set; }
+        public string FirstRelativePhone { get; set; }
+        public string FirstRelativeDescription { get; set; }
+        public string SecondRelativeName { get; set; }
+        public string SecondRelativeIdentifyCardNo { get; set; }
+        public string SecondRelativePhone { get; set; }
+        public string SecondRelativeDescription { get; set; }
         public string Description { get; set; }
         public DateTime CreatedTime { get; set; }
         public int CreatedBy { get; set; }
@@ -36,7 +40,7 @@ namespace HMS.Common.Dtos.Patient
         public int UpdatedBy { get; set; }
         public bool IsActived { get; set; }
         public bool IsDeleted { get; set; }
-        public string ContryName { get; set; }
+        public string CountryName { get; set; }
         public string DistrictName { get; set; }
         public string ProvinceName { get; set; }
         public string NativeCountryName { get; set; }

@@ -7,6 +7,7 @@ using HMS.Business.Interfaces.Paginated;
 using HMS.Common.Constants;
 using HMS.Common.Dtos.Patient;
 using HMS.Common.Dtos.User;
+using HMS.Common.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,10 +30,19 @@ namespace HMS.API.Controllers.V1
 
         // GET: api/Patient
         [HttpGet]
-        public Task<IPaginatedList<PatientDto>> Get(
+        public Task<IPaginatedList<PatientDto>> Get(string code, string value,
             int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {
-            return _patientBusiness.GetAll(pageIndex, pageSize);
+            var filter = new PatientFilter
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                Code = string.Equals("Code", code, StringComparison.OrdinalIgnoreCase) ? value : string.Empty,
+                Name = string.Equals("Name", code, StringComparison.OrdinalIgnoreCase) ? value : string.Empty,
+                Phone = string.Equals("Phone", code, StringComparison.OrdinalIgnoreCase) ? value : string.Empty,
+                IdentifyCardNo = string.Equals("IdentifyCardNo", code, StringComparison.OrdinalIgnoreCase) ? value : string.Empty,
+            };
+            return _patientBusiness.GetAll(filter);
         }
 
         // GET: api/Patient/5

@@ -32,10 +32,14 @@ namespace HMS.Entities.Models
         public DateTime? DateOfIssue { get; set; }
         public string PlaceOfIssue { get; set; }
         public string ImageUrl { get; set; }
-        public string FatherName { get; set; }
-        public string FatherIdentifyCardNo { get; set; }
-        public string MotherName { get; set; }
-        public string MotherIdentifyCardNo { get; set; }
+        public string FirstRelativeName { get; set; }
+        public string FirstRelativeIdentifyCardNo { get; set; }
+        public string FirstRelativePhone { get; set; }
+        public string FirstRelativeDescription { get; set; }
+        public string SecondRelativeName { get; set; }
+        public string SecondRelativeIdentifyCardNo { get; set; }
+        public string SecondRelativePhone { get; set; }
+        public string SecondRelativeDescription { get; set; }
         public string Description { get; set; }
         public DateTime CreatedTime { get; set; }
         public int CreatedBy { get; set; }

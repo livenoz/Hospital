@@ -20,6 +20,7 @@ namespace WebApplication
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+            .UseUrls("https://10.211.55.4:5001")
                 .UseStartup<Startup>()
                 .Build();
     }
