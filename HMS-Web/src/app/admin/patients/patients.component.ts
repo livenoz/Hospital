@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
+import { MatPaginator, MatTableDataSource, PageEvent } from '@angular/material';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -26,7 +26,7 @@ export class PatientsComponent implements OnInit {
 
   // icon
   public faBriefcase = faBriefcase;
-
+  pageEvent: PageEvent;
   // Search AutoComplete
   public searchControl = new FormControl();
   public filteredOptions: Observable<string[]>;
@@ -49,7 +49,8 @@ export class PatientsComponent implements OnInit {
 
   public ngOnInit() {
     this.paginator.pageIndex = 0;
-    this.paginator.pageSize = 2;
+    this.paginator.pageSize = 10;
+    // this.dataSource.paginator = this.paginator;
     this.searchConfig();
   }
 
@@ -59,7 +60,6 @@ export class PatientsComponent implements OnInit {
       startWith(''),
       map(value => this._filter(value))
     );
-    this.dataSource.paginator = this.paginator;
     const params = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize
@@ -83,7 +83,7 @@ export class PatientsComponent implements OnInit {
   private onGetNext = (data: PaginatedListModel<PatientModel>) => {
     this.options = data.items.map(x => x.fullName);
     this.dataSource.data = data.items;
-    this.test = data.totalItems;
+    this.paginator.length = data.totalItems;
   }
 
   private _filter(value: string): string[] {
@@ -93,7 +93,8 @@ export class PatientsComponent implements OnInit {
     );
   }
 
-  public onPageChange() {
+  public onPageChange(event: PageEvent) {
+    this.pageEvent = event;
     this.searchConfig();
   }
 

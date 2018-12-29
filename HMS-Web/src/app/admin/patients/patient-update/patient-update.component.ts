@@ -221,7 +221,10 @@ export class PatientUpdateComponent implements OnInit {
             this.router.navigate(['/patients']);
           });
         } else {
-
+          const modalRef = this.modal.open(NgbdModalComponent);
+          modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
+          modalRef.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+          modalRef.componentInstance.isDisplayCancel = false;
         }
       },
       (err) => {

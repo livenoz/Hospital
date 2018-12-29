@@ -28,8 +28,8 @@ export class PatientService {
         return this.http.get<PatientModel>(this.patientUrl + '/' + id, { headers: this.headers });
     }
 
-    public add(patientProfileModel: any) {
-        return this.http.post(this.patientUrl, patientProfileModel, { headers: this.headers});
+    public add(patientProfileModel: PatientModel): Observable<number> {
+        return this.http.post<number>(this.patientUrl, patientProfileModel, { headers: this.headers});
     }
 
     public update(params: PatientModel): Observable<boolean> {
