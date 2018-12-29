@@ -4,6 +4,7 @@ import { Constants } from '../../../shared/constants/constants';
 import { Observable } from 'rxjs';
 import { PaginatedListModel } from '../../../shared/models/paginated-list.model';
 import { PatientModel } from './patient.model';
+import { PatientFilter } from './patient-filter.model';
 
 @Injectable()
 export class PatientService {

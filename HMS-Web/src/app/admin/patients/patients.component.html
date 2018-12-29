@@ -9,23 +9,18 @@
     </div>
     <div class="col col-xl-1 col-lg-1 form-group">
         <mat-form-field>
-            <select matNativeControl required>
-                <option value="patientCode">Mã BN</option>
+            <select matNativeControl [(ngModel)]="filter.code" >
+                <option value="code">Mã BN</option>
                 <option value="name">Họ tên</option>
-                <option value="phoneNumber">Điện thoại</option>
-                <option value="ssn">CMND</option>
+                <option value="phone">Điện thoại</option>
+                <option value="identifyCardNo">CMND</option>
             </select>
         </mat-form-field>
     </div>
     <div class="col col-xl-2 col-lg-2 form-group">
-        <mat-form-field class="example-full-width">
-            <input type="text" id="searchBox" placeholder="Tìm kiếm" caria-label="Number" matInput [formControl]="searchControl"
-                [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                    {{option}}
-                </mat-option>
-            </mat-autocomplete>
+        <mat-form-field class="col-3">
+            <mat-label class="text-right font-weight-bold">Tìm kiếm</mat-label>
+            <input matInput [(ngModel)]="filter.value" (keyup.enter)="searchConfig()">
         </mat-form-field>
     </div>
 </div>
@@ -69,7 +64,7 @@
                     <th mat-header-cell *matHeaderCellDef> Tác vụ </th>
                     <td mat-cell *matCellDef="let element">
                         <i class="fa fa-edit fa-lg mr-5" title="Cập nhật" [routerLink]="['/patient-update',  element.id ]"></i>
-                        <i class="fa fa-ban fa-lg mr-5" title="Vô hiệu hóa" (click)="onDisable()"></i>
+                        <!-- <i class="fa fa-ban fa-lg mr-5" title="Vô hiệu hóa" (click)="onDisable()"></i> -->
                         <fa-icon [icon]="faBriefcase" class="fa-lg" style="color: #673ab7" title="Xem bệnh án" (click)="onViewTreatment()"></fa-icon>
                     </td>
                 </ng-container>

@@ -70,23 +70,15 @@ export class PatientUpdateComponent implements OnInit {
       lastName: ['', Validators.required],
       sex: ['', Validators.required],
       phone: ['', Validators.required],
-      email: ['', Validators.required, Validators.email],
       birthday: ['', Validators.required],
-      identifyCardNo: ['', Validators.required],
-      dateOfIssue: ['', Validators.required],
-      placeOfIssue: ['', Validators.required],
       address: ['', Validators.required],
-      countryId: ['', Validators.required],
-      provinceId: ['', Validators.required],
-      districtId: ['', Validators.required],
+      countryControl: [0, Validators.required],
+      provinceControl: [0, Validators.required],
+      districtControl: [0, Validators.required],
       nativeAddress: ['', Validators.required],
-      nativeCountryId: ['', Validators.required],
-      nativeProvinceId: ['', Validators.required],
-      nativeDistrictId: ['', Validators.required],
-      fatherName: ['', Validators.required],
-      fatherIdentifyCardNo: ['', Validators.required],
-      motherName: ['', Validators.required],
-      motherIdentifyCardNo: ['', Validators.required],
+      nativeCountryControl: [0, Validators.required],
+      nativeProvinceControl: [0, Validators.required],
+      nativeDistrictControl: [0, Validators.required],
     });
   }
 
@@ -178,10 +170,9 @@ export class PatientUpdateComponent implements OnInit {
 
   public onSubmit(): void {
 
-    // if (this.myForm.invalid) {
-    //   this.submitted = true;
-    //   return;
-    // }
+    if (this.myForm.invalid) {
+      return;
+    }
 
     this.onUpdate();
   }
