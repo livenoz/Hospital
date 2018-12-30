@@ -37,7 +37,16 @@ namespace HMS.Business
 
         public AuthenticationDto CheckAuthentication(string accessToken)
         {
-            var model = JsonConvert.DeserializeObject<AuthenticationDto>(_protector.Unprotect(accessToken));
+            var descryptToken = string.Empty;
+            try
+            {
+                descryptToken = _protector.Unprotect(accessToken);
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+            var model = JsonConvert.DeserializeObject<AuthenticationDto>(descryptToken);
             if(model == null || model.UserId <= 0)
             {
                 model = null;

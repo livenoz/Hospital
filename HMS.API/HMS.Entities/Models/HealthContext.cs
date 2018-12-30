@@ -557,7 +557,7 @@ namespace HMS.Entities.Models
 
                 entity.Property(e => e.Code)
                     .IsRequired()
-                    .HasMaxLength(8)
+                    .HasMaxLength(16)
                     .IsUnicode(false);
 
                 entity.Property(e => e.CreatedTime).HasColumnType("datetime");

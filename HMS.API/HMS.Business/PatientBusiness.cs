@@ -38,9 +38,14 @@ namespace HMS.Business
 
         public async Task<PatientDto> Add(PatientDto model)
         {
+            model.Code = string.Empty;
             var entity = _patientRepository.Add(_mapper.Map<TPatient>(model));
             await _patientRepository.SaveChangeAsync();
+            var maxId = await _patientRepository.Repo.MaxAsync(c => c.Id);
+            entity.Code = $"BN-{(maxId + 1):D8}";
+            await _patientRepository.SaveChangeAsync();
             model.Id = entity.Id;
+
             return model;
         }
 
