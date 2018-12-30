@@ -65,7 +65,6 @@ export class PatientAddComponent implements OnInit {
     }
     this.dropdownConfig(() => this.spinner.hide());
     this.myForm = this.formBuilder.group({
-      code: ['', Validators.required],
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       sex: ['', Validators.required],

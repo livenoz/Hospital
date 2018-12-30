@@ -8,7 +8,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // tslint:disable-next-line:max-line-length
 import { MatAutocompleteModule, MatInputModule, MatPaginatorModule, MatDatepickerModule, MatNativeDateModule, MatRadioModule  } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { NgbdDatepickerConfig } from '../../../shared/datepicker/datepicker-config';
 
 @NgModule({
   imports: [
@@ -25,6 +24,6 @@ import { NgbdDatepickerConfig } from '../../../shared/datepicker/datepicker-conf
     MatNativeDateModule,
     MatRadioModule
   ],
-  declarations: [PatientAddComponent, NgbdDatepickerConfig]
+  declarations: [PatientAddComponent]
 })
 export class PatientAddModule {}

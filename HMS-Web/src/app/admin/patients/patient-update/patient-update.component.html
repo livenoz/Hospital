@@ -6,8 +6,7 @@
     <div class="form-group row">
       <mat-form-field class="col-3">
         <mat-label class="text-right font-weight-bold">Mã bệnh nhân</mat-label>
-        <input matInput [(ngModel)]="inputData.code" formControlName="code" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.code.invalid }"
-          required>
+        <input matInput [readonly]="true" [(ngModel)]="inputData.code"  [ngModelOptions]="{standalone:true}">
       </mat-form-field>
     </div>
     <!-- <label for="code" class="col-form-label text-right font-weight-bold">Mã bệnh nhân</label>

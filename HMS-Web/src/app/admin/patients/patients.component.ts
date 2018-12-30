@@ -12,6 +12,7 @@ import { PatientService } from './shared/patient.service';
 import { PatientModel } from './shared/patient.model';
 import { PaginatedListModel } from '../../shared/models/paginated-list.model';
 import { PatientFilter } from './shared/patient-filter.model';
+import { AddressService } from '../../shared/services/address.service';
 
 @Component({
   selector: 'app-patients',
@@ -20,9 +21,10 @@ import { PatientFilter } from './shared/patient-filter.model';
 })
 export class PatientsComponent implements OnInit {
   constructor(
-    private _spinner: NgxSpinnerService,
-    private _modal: NgbModal,
-    private _patientService: PatientService) {
+    private spinner: NgxSpinnerService,
+    private modal: NgbModal,
+    private patientService: PatientService,
+    private addressService: AddressService) {
   }
 
   // icon
@@ -50,6 +52,7 @@ export class PatientsComponent implements OnInit {
   public dataSource = new MatTableDataSource<PatientModel>();
 
   public ngOnInit() {
+    this.addressService.init();
     this.paginator.pageIndex = 0;
     this.paginator.pageSize = 10;
     // this.dataSource.paginator = this.paginator;
@@ -59,7 +62,7 @@ export class PatientsComponent implements OnInit {
   }
 
   public searchConfig() {
-    this._spinner.show();
+    this.spinner.show();
     this.filteredOptions = this.searchControl.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value))
@@ -70,7 +73,7 @@ export class PatientsComponent implements OnInit {
       code: this.filter.code,
       value: this.filter.value,
     };
-    this._patientService.get(params).subscribe(
+    this.patientService.get(params).subscribe(
       this.onGetNext,
       this.onGetError,
       this.onGetComplete
@@ -79,11 +82,11 @@ export class PatientsComponent implements OnInit {
 
   private onGetError = (err) => {
     console.log(err);
-    this._spinner.hide();
+    this.spinner.hide();
   }
 
   private onGetComplete = () => {
-    this._spinner.hide();
+    this.spinner.hide();
   }
 
   private onGetNext = (data: PaginatedListModel<PatientModel>) => {
@@ -111,7 +114,7 @@ export class PatientsComponent implements OnInit {
   }
 
   public onDisable() {
-    const modalRef = this._modal.open(NgbdModalComponent);
+    const modalRef = this.modal.open(NgbdModalComponent);
     modalRef.componentInstance.header = Constants.MODAL.DISABLE_HEADER;
     modalRef.componentInstance.content = Constants.MODAL.DISABLE_CONTENT;
     modalRef.componentInstance.isDisplayCancel = true;
