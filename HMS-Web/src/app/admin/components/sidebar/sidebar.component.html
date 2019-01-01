@@ -8,9 +8,13 @@
             <i class="fa fa-fw fa-table"></i>&nbsp;
             <span>{{ 'Hồ sơ bệnh nhân'}}</span>
         </a>
-        <a [routerLink]="['/treatment']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+        <a [routerLink]="['/medical-records']" [routerLinkActive]="['router-link-active']" class="list-group-item">
             <i class="fa fa-fw fa-th-list"></i>&nbsp;
             <span>{{ 'Bệnh án'}}</span>
+        </a>
+        <a [routerLink]="['/treatments']" [routerLinkActive]="['router-link-active']" class="list-group-item">
+            <i class="fa fa-fw fa-th-list"></i>&nbsp;
+            <span>{{ 'Điều trị'}}</span>
         </a>
     </div>
     <div class="toggle-button" [ngClass]="{collapsed: collapsed}" (click)="toggleCollapsed()">

@@ -1,0 +1,210 @@
+<app-page-header [heading]="patientControl" [icon]="'fa-edit'"></app-page-header>
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <fieldset class="fieldset-border">
+    <legend class="legend-border">Thông tin bệnh nhân</legend>
+    <div class="form-group row"></div>
+    <div class="form-group row">
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Mã bệnh nhân</mat-label>
+        <input matInput [readonly]="true" [(ngModel)]="inputData.code"  [ngModelOptions]="{standalone:true}">
+      </mat-form-field>
+    </div>
+    <!-- <label for="code" class="col-form-label text-right font-weight-bold">Mã bệnh nhân</label>
+        <input class="form-control" type="text" value="" id="code" [(ngModel)]="inputData.code" [ngModelOptions]="{standalone:true}"
+          #code="ngModel" required>
+        <div *ngIf="code.invalid && (code.dirty || code.touched)" class="alert alert-danger">
+          <div *ngIf="code.errors.required">
+            Mã bệnh nhân là thông tin bắt buộc.
+          </div>
+        </div> -->
+    <div class="form-group row">
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Họ</mat-label>
+        <input matInput [(ngModel)]="inputData.firstName" formControlName="firstName" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.firstName.invalid }"
+          required>
+      </mat-form-field>
+
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Tên</mat-label>
+        <input matInput [(ngModel)]="inputData.lastName" formControlName="lastName" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.lastName.invalid }"
+          required>
+      </mat-form-field>
+      <mat-radio-group class="col-3" [(ngModel)]="inputData.sex" formControlName="sex" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.sex.invalid }"
+        required>
+        <mat-radio-button class="example-radio-button" *ngFor="let sex of [{id: 1, name: 'Nam'}, {id: 2, name: 'Nữ'}]"
+          [value]="sex.id">
+          {{sex.name}}
+        </mat-radio-button>
+      </mat-radio-group>
+    </div>
+    <div class="form-group row">
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Số điện thoại</mat-label>
+        <input matInput [(ngModel)]="inputData.phone" formControlName="phone" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.phone.invalid }"
+          required>
+      </mat-form-field>
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Email</mat-label>
+        <input matInput [(ngModel)]="inputData.email"  [ngModelOptions]="{standalone:true}">
+      </mat-form-field>
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Ngày sinh</mat-label>
+        <input matInput [matDatepicker]="birthday" placeholder="Choose a date" [(ngModel)]="inputData.birthday"
+          formControlName="birthday" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.birthday.invalid }" required>
+        <mat-datepicker-toggle matSuffix [for]="birthday"></mat-datepicker-toggle>
+        <mat-datepicker #birthday></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="form-group row">
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">CMND</mat-label>
+        <input matInput [(ngModel)]="inputData.identifyCardNo" [ngModelOptions]="{standalone:true}">
+      </mat-form-field>
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Ngày cấp</mat-label>
+        <input matInput [matDatepicker]="dateOfIssue" [(ngModel)]="inputData.dateOfIssue" [ngModelOptions]="{standalone:true}">
+        <mat-datepicker-toggle matSuffix [for]="dateOfIssue"></mat-datepicker-toggle>
+        <mat-datepicker #dateOfIssue></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Nơi cấp</mat-label>
+        <input matInput [(ngModel)]="inputData.placeOfIssue" [ngModelOptions]="{standalone:true}">
+      </mat-form-field>
+    </div>
+    <fieldset class="fieldset-border">
+      <legend class="legend-border"><small>Địa chỉ thường trú</small></legend>
+      <div class="form-group row"></div>
+      <div class="form-group row">
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">Quốc gia</mat-label>
+          <input type="text" id="nativeCountryId" caria-label="String" matInput [formControl]="nativeCountryControl"
+            [matAutocomplete]="autoNativeCountry" [(ngModel)]="inputData.nativeCountryId" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.nativeCountryControl.invalid }"
+            required>
+          <mat-autocomplete #autoNativeCountry="matAutocomplete" [displayWith]="displayCountry">
+            <mat-option *ngFor="let country of filteredNativeCountries | async" [value]="country.id">
+              {{country.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">Thành phố</mat-label>
+          <input type="text" id="nativeProvince" [formControl]="nativeProvinceControl" caria-label="String" matInput
+            [matAutocomplete]="autoNativeProvince" [(ngModel)]="inputData.nativeProvinceId" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.nativeProvinceControl.invalid }"
+            required>
+          <mat-autocomplete #autoNativeProvince="matAutocomplete" [displayWith]="displayProvince">
+            <mat-option *ngFor="let province of filteredNativeProvinces | async" [value]="province.id">
+              {{province.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">Quận</mat-label>
+          <input type="text" id="nativeDistrict" [(ngModel)]="inputData.nativeDistrictId" caria-label="String" matInput
+            [formControl]="nativeDistrictControl" [matAutocomplete]="autoNativeDistrict" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.nativeDistrictControl.invalid }"
+            required>
+          <mat-autocomplete #autoNativeDistrict="matAutocomplete" [displayWith]="displayDistrict">
+            <mat-option *ngFor="let district of filteredNativeDistricts | async" [value]="district.id">
+              {{district.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">Địa chỉ</mat-label>
+          <input matInput [(ngModel)]="inputData.nativeAddress" formControlName="nativeAddress" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.nativeAddress.invalid }"
+            required>
+        </mat-form-field>
+      </div>
+    </fieldset>
+    <fieldset class="fieldset-border">
+      <legend class="legend-border"><small>Địa chỉ tạm trú</small></legend>
+      <div class="form-group row"></div>
+      <div class="form-group row">
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">Quốc gia</mat-label>
+          <input type="text" id="country" caria-label="String" matInput [formControl]="countryControl"
+            [matAutocomplete]="autoCountry" [(ngModel)]="inputData.countryId" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.countryControl.invalid }"
+            required>
+          <mat-autocomplete #autoCountry="matAutocomplete" [displayWith]="displayCountry">
+            <mat-option *ngFor="let country of filteredCountries | async" [value]="country.id">
+              {{country.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">Thành phố</mat-label>
+          <input type="text" id="province" caria-label="String" matInput [formControl]="provinceControl"
+            [matAutocomplete]="autoProvince" [(ngModel)]="inputData.provinceId" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.provinceControl.invalid }"
+            required>
+          <mat-autocomplete #autoProvince="matAutocomplete" [displayWith]="displayProvince">
+            <mat-option *ngFor="let province of filteredProvinces | async" [value]="province.id">
+              {{province.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">Quận</mat-label>
+          <input type="text" id="district" caria-label="String" matInput [formControl]="districtControl"
+            [matAutocomplete]="autoDistrict" [(ngModel)]="inputData.districtId" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.districtControl.invalid }"
+            required>
+          <mat-autocomplete #autoDistrict="matAutocomplete" [displayWith]="displayDistrict">
+            <mat-option *ngFor="let district of filteredDistricts | async" [value]="district.id">
+              {{district.name}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">Địa chỉ</mat-label>
+          <input matInput [(ngModel)]="inputData.address" formControlName="address" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.address.invalid }"
+            required>
+        </mat-form-field>
+      </div>
+    </fieldset>
+    <fieldset class="fieldset-border">
+      <legend class="legend-border"><small>Thông tin người thân 1</small></legend>
+      <div class="form-group row"></div>
+      <div class="form-group row">
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">Họ tên</mat-label>
+          <input matInput [(ngModel)]="inputData.firstRelativeName" [ngModelOptions]="{standalone:true}">
+        </mat-form-field>
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">Số điện thoại</mat-label>
+          <input matInput [(ngModel)]="inputData.firstRelativePhone" [ngModelOptions]="{standalone:true}">
+        </mat-form-field>
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">CMND</mat-label>
+          <input matInput [(ngModel)]="inputData.firstRelativeIdentifyCardNo" [ngModelOptions]="{standalone:true}">
+        </mat-form-field>
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">Quan hệ với bệnh nhân</mat-label>
+          <input matInput [(ngModel)]="inputData.firstRelativeDescription" [ngModelOptions]="{standalone:true}">
+        </mat-form-field>
+      </div>
+    </fieldset>
+    <fieldset class="fieldset-border">
+      <legend class="legend-border"><small>Thông tin người thân 2</small></legend>
+      <div class="form-group row"></div>
+      <div class="form-group row">
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">Họ tên</mat-label>
+          <input matInput [(ngModel)]="inputData.secondRelativeName" [ngModelOptions]="{standalone:true}">
+        </mat-form-field>
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">Số điện thoại</mat-label>
+          <input matInput [(ngModel)]="inputData.secondRelativePhone" [ngModelOptions]="{standalone:true}">
+        </mat-form-field>
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">CMND</mat-label>
+          <input matInput [(ngModel)]="inputData.secondRelativeIdentifyCardNo" [ngModelOptions]="{standalone:true}">
+        </mat-form-field>
+        <mat-form-field class="col-3">
+          <mat-label class="text-right font-weight-bold">Quan hệ với bệnh nhân</mat-label>
+          <input matInput [(ngModel)]="inputData.secondRelativeDescription" [ngModelOptions]="{standalone:true}">
+        </mat-form-field>
+      </div>
+    </fieldset>
+  </fieldset>
+  <button type="button" class="btn float-right" [routerLink]="['/patients']" [routerLinkActive]="['router-link-active']">Quay
+    lại</button>
+  <button type="submit" class="btn btn-primary float-right mr-2">Cập nhật</button>
+</form>

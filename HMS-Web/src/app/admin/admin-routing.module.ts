@@ -12,7 +12,9 @@ const routes: Routes = [
             { path: 'patients', loadChildren: './patients/patients.module#PatientsModule' },
             { path: 'patient-add', loadChildren: './patients/patient-add/patient-add.module#PatientAddModule' },
             { path: 'patient-update/:id', loadChildren: './patients/patient-update/patient-update.module#PatientUpdateModule' },
-            { path: 'treatment', loadChildren: './treatment/treatment.module#TreatmentModule' },
+            { path: 'medical-records', loadChildren: './medical-records/medical-records.module#MedicalRecordsModule' },
+            { path: 'treatments', loadChildren: './treatments/treatments.module#TreatmentModule' },
+            { path: 'treatments/:patientId', loadChildren: './treatments/treatments.module#TreatmentModule' },
         ]
     }
 ];

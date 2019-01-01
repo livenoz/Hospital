@@ -1,5 +1,4 @@
-import { Component, Output, EventEmitter, OnInit } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
     selector: 'app-sidebar',
@@ -7,15 +6,15 @@ import { Router, NavigationEnd } from '@angular/router';
     styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent {
-    isActive: boolean = false;
-    collapsed: boolean = false;
-    showMenu: string = '';
-    pushRightClass: string = 'push-right';
+    isActive = false;
+    collapsed = false;
+    showMenu = '';
+    pushRightClass = 'push-right';
 
     @Output() collapsedEvent = new EventEmitter<boolean>();
-    
+
     constructor() {
-        
+
     }
 
     eventCalled() {

@@ -11,6 +11,7 @@ import { NgxSpinnerModule } from 'ngx-spinner';
 import { UserService } from './shared/services/user.service';
 import { PatientService } from './admin/patients/shared/patient.service';
 import { AddressService } from './shared/services/address.service';
+import { MedicalRecordService } from './admin/medical-records/shared/medical-record.service';
 
 
 @NgModule({
@@ -23,7 +24,7 @@ import { AddressService } from './shared/services/address.service';
     AppRoutingModule,
     NgxSpinnerModule
   ],
-  providers: [AuthGuard, UserService, PatientService, AddressService],
+  providers: [AuthGuard, UserService, PatientService, AddressService, MedicalRecordService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

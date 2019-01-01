@@ -30,4 +30,8 @@ export class Constants {
     public static readonly province = '/address/getProvinces';
     public static readonly district = '/address/getDistricts';
   };
+
+  public static API_MEDICAL_RECORDS = class {
+    public static readonly medicalRecord = '/medicalRecord';
+  };
 }
