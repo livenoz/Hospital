@@ -111,7 +111,7 @@ namespace HMS.Business
             {
                 patientRepo = patientRepo.Where(expression);
             }
-            var result = (from patient in patientRepo
+            var result = (from patient in patientRepo.Where(c => c.IsActived)
                           join country in _countryRepository.Repo on patient.CountryId equals country.Id
                           join province in _provinceRepository.Repo on patient.ProvinceId equals province.Id
                           join district in _districtRepository.Repo on patient.DistrictId equals district.Id

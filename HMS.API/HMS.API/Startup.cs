@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationM
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+using HMS.API.Extensions;
 
 namespace HMS.API
 {
@@ -68,12 +69,14 @@ namespace HMS.API
             services.AddScoped<ITreatmentBusiness, TreatmentBusiness>();
             services.AddScoped<IAddressBusiness, AddressBusiness>();
             services.AddScoped<IDiseaseBusiness, DiseaseBusiness>();
+            services.AddScoped<IMedicalRecordBusiness, MedicalRecordBusiness>();
 
             services.AddScoped<IBranchRepository, BranchRepository>();
             services.AddScoped<ICountryRepository, CountryRepository>();
             services.AddScoped<IProvinceRepository, ProvinceRepository>();
             services.AddScoped<IDistrictRepository, DistrictRepository>();
             services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
+            services.AddScoped<IMedicalRecordStatusRepository, MedicalRecordStatusRepository>();
             services.AddScoped<IPatientRepository, PatientRepository>();
             services.AddScoped<IPrescriptionDetailRepository, PrescriptionDetailRepository>();
             services.AddScoped<IPrescriptionRepository, PrescriptionRepository>();
@@ -97,6 +100,7 @@ namespace HMS.API
             {
                 app.UseHsts();
             }
+            app.ConfigureExceptionHandler(loggerFactory.CreateLogger("Configure"));
             app.UseResponseCompression();
             app.UseHttpsRedirection();
             app.UseMvc();

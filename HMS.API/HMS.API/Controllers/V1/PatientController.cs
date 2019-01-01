@@ -64,6 +64,7 @@ namespace HMS.API.Controllers.V1
                 model.CreatedTime = dateTimeUtcNow;
                 model.UpdatedBy = _authenticationDto.UserId;
                 model.UpdatedTime = dateTimeUtcNow;
+                model.IsActived = true;
                 var modelInsert = await _patientBusiness.Add(model);
                 result = modelInsert.Id;
             }
