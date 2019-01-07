@@ -14,11 +14,11 @@ import { PatientModel } from '../../patients/shared/patient.model';
 import { PatientService } from '../../patients/shared/patient.service';
 
 @Component({
-  selector: 'app-patient-update',
-  templateUrl: './patient-update.component.html',
-  styleUrls: ['./patient-update.component.scss']
+  selector: 'app-medical-record-update',
+  templateUrl: './medical-record-update.component.html',
+  styleUrls: ['./medical-record-update.component.scss']
 })
-export class PatientUpdateComponent implements OnInit {
+export class MedicalRecordComponent implements OnInit {
   myForm: FormGroup;
   submitted = false;
   patientControl = 'Cập nhật bệnh nhân';

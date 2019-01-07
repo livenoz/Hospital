@@ -13,6 +13,10 @@ const routes: Routes = [
             { path: 'patient-add', loadChildren: './patients/patient-add/patient-add.module#PatientAddModule' },
             { path: 'patient-update/:id', loadChildren: './patients/patient-update/patient-update.module#PatientUpdateModule' },
             { path: 'medical-records', loadChildren: './medical-records/medical-records.module#MedicalRecordsModule' },
+            // tslint:disable-next-line:max-line-length
+            { path: 'medical-record-add', loadChildren: './medical-records/medical-record-add/medical-record-add.module#MedicalRecordAddModule' },
+            // tslint:disable-next-line:max-line-length
+            { path: 'medical-record-update/:id', loadChildren: './medical-records/medical-record-update/medical-record-update.module#MedicalRecordUpdateModule' },
             { path: 'treatments', loadChildren: './treatments/treatments.module#TreatmentModule' },
             { path: 'treatments/:patientId', loadChildren: './treatments/treatments.module#TreatmentModule' },
         ]

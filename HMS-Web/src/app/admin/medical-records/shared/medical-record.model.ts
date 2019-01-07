@@ -1,8 +1,9 @@
 export class MedicalRecordModel {
     id: number;
-    patientFirstName: string;
     patientId: number;
     patientLastName: string;
+    patientFirstName: string;
+    patientFullName: string;
     reason: string;
     startDate: Date;
     statusId: number;
@@ -14,5 +15,4 @@ export class MedicalRecordModel {
     updatedTime: Date;
     isActived: boolean;
     isDeleted: boolean;
-    fullName() { return '${this.patientFirstName} ${this.patientLastName}'; }
 }

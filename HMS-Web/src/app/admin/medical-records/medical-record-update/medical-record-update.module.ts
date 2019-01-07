@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PatientUpdateRoutingModule } from './patient-update-routing.module';
-import { PatientUpdateComponent } from './patient-update.component';
+import { MedicalRecordUpdateRoutingModule } from './medical-record-update-routing.module';
+import { MedicalRecordComponent } from './medical-record-update.component';
 import { PageHeaderModule } from '../../../shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // tslint:disable-next-line:max-line-length
@@ -12,7 +12,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   imports: [
     CommonModule,
-    PatientUpdateRoutingModule,
+    MedicalRecordUpdateRoutingModule,
     PageHeaderModule,
     FormsModule,
     ReactiveFormsModule,
@@ -24,6 +24,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     MatNativeDateModule,
     MatRadioModule
   ],
-  declarations: [PatientUpdateComponent]
+  declarations: [MedicalRecordComponent]
 })
-export class PatientUpdateModule {}
+export class MedicalRecordUpdateModule {}

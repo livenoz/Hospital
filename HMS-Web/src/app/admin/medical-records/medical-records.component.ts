@@ -38,6 +38,7 @@ export class MedicalRecordsComponent implements OnInit {
   // Data list [Start]
   // tslint:disable-next-line:member-ordering
   public displayedColumns: string[] = [
+    'PatientFullName',
     'StartDate',
     'EndDate',
     'Reason',

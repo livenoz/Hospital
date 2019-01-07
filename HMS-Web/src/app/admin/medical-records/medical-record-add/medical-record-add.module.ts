@@ -1,18 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PatientAddRoutingModule } from './patient-add-routing.module';
-import { PatientAddComponent } from './patient-add.component';
+import { MedicalRecordAddRoutingModule } from './medical-record-add-routing.module';
+import { MedicalRecordAddComponent } from './medical-record-add.component';
 import { PageHeaderModule } from '../../../shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // tslint:disable-next-line:max-line-length
-import { MatAutocompleteModule, MatInputModule, MatPaginatorModule, MatDatepickerModule, MatNativeDateModule, MatRadioModule  } from '@angular/material';
+import { MatAutocompleteModule, MatInputModule, MatPaginatorModule, MatDatepickerModule, MatNativeDateModule, MatRadioModule, MatProgressSpinnerModule, MatSelectModule  } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { OptionsScrollDirective } from '../../../shared/autocomplete/options-scroll.directive';
 
 @NgModule({
   imports: [
     CommonModule,
-    PatientAddRoutingModule,
+    MedicalRecordAddRoutingModule,
     PageHeaderModule,
     FormsModule,
     ReactiveFormsModule,
@@ -22,8 +23,10 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NgbModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatRadioModule
+    MatRadioModule,
+    MatProgressSpinnerModule,
+    MatSelectModule
   ],
-  declarations: [PatientAddComponent]
+  declarations: [MedicalRecordAddComponent, OptionsScrollDirective]
 })
-export class PatientAddModule {}
+export class MedicalRecordAddModule {}

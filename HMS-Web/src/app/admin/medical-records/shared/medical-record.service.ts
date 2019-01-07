@@ -30,7 +30,7 @@ export class MedicalRecordService {
     }
 
     public add(patientProfileModel: MedicalRecordModel): Observable<number> {
-        return this.http.post<number>(this.medicalRecordUrl, patientProfileModel, { headers: this.headers});
+        return this.http.post<number>(this.medicalRecordUrl + '/post', patientProfileModel, { headers: this.headers});
     }
 
     public update(params: MedicalRecordModel): Observable<boolean> {
