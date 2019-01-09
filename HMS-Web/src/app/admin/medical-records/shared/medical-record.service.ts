@@ -22,7 +22,7 @@ export class MedicalRecordService {
 
     public get(params: any): Observable<PaginatedListModel<MedicalRecordModel>> {
         // tslint:disable-next-line:max-line-length
-        return this.http.get<PaginatedListModel<MedicalRecordModel>>(this.medicalRecordUrl + '/get', { headers: this.headers, params: params });
+        return this.http.get<PaginatedListModel<MedicalRecordModel>>(this.medicalRecordUrl, { headers: this.headers, params: params });
     }
 
     public getDetail(id: any): Observable<MedicalRecordModel> {
@@ -30,7 +30,7 @@ export class MedicalRecordService {
     }
 
     public add(patientProfileModel: MedicalRecordModel): Observable<number> {
-        return this.http.post<number>(this.medicalRecordUrl + '/post', patientProfileModel, { headers: this.headers});
+        return this.http.post<number>(this.medicalRecordUrl, patientProfileModel, { headers: this.headers});
     }
 
     public update(params: MedicalRecordModel): Observable<boolean> {

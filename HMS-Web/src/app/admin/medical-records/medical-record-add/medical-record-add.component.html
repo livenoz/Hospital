@@ -9,7 +9,7 @@
         <input type="text" [formControl]="patientControl" caria-label="String" matInput [matAutocomplete]="auto"
           [(ngModel)]="inputData.patientId" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.patientControl.invalid }"
           required>
-        <mat-autocomplete #auto="matAutocomplete">
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayPatient">
           <mat-option *ngFor="let patient of filteredPatient | async" [value]="patient.id">
             {{patient.code}} - {{patient.fullName}}
           </mat-option>
@@ -31,7 +31,7 @@
         <mat-datepicker #endDate></mat-datepicker>
       </mat-form-field>
       <mat-form-field class="col-3">
-        <mat-select  formControlName="statusIdControl" [(ngModel)]="inputData.statusId" required>
+        <mat-select formControlName="statusIdControl" [(ngModel)]="inputData.statusId" required>
           <mat-option *ngFor="let item of [{Id: 1, Name: 'Đang điều trị'}, {Id: 2, Name: 'Đã điều trị xong'}]" [value]="item.Id">
             {{item.Name}}
           </mat-option>

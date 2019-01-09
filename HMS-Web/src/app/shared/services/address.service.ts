@@ -66,26 +66,46 @@ export class AddressService {
     }
 
     public init() {
-        this.getAllCountries().subscribe(
-            (data: PaginatedListModel<CountryModel>) => {
-                this.countries = data.items;
-            },
-            (error: any) => { },
-            () => { }
-        );
-        this.getAllProvinces().subscribe(
-            (data: PaginatedListModel<ProvinceModel>) => {
-                this.provinces = data.items;
-            },
-            (error: any) => { },
-            () => { }
-        );
-        this.getAllDistricts().subscribe(
-            (data: PaginatedListModel<DistrictModel>) => {
-                this.districts = data.items;
-            },
-            (error: any) => { },
-            () => { }
-        );
+        const localCountries = localStorage.getItem('countries');
+        if (localCountries) {
+            this.countries = JSON.parse(localCountries);
+        } else {
+            this.getAllCountries().subscribe(
+                (data: PaginatedListModel<CountryModel>) => {
+                    localStorage.setItem('countries', JSON.stringify(data.items));
+                    this.countries = data.items;
+                },
+                (error: any) => { },
+                () => { }
+            );
+        }
+
+        const localProvinces = localStorage.getItem('provinces');
+        if (localProvinces) {
+            this.provinces = JSON.parse(localProvinces);
+        } else {
+            this.getAllCountries().subscribe(
+                (data: PaginatedListModel<ProvinceModel>) => {
+                    localStorage.setItem('provinces', JSON.stringify(data.items));
+                    this.provinces = data.items;
+                },
+                (error: any) => { },
+                () => { }
+            );
+        }
+
+        const localDistricts = localStorage.getItem('districts');
+        if (localDistricts) {
+            this.districts = JSON.parse(localDistricts);
+        } else {
+            this.getAllDistricts().subscribe(
+                (data: PaginatedListModel<DistrictModel>) => {
+                    localStorage.setItem('districts', JSON.stringify(data.items));
+                    this.districts = data.items;
+                },
+                (error: any) => { },
+                () => { }
+            );
+        }
     }
 }

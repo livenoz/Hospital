@@ -5,171 +5,107 @@ import { map, startWith } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalComponent } from '../../../shared/modules/modal/modal-component';
 import { Constants } from '../../../shared/constants/constants';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-import { AddressService } from '../../../shared/services/address.service';
-import { CountryModel } from '../../../shared/models/address/country.model';
-import { ProvinceModel } from '../../../shared/models/address/province.model';
-import { DistrictModel } from '../../../shared/models/address/district.model';
-import { PatientModel } from '../../patients/shared/patient.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PatientService } from '../../patients/shared/patient.service';
+import { PatientModel } from '../../patients/shared/patient.model';
+import { Observable } from 'rxjs';
+import { PaginatedListModel } from '../../../shared/models/paginated-list.model';
+import { MedicalRecordModel } from '../shared/medical-record.model';
+import { MedicalRecordService } from '../shared/medical-record.service';
 
 @Component({
   selector: 'app-medical-record-update',
   templateUrl: './medical-record-update.component.html',
   styleUrls: ['./medical-record-update.component.scss']
 })
-export class MedicalRecordComponent implements OnInit {
+export class MedicalRecordUpdateComponent implements OnInit {
   myForm: FormGroup;
   submitted = false;
-  patientControl = 'Cập nhật bệnh nhân';
+  medicalRecordControl = 'Cập nhật bệnh án';
   countryControl: FormControl;
   provinceControl: FormControl;
   districtControl: FormControl;
   nativeCountryControl: FormControl;
   nativeProvinceControl: FormControl;
   nativeDistrictControl: FormControl;
-  filteredCountries: any;
-  filteredProvinces: any;
-  filteredDistricts: any;
-  filteredNativeCountries: any;
-  filteredNativeProvinces: any;
-  filteredNativeDistricts: any;
-  patientRouteId: number;
-  public inputData: PatientModel;
-  countries: CountryModel[];
-  provinces: ProvinceModel[];
-  districts: DistrictModel[];
+  patientControl: FormControl;
+  startDateControl: FormControl;
+  reasonControl: FormControl;
+  statusIdControl: FormControl;
+  filteredPatient: Observable<PatientModel[]>;
+  patients: PatientModel[];
+  medicalRecordRouteId: number;
+  public inputData: MedicalRecordModel;
+  isLoadingPatient = false;
 
   constructor(
     private spinner: NgxSpinnerService,
     private modal: NgbModal,
     private patientService: PatientService,
-    private addressService: AddressService,
+    private medicalRecordService: MedicalRecordService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router) {
 
-    this.inputData = new PatientModel();
-    this.inputData.sex = 1;
-    this.countryControl = new FormControl();
-    this.provinceControl = new FormControl();
-    this.districtControl = new FormControl();
-    this.nativeCountryControl = new FormControl();
-    this.nativeProvinceControl = new FormControl();
-    this.nativeDistrictControl = new FormControl();
+    this.inputData = new MedicalRecordModel();
+    this.patientControl = new FormControl();
+    this.startDateControl = new FormControl();
+    this.reasonControl = new FormControl();
+    this.statusIdControl = new FormControl();
   }
 
   ngOnInit() {
     if (this.route.params) {
-      this.patientRouteId = this.route.params['value'].id;
+      this.medicalRecordRouteId = this.route.params['value'].id;
     }
     this.dropdownConfig(() => this.spinner.hide());
     this.myForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      sex: ['', Validators.required],
-      phone: ['', Validators.required],
-      birthday: ['', Validators.required],
-      address: ['', Validators.required],
-      countryControl: [0, Validators.required],
-      provinceControl: [0, Validators.required],
-      districtControl: [0, Validators.required],
-      nativeAddress: ['', Validators.required],
-      nativeCountryControl: [0, Validators.required],
-      nativeProvinceControl: [0, Validators.required],
-      nativeDistrictControl: [0, Validators.required],
+      patientControl: [0, Validators.required],
+      startDateControl: ['', Validators.required],
+      reasonControl: ['', Validators.required],
+      statusIdControl: [0, Validators.required],
     });
   }
 
   private dropdownConfig(callback) {
-    this.initAddress();
-    this.getDetail(this.patientRouteId);
+    this.getPatients('')
+    .subscribe((data: PaginatedListModel<PatientModel>) => {
+      this.patients = data.items;
+      this.filteredPatient = this.patientControl.valueChanges.pipe(
+        startWith(''),
+        map(value => this.filterPatient(value)));
+      this.medicalRecordService.getDetail(this.medicalRecordRouteId)
+      .subscribe((record: MedicalRecordModel) => {
+        this.inputData = record;
+      });
+    });
     callback();
   }
 
-  private initAddress() {
-    this.countries = this.addressService.countries;
-    this.filteredCountries = this.countryControl.valueChanges.pipe(
-      startWith(null),
-      map(value => this.filterCountry(value))
-    );
-    this.filteredNativeCountries = this.nativeCountryControl.valueChanges.pipe(
-      startWith(null),
-      map(value => this.filterCountry(value))
-    );
-    this.provinces = this.addressService.provinces;
-    this.filteredProvinces = this.provinceControl.valueChanges.pipe(
-      startWith(null),
-      map(value => this.filterProvince(value, this.inputData.countryId))
-    );
-    this.filteredNativeProvinces = this.nativeProvinceControl.valueChanges.pipe(
-      startWith(null),
-      map(value => this.filterProvince(value, this.inputData.nativeCountryId))
-    );
-    this.districts = this.addressService.districts;
-    this.filteredDistricts = this.districtControl.valueChanges.pipe(
-      startWith(null),
-      map(value => this.filterDistrict(value, this.inputData.provinceId))
-    );
-    this.filteredNativeDistricts = this.nativeDistrictControl.valueChanges.pipe(
-      startWith(null),
-      map(value => this.filterDistrict(value, this.inputData.nativeProvinceId))
-    );
-  }
-
-  public displayCountry = (countryId: number): string => {
-    const country = this.countries ? this.countries.find(c => c.id === countryId) : null;
-    return country ? country.name : '';
-  }
-
-  public displayProvince = (provinceId: number): string => {
-    const province = this.provinces ? this.provinces.find(c => c.id === provinceId) : null;
-    return province ? province.name : '';
-  }
-
-  public displayDistrict = (districtId: number): string => {
-    const district = this.districts ? this.districts.find(c => c.id === districtId) : null;
-    return district ? district.name : '';
-  }
-
-  private filterCountry(value: string) {
+  private filterPatient(value: string) {
     const valueFilter = (value || '').toString();
-    return this.countries.filter(c => this.checkMatchStringFilter(c.name, valueFilter));
+    return this.patients.filter(c => this.checkMatchStringFilter(c.fullName, valueFilter));
   }
 
-  private filterProvince(value: string, countryId: number) {
-    const valueFilter = (value || '').toString();
-    return this.provinces.filter(c => c.countryId === countryId && this.checkMatchStringFilter(c.name, valueFilter));
+  public getPatients = (value: string): Observable<PaginatedListModel<PatientModel>> => {
+    const params = {
+      pageIndex: 0,
+      pageSize: 2000,
+      code: 'name',
+      value: typeof(value) === 'string' && value ? value.trim() : '',
+    };
+    return this.patientService.get(params);
   }
 
-  private filterDistrict(value: string, provinceId: number) {
-    const valueFilter = (value || '').toString();
-    return this.districts.filter(c => c.provinceId === provinceId && this.checkMatchStringFilter(c.name, valueFilter));
-  }
-
-  // Search AutoComplete
-  private filter(value: string, options): string[] {
-    return value ? options.filter(s => s.toLowerCase().indexOf(value.toLowerCase()) === 0)
-      : options;
-  }
-
-  private getDetail(id: number) {
-    this.patientService.getDetail(id).subscribe(
-      (data: PatientModel) => {
-        this.inputData = data;
-      },
-      (error: any) => {
-        console.log(error);
-      },
-      () => {
-        this.spinner.hide();
-      }
-    );
+  public displayPatient = (patientId: number): string => {
+    const patient = this.patients ? this.patients.find(c => c.id === patientId) : null;
+    return patient ? patient.fullName : '';
   }
 
   public onSubmit(): void {
 
     if (this.myForm.invalid) {
+      this.submitted = true;
       return;
     }
 
@@ -177,7 +113,7 @@ export class MedicalRecordComponent implements OnInit {
   }
 
   private checkMatchStringFilter = (source: string, searchString: string): boolean => {
-    return this.removeUnicode(source.toLowerCase()).indexOf(this.removeUnicode(searchString.toLowerCase())) === 0;
+    return this.removeUnicode(source.toLowerCase()).indexOf(this.removeUnicode(searchString.toLowerCase())) >= 0;
   }
 
   private removeUnicode(value: string) {
@@ -199,29 +135,29 @@ export class MedicalRecordComponent implements OnInit {
   }
 
   private onUpdate(): void {
-    this.patientService.update(this.inputData).subscribe(
+    this.medicalRecordService.update(this.inputData).subscribe(
       (data: boolean) => {
         this.spinner.hide();
         if (data) {
           const modalRef = this.modal.open(NgbdModalComponent);
           modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
-          modalRef.componentInstance.content = Constants.MODAL.UPDATE_SUCCESS;
+          modalRef.componentInstance.content = Constants.MODAL.ADD_SUCCESS;
           modalRef.componentInstance.isDisplayCancel = false;
           modalRef.result.then(_result => {
-            this.router.navigate(['/patients']);
+            this.router.navigate(['/medical-records']);
           });
         } else {
           const modalRef = this.modal.open(NgbdModalComponent);
           modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
-          modalRef.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+          modalRef.componentInstance.content = Constants.MODAL.ADD_FAIL;
           modalRef.componentInstance.isDisplayCancel = false;
         }
       },
-      (err) => {
+      () => {
         this.spinner.hide();
         const modalRef = this.modal.open(NgbdModalComponent);
         modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
-        modalRef.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+        modalRef.componentInstance.content = Constants.MODAL.ADD_FAIL;
         modalRef.componentInstance.isDisplayCancel = false;
       },
       () => {

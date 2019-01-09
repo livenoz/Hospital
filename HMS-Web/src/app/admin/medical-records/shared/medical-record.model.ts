@@ -1,5 +1,6 @@
 export class MedicalRecordModel {
     id: number;
+    code: string;
     patientId: number;
     patientLastName: string;
     patientFirstName: string;

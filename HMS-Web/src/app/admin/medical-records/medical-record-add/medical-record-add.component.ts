@@ -1,18 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { FormControl, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { map, startWith, debounceTime, switchMap } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalComponent } from '../../../shared/modules/modal/modal-component';
 import { Constants } from '../../../shared/constants/constants';
-import { ActivatedRoute, Route, Router } from '@angular/router';
-import { AddressService } from '../../../shared/services/address.service';
-import { CountryModel } from '../../../shared/models/address/country.model';
-import { ProvinceModel } from '../../../shared/models/address/province.model';
-import { DistrictModel } from '../../../shared/models/address/district.model';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PatientService } from '../../patients/shared/patient.service';
 import { PatientModel } from '../../patients/shared/patient.model';
-import { Subject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { PaginatedListModel } from '../../../shared/models/paginated-list.model';
 import { MedicalRecordModel } from '../shared/medical-record.model';
 import { MedicalRecordService } from '../shared/medical-record.service';
@@ -41,7 +37,6 @@ export class MedicalRecordAddComponent implements OnInit {
   patientRouteId: number;
   public inputData: MedicalRecordModel;
   isLoadingPatient = false;
-  private nextPage$ = new Subject();
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -98,6 +93,11 @@ export class MedicalRecordAddComponent implements OnInit {
     return this.patientService.get(params);
   }
 
+  public displayPatient = (patientId: number): string => {
+    const patient = this.patients ? this.patients.find(c => c.id === patientId) : null;
+    return patient ? patient.fullName : '';
+  }
+
   public onSubmit(): void {
 
     if (this.myForm.invalid) {
@@ -149,7 +149,7 @@ export class MedicalRecordAddComponent implements OnInit {
           modalRef.componentInstance.isDisplayCancel = false;
         }
       },
-      (err) => {
+      () => {
         this.spinner.hide();
         const modalRef = this.modal.open(NgbdModalComponent);
         modalRef.componentInstance.header = Constants.MODAL.INFORMATION;

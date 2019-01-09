@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { MedicalRecordUpdateRoutingModule } from './medical-record-update-routing.module';
-import { MedicalRecordComponent } from './medical-record-update.component';
+import { MedicalRecordUpdateComponent } from './medical-record-update.component';
 import { PageHeaderModule } from '../../../shared';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 // tslint:disable-next-line:max-line-length
-import { MatAutocompleteModule, MatInputModule, MatPaginatorModule, MatDatepickerModule, MatNativeDateModule, MatRadioModule  } from '@angular/material';
+import { MatAutocompleteModule, MatInputModule, MatPaginatorModule, MatDatepickerModule, MatNativeDateModule, MatRadioModule, MatSelectModule  } from '@angular/material';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -22,8 +22,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     NgbModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatRadioModule
+    MatRadioModule,
+    MatSelectModule
   ],
-  declarations: [MedicalRecordComponent]
+  declarations: [MedicalRecordUpdateComponent]
 })
 export class MedicalRecordUpdateModule {}

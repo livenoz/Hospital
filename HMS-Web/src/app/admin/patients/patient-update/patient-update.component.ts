@@ -88,6 +88,7 @@ export class PatientUpdateComponent implements OnInit {
   }
 
   private initAddress() {
+    this.addressService.init();
     this.countries = this.addressService.countries;
     this.filteredCountries = this.countryControl.valueChanges.pipe(
       startWith(null),
