@@ -32,7 +32,11 @@ namespace HMS.Business
 
         public async Task<MedicalRecordDto> Add(MedicalRecordDto model)
         {
+            model.Code = string.Empty;
             var entity = _medicalRecordRepository.Add(_mapper.Map<TMedicalRecord>(model));
+            await _medicalRecordRepository.SaveChangeAsync();
+            var maxId = await _medicalRecordRepository.Repo.MaxAsync(c => c.Id);
+            entity.Code = $"BN-{(maxId + 1):D10}";
             await _medicalRecordRepository.SaveChangeAsync();
             model.Id = entity.Id;
             return model;
@@ -68,6 +72,7 @@ namespace HMS.Business
                           select new MedicalRecordDto
                           {
                               Id = medical.Id,
+                              Code = medical.Code,
                               PatientId = medical.PatientId,
                               StartDate = medical.StartDate,
                               EndDate = medical.EndDate,
@@ -94,6 +99,7 @@ namespace HMS.Business
                           select new MedicalRecordDto
                           {
                               Id = medical.Id,
+                              Code = medical.Code,
                               PatientId = medical.PatientId,
                               PatientFirstName = patient.FirstName,
                               PatientLastName = patient.LastName,

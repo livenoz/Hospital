@@ -15,9 +15,6 @@ namespace HMS.Entities.Models
         {
         }
 
-        public virtual DbSet<Country> Country { get; set; }
-        public virtual DbSet<District> District { get; set; }
-        public virtual DbSet<Province> Province { get; set; }
         public virtual DbSet<TAccessRight> TAccessRight { get; set; }
         public virtual DbSet<TBranch> TBranch { get; set; }
         public virtual DbSet<TBranchType> TBranchType { get; set; }
@@ -46,85 +43,16 @@ namespace HMS.Entities.Models
         public virtual DbSet<TUnit> TUnit { get; set; }
         public virtual DbSet<TUser> TUser { get; set; }
         public virtual DbSet<TUserEmployee> TUserEmployee { get; set; }
-        public virtual DbSet<Ward> Ward { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer("Server=103.7.43.28;Database=Healthcare;User Id= healthcare;Password=care@123");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Country>(entity =>
-            {
-                entity.Property(e => e.Capital).HasMaxLength(100);
-
-                entity.Property(e => e.CommonName).HasMaxLength(100);
-
-                entity.Property(e => e.CountryCode)
-                    .IsRequired()
-                    .HasMaxLength(100);
-
-                entity.Property(e => e.CountryCode3).HasMaxLength(100);
-
-                entity.Property(e => e.CountryNumber).HasMaxLength(100);
-
-                entity.Property(e => e.CountrySubType).HasMaxLength(100);
-
-                entity.Property(e => e.CountryType).HasMaxLength(100);
-
-                entity.Property(e => e.CurrencyCode).HasMaxLength(100);
-
-                entity.Property(e => e.CurrencyName).HasMaxLength(100);
-
-                entity.Property(e => e.Flags).HasMaxLength(50);
-
-                entity.Property(e => e.FormalName).HasMaxLength(100);
-
-                entity.Property(e => e.InternetCountryCode).HasMaxLength(100);
-
-                entity.Property(e => e.Sovereignty).HasMaxLength(100);
-
-                entity.Property(e => e.TelephoneCode).HasMaxLength(100);
-            });
-
-            modelBuilder.Entity<District>(entity =>
-            {
-                entity.Property(e => e.LatiLongTude).HasMaxLength(50);
-
-                entity.Property(e => e.Name).HasMaxLength(250);
-
-                entity.Property(e => e.Type).HasMaxLength(50);
-
-                entity.HasOne(d => d.Province)
-                    .WithMany(p => p.District)
-                    .HasForeignKey(d => d.ProvinceId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_District_Province");
-            });
-
-            modelBuilder.Entity<Province>(entity =>
-            {
-                entity.Property(e => e.CountryCode).HasMaxLength(2);
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(250);
-
-                entity.Property(e => e.Type).HasMaxLength(20);
-
-                entity.Property(e => e.ZipCode).HasMaxLength(20);
-
-                entity.HasOne(d => d.Country)
-                    .WithMany(p => p.Province)
-                    .HasForeignKey(d => d.CountryId)
-                    .HasConstraintName("FK_Province_Country");
-            });
-
             modelBuilder.Entity<TAccessRight>(entity =>
             {
                 entity.HasKey(e => new { e.RoleId, e.RightId });
@@ -362,8 +290,6 @@ namespace HMS.Entities.Models
 
             modelBuilder.Entity<TEmployee>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
                 entity.Property(e => e.Address)
                     .IsRequired()
                     .HasMaxLength(256);
@@ -515,6 +441,11 @@ namespace HMS.Entities.Models
 
             modelBuilder.Entity<TMedicalRecord>(entity =>
             {
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasMaxLength(16)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
@@ -771,15 +702,22 @@ namespace HMS.Entities.Models
 
             modelBuilder.Entity<TTreatment>(entity =>
             {
-                entity.Property(e => e.Content).HasMaxLength(1000);
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasMaxLength(16)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Content).HasMaxLength(1024);
 
                 entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
                 entity.Property(e => e.EndDate).HasColumnType("datetime");
 
-                entity.Property(e => e.Note).HasMaxLength(1000);
+                entity.Property(e => e.Note).HasMaxLength(1024);
 
                 entity.Property(e => e.StartDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Title).HasMaxLength(256);
 
                 entity.Property(e => e.UpdatedTime).HasColumnType("datetime");
 
@@ -868,29 +806,6 @@ namespace HMS.Entities.Models
             modelBuilder.Entity<TUserEmployee>(entity =>
             {
                 entity.HasKey(e => new { e.UserId, e.EmployeeId });
-            });
-
-            modelBuilder.Entity<Ward>(entity =>
-            {
-                entity.Property(e => e.Id).ValueGeneratedNever();
-
-                entity.Property(e => e.IsPublished).HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.LatiLongTude).HasMaxLength(50);
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(50);
-
-                entity.Property(e => e.SortOrder).HasDefaultValueSql("((1))");
-
-                entity.Property(e => e.Type).HasMaxLength(50);
-
-                entity.HasOne(d => d.District)
-                    .WithMany(p => p.Ward)
-                    .HasForeignKey(d => d.DistrictID)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Ward_District");
             });
         }
     }

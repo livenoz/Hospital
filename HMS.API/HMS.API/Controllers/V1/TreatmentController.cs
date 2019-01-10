@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HMS.API.Controllers.V1
 {
-    [Route("api/v1/[controller]/[action]")]
+    [Route("api/v1/[controller]")]
     [BearerAuthorize]
     [ApiController]
     public class TreatmentController : ControllerBase
@@ -27,6 +27,15 @@ namespace HMS.API.Controllers.V1
         {
             _authenticationDto = httpContextAccessor.HttpContext.User.ToAuthenticationDto();
             _treatmentBusiness = treatmentBusiness;
+        }
+
+
+        // GET: api/Treatment
+        [HttpGet]
+        public Task<IPaginatedList<TreatmentDto>> Get(
+            int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
+        {
+            return _treatmentBusiness.GetAll(pageIndex, pageSize);
         }
 
         // GET: api/Treatment/5
@@ -43,7 +52,7 @@ namespace HMS.API.Controllers.V1
             var result = 0;
             if (ModelState.IsValid)
             {
-                var dateTimeUtcNow = DateTime.UtcNow;
+                var dateTimeUtcNow = DateTime.Now;
                 model.CreatedBy = _authenticationDto.UserId;
                 model.CreatedTime = dateTimeUtcNow;
                 model.UpdatedBy = _authenticationDto.UserId;
@@ -61,7 +70,7 @@ namespace HMS.API.Controllers.V1
             var result = false;
             if (ModelState.IsValid)
             {
-                var dateTimeUtcNow = DateTime.UtcNow;
+                var dateTimeUtcNow = DateTime.Now;
                 model.UpdatedBy = _authenticationDto.UserId;
                 model.UpdatedTime = dateTimeUtcNow;
                 result = await _treatmentBusiness.Update(model);
@@ -76,14 +85,16 @@ namespace HMS.API.Controllers.V1
             throw new NotImplementedException();
         }
 
-        public Task<IPaginatedList<TreatmentDto>> GetByMedicalRecordId(int medicalRecordId, 
-            int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
+        [Route("api/v1/[controller]/GetByMedicalRecordId")]
+        public Task<IPaginatedList<TreatmentDto>> GetByMedicalRecordId(int medicalRecordId,
+                int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {
             return _treatmentBusiness.GetByMedicalRecordId(medicalRecordId, pageIndex, pageSize);
         }
 
+        [Route("api/v1/[controller]/GetByPatientId")]
         public Task<IPaginatedList<TreatmentDto>> GetByPatientId(int patientId,
-            int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
+                int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {
             return _treatmentBusiness.GetByPatientId(patientId, pageIndex, pageSize);
         }

@@ -12,12 +12,14 @@ namespace HMS.Entities.Models
         }
 
         public int Id { get; set; }
+        public string Code { get; set; }
         public int PatientId { get; set; }
         public int MedicalRecordId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int? DoctorId { get; set; }
         public int? NurseId { get; set; }
+        public string Title { get; set; }
         public string Content { get; set; }
         public string Note { get; set; }
         public DateTime CreatedTime { get; set; }

@@ -85,7 +85,7 @@ namespace HMS.Business
                     {
                         UserId = user.Id,
                         Username = user.Username,
-                        CreatedTime = DateTime.UtcNow
+                        CreatedTime = DateTime.Now
                     };
                     var accessToken = _protector.Protect(JsonConvert.SerializeObject(authentication));
                     user.AccessToken = accessToken;

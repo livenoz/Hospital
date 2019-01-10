@@ -5,11 +5,15 @@ namespace HMS.Common.Dtos.Patient
     public class TreatmentDto
     {
         public int Id { get; set; }
+        public string Code { get; set; }
+        public int PatientId { get; set; }
+        public string MedicalRecordCode { get; set; }
         public int MedicalRecordId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public int? DoctorId { get; set; }
         public int? NurseId { get; set; }
+        public string Title { get; set; }
         public string Content { get; set; }
         public string Note { get; set; }
         public DateTime CreatedTime { get; set; }
@@ -22,5 +26,7 @@ namespace HMS.Common.Dtos.Patient
         public string DoctorLastName { get; set; }
         public string NurseFirstName { get; set; }
         public string NurseLastName { get; set; }
+        public string PatientFirstName { get; set; }
+        public string PatientLastName { get; set; }
     }
 }

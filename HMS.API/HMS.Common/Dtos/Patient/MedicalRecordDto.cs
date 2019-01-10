@@ -7,6 +7,7 @@ namespace HMS.Common.Dtos.Patient
     public class MedicalRecordDto
     {
         public int Id { get; set; }
+        public string Code { get; set; }
         public int PatientId { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
@@ -21,5 +22,6 @@ namespace HMS.Common.Dtos.Patient
         public string StatusName { get; set; }
         public string PatientFirstName { get; set; }
         public string PatientLastName { get; set; }
+        public string PatientFullName => $"{PatientFirstName} {PatientLastName}";
     }
 }

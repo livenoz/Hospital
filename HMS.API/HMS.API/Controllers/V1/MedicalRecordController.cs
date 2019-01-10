@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HMS.API.Controllers.V1
 {
-    [Route("api/v1/[controller]/[action]")]
+    [Route("api/v1/[controller]")]
     [BearerAuthorize]
     [ApiController]
     public class MedicalRecordController : ControllerBase
@@ -49,11 +49,12 @@ namespace HMS.API.Controllers.V1
             var result = 0;
             if (ModelState.IsValid)
             {
-                var dateTimeUtcNow = DateTime.UtcNow;
+                var dateTimeUtcNow = DateTime.Now;
                 model.CreatedBy = _authenticationDto.UserId;
                 model.CreatedTime = dateTimeUtcNow;
                 model.UpdatedBy = _authenticationDto.UserId;
                 model.UpdatedTime = dateTimeUtcNow;
+                model.IsActived = true;
                 var modelInsert = await _medicalRecordBusiness.Add(model);
                 result = modelInsert.Id;
             }
@@ -67,7 +68,7 @@ namespace HMS.API.Controllers.V1
             var result = false;
             if (ModelState.IsValid)
             {
-                var dateTimeUtcNow = DateTime.UtcNow;
+                var dateTimeUtcNow = DateTime.Now;
                 model.UpdatedBy = _authenticationDto.UserId;
                 model.UpdatedTime = dateTimeUtcNow;
                 result = await _medicalRecordBusiness.Update(model);
@@ -82,6 +83,7 @@ namespace HMS.API.Controllers.V1
             throw new NotImplementedException();
         }
 
+        [Route("api/v1/[controller]/GetByPatientId")]
         public Task<IPaginatedList<MedicalRecordDto>> GetByPatientId(int patientId, 
             int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {

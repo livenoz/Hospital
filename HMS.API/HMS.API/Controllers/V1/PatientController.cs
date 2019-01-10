@@ -59,7 +59,7 @@ namespace HMS.API.Controllers.V1
             var result = 0;
             if (ModelState.IsValid)
             {
-                var dateTimeUtcNow = DateTime.UtcNow;
+                var dateTimeUtcNow = DateTime.Now;
                 model.CreatedBy = _authenticationDto.UserId;
                 model.CreatedTime = dateTimeUtcNow;
                 model.UpdatedBy = _authenticationDto.UserId;
@@ -78,7 +78,7 @@ namespace HMS.API.Controllers.V1
             var result = false;
             if (ModelState.IsValid)
             {
-                var dateTimeUtcNow = DateTime.UtcNow;
+                var dateTimeUtcNow = DateTime.Now;
                 model.UpdatedBy = _authenticationDto.UserId;
                 model.UpdatedTime = dateTimeUtcNow;
                 result = await _patientBusiness.Update(model);
