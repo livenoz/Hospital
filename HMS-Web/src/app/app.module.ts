@@ -12,6 +12,7 @@ import { UserService } from './shared/services/user.service';
 import { PatientService } from './admin/patients/shared/patient.service';
 import { AddressService } from './shared/services/address.service';
 import { MedicalRecordService } from './admin/medical-records/shared/medical-record.service';
+import { TreatmentService } from './admin/treatments/shared/treatment.service';
 
 
 @NgModule({
@@ -24,7 +25,7 @@ import { MedicalRecordService } from './admin/medical-records/shared/medical-rec
     AppRoutingModule,
     NgxSpinnerModule
   ],
-  providers: [AuthGuard, UserService, PatientService, AddressService, MedicalRecordService],
+  providers: [AuthGuard, UserService, PatientService, AddressService, MedicalRecordService, TreatmentService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

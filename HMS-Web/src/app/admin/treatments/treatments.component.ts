@@ -9,10 +9,9 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalComponent } from '../../shared/modules/modal/modal-component';
 import { Constants } from '../../shared/constants/constants';
 import { PaginatedListModel } from '../../shared/models/paginated-list.model';
-import { AddressService } from '../../shared/services/address.service';
-import { PatientService } from '../patients/shared/patient.service';
 import { PatientFilter } from '../patients/shared/patient-filter.model';
-import { PatientModel } from '../patients/shared/patient.model';
+import { TreatmentModel } from './shared/treatment.model';
+import { TreatmentService } from './shared/treatment.service';
 
 @Component({
   selector: 'app-treatments',
@@ -23,8 +22,7 @@ export class TreatmentsComponent implements OnInit {
   constructor(
     private spinner: NgxSpinnerService,
     private modal: NgbModal,
-    private patientService: PatientService,
-    private addressService: AddressService) {
+    private treatmentService: TreatmentService) {
   }
 
   // icon
@@ -32,7 +30,6 @@ export class TreatmentsComponent implements OnInit {
   pageEvent: PageEvent;
   // Search AutoComplete
   public searchControl = new FormControl();
-  public filteredOptions: Observable<string[]>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   public options: string[] = [];
   public filter: PatientFilter = new PatientFilter();
@@ -42,17 +39,18 @@ export class TreatmentsComponent implements OnInit {
   public displayedColumns: string[] = [
     'Code',
     'FullName',
-    'IdentifyCardNo',
-    'Phone',
-    'Address',
-    'Sex',
+    'MedicalRecordCode',
+    'Title',
+    'Content',
+    'Doctor',
+    'Nurse',
+    'Note',
     'control'
   ];
   public test: number;
-  public dataSource = new MatTableDataSource<PatientModel>();
+  public dataSource = new MatTableDataSource<TreatmentModel>();
 
   public ngOnInit() {
-    this.addressService.init();
     this.paginator.pageIndex = 0;
     this.paginator.pageSize = 10;
     // this.dataSource.paginator = this.paginator;
@@ -63,17 +61,13 @@ export class TreatmentsComponent implements OnInit {
 
   public searchConfig() {
     this.spinner.show();
-    this.filteredOptions = this.searchControl.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value))
-    );
     const params = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
       code: this.filter.code,
       value: this.filter.value,
     };
-    this.patientService.get(params).subscribe(
+    this.treatmentService.get(params).subscribe(
       this.onGetNext,
       this.onGetError,
       this.onGetComplete
@@ -89,17 +83,9 @@ export class TreatmentsComponent implements OnInit {
     this.spinner.hide();
   }
 
-  private onGetNext = (data: PaginatedListModel<PatientModel>) => {
-    this.options = data.items.map(x => x.fullName);
+  private onGetNext = (data: PaginatedListModel<TreatmentModel>) => {
     this.dataSource.data = data.items;
     this.paginator.length = data.totalItems;
-  }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.options.filter(option =>
-      option.toLowerCase().includes(filterValue)
-    );
   }
 
   public onPageChange(event: PageEvent) {

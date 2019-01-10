@@ -1,0 +1,52 @@
+<app-page-header [heading]="medicalRecordControl" [icon]="'fa-edit'"></app-page-header>
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <fieldset class="fieldset-border">
+    <legend class="legend-border">Thông tin bệnh án</legend>
+    <div class="form-group row"></div>
+    <div class="form-group row">
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Bệnh nhân</mat-label>
+        <input type="text" [formControl]="patientControl" caria-label="String" matInput [matAutocomplete]="auto"
+          [(ngModel)]="inputData.patientId" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.patientControl.invalid }"
+          required>
+        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayPatient">
+          <mat-option *ngFor="let patient of filteredPatient | async" [value]="patient.id">
+            {{patient.code}} - {{patient.fullName}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Ngày bắt đầu</mat-label>
+        <input matInput [matDatepicker]="startDate" [(ngModel)]="inputData.startDate" formControlName="startDateControl"
+          [ngClass]="{ 'is-invalid': myForm.submitted && myForm.startDate.invalid }" required>
+        <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+        <mat-datepicker #startDate></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Ngày kết thúc</mat-label>
+        <input matInput [matDatepicker]="endDate" [(ngModel)]="inputData.endDate" [ngModelOptions]="{standalone:true}">
+        <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+        <mat-datepicker #endDate></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="col-3">
+        <mat-select formControlName="statusIdControl" [(ngModel)]="inputData.statusId" required>
+          <mat-option *ngFor="let item of [{Id: 1, Name: 'Đang điều trị'}, {Id: 2, Name: 'Đã điều trị xong'}]" [value]="item.Id">
+            {{item.Name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="form-group row">
+      <mat-form-field class="col-12">
+        <mat-label class="text-right font-weight-bold">Lý do</mat-label>
+        <textarea matInput [(ngModel)]="inputData.reason" formControlName="reasonControl" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.reason.invalid }"
+          required></textarea>
+      </mat-form-field>
+    </div>
+  </fieldset>
+  <button type="button" class="btn float-right" [routerLink]="['/patients']" [routerLinkActive]="['router-link-active']">Quay
+    lại</button>
+  <button type="submit" class="btn btn-primary float-right mr-2">Lưu</button>
+</form>

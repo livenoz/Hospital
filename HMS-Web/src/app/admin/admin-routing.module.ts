@@ -18,6 +18,7 @@ const routes: Routes = [
             // tslint:disable-next-line:max-line-length
             { path: 'medical-record-update/:id', loadChildren: './medical-records/medical-record-update/medical-record-update.module#MedicalRecordUpdateModule' },
             { path: 'treatments', loadChildren: './treatments/treatments.module#TreatmentModule' },
+            { path: 'treatment-add', loadChildren: './treatments/treatment-add/treatment-add.module#TreatmentAddModule' },
             { path: 'treatments/:patientId', loadChildren: './treatments/treatments.module#TreatmentModule' },
         ]
     }

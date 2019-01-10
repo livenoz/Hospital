@@ -34,4 +34,8 @@ export class Constants {
   public static API_MEDICAL_RECORDS = class {
     public static readonly medicalRecord = '/medicalRecord';
   };
+
+  public static API_TREATMENT = class {
+    public static readonly treatment = '/treatment';
+  };
 }

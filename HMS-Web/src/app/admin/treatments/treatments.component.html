@@ -1,27 +1,11 @@
 <app-page-header [heading]="'Điều trị'" [icon]="'fa-table'"></app-page-header>
 <div class="row">
     <div class="col col-xl-9 col-lg-9 form-group">
-        <button type="button" class="btn btn-primary" [routerLink]="['/patient-add']" [routerLinkActive]="['router-link-active']">Thêm
+        <button type="button" class="btn btn-primary" [routerLink]="['/treatment-add']" [routerLinkActive]="['router-link-active']">Thêm
             mới</button>
         <!-- <button type="button" class="btn btn-sm btn-success mr-1" (click)="onUpdate()" [disabled]="this.selection.selected.length !== 1">Cập
             nhật</button> -->
         <!-- <button type="button" class="btn btn-sm btn-danger mr-1" (click)="onDelete()" [disabled]="this.selection.selected.length === 0">Xóa</button> -->
-    </div>
-    <div class="col col-xl-1 col-lg-1 form-group">
-        <mat-form-field>
-            <select matNativeControl [(ngModel)]="filter.code">
-                <option value="code">Mã BN</option>
-                <option value="name">Họ tên</option>
-                <option value="phone">Điện thoại</option>
-                <option value="identifyCardNo">CMND</option>
-            </select>
-        </mat-form-field>
-    </div>
-    <div class="col col-xl-2 col-lg-2 form-group">
-        <mat-form-field class="col-3">
-            <mat-label class="text-right font-weight-bold">Tìm kiếm</mat-label>
-            <input matInput [(ngModel)]="filter.value" (keyup.enter)="searchConfig()">
-        </mat-form-field>
     </div>
 </div>
 <div class="row">
@@ -30,33 +14,43 @@
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
                 <!-- Patient Code Column -->
                 <ng-container matColumnDef="Code">
-                    <th mat-header-cell *matHeaderCellDef> Mã bệnh nhân</th>
+                    <th mat-header-cell *matHeaderCellDef> Mã điều trị</th>
                     <td mat-cell *matCellDef="let element"> {{element.code}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="FullName">
-                    <th mat-header-cell *matHeaderCellDef> Họ và Tên </th>
-                    <td mat-cell *matCellDef="let element"> {{element.fullName}} </td>
+                    <th mat-header-cell *matHeaderCellDef> Bệnh nhân </th>
+                    <td mat-cell *matCellDef="let element"> {{element.patientFirstName}} {{element.patientLastName}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="IdentifyCardNo">
-                    <th mat-header-cell *matHeaderCellDef> CMND </th>
-                    <td mat-cell *matCellDef="let element"> {{element.identifyCardNo}} </td>
+                <ng-container matColumnDef="MedicalRecordCode">
+                    <th mat-header-cell *matHeaderCellDef> Mã bệnh án </th>
+                    <td mat-cell *matCellDef="let element"> {{element.medicalRecordCode}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="Phone">
-                    <th mat-header-cell *matHeaderCellDef> Điện thoại </th>
-                    <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
+                <ng-container matColumnDef="Title">
+                    <th mat-header-cell *matHeaderCellDef> Khám</th>
+                    <td mat-cell *matCellDef="let element"> {{element.title}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="Address">
-                    <th mat-header-cell *matHeaderCellDef> Địa chỉ </th>
-                    <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                <ng-container matColumnDef="Content">
+                    <th mat-header-cell *matHeaderCellDef> Kết quả </th>
+                    <td mat-cell *matCellDef="let element"> {{element.content}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="Sex">
-                    <th mat-header-cell *matHeaderCellDef> Giới tính </th>
-                    <td mat-cell *matCellDef="let element">{{ element.sex == 1 ? 'Nam' : 'Nữ' }}</td>
+                <ng-container matColumnDef="Doctor">
+                    <th mat-header-cell *matHeaderCellDef> Bác sĩ </th>
+                    <td mat-cell *matCellDef="let element">{{element.doctorFirstName}} {{element.doctorLastName}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Nurse">
+                    <th mat-header-cell *matHeaderCellDef> Y tá </th>
+                    <td mat-cell *matCellDef="let element">{{element.nurseFirstName}} {{element.nurseLastName}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Note">
+                    <th mat-header-cell *matHeaderCellDef> Ghi chú </th>
+                    <td mat-cell *matCellDef="let element"> {{element.note}} </td>
                 </ng-container>
 
                 <!-- Control Column -->
