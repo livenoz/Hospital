@@ -84,7 +84,7 @@ export class AddressService {
         if (localProvinces) {
             this.provinces = JSON.parse(localProvinces);
         } else {
-            this.getAllCountries().subscribe(
+            this.getAllProvinces().subscribe(
                 (data: PaginatedListModel<ProvinceModel>) => {
                     localStorage.setItem('provinces', JSON.stringify(data.items));
                     this.provinces = data.items;

@@ -31,11 +31,17 @@ export class Constants {
     public static readonly district = '/address/getDistricts';
   };
 
+  public static API_EMPLOYEE = class {
+    public static readonly doctor = '/employee/doctors';
+    public static readonly nurse = '/employee/nurses';
+  };
+
   public static API_MEDICAL_RECORDS = class {
     public static readonly medicalRecord = '/medicalRecord';
   };
 
   public static API_TREATMENT = class {
     public static readonly treatment = '/treatment';
+    public static readonly disease = '/disease';
   };
 }

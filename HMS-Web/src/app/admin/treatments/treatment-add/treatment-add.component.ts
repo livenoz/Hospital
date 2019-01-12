@@ -12,6 +12,13 @@ import { Observable } from 'rxjs';
 import { PaginatedListModel } from '../../../shared/models/paginated-list.model';
 import { TreatmentService } from '../shared/treatment.service';
 import { TreatmentModel } from '../shared/treatment.model';
+import { MedicalRecordModel } from '../../medical-records/shared/medical-record.model';
+import { MedicalRecordService } from '../../medical-records/shared/medical-record.service';
+import { EmployeeService } from '../../../shared/services/employee.service';
+import { DoctorModel } from '../../../shared/models/employee/nurse.model';
+import { NurseModel } from '../../../shared/models/employee/doctor.model';
+import { DiseaseModel } from '../shared/disease.model';
+import { TreatmentDetailModel } from '../shared/treatment-detail.model';
 
 @Component({
   selector: 'app-treatment-add',
@@ -21,37 +28,49 @@ import { TreatmentModel } from '../shared/treatment.model';
 export class TreatmentAddComponent implements OnInit {
   myForm: FormGroup;
   submitted = false;
-  medicalRecordControl = 'Thêm mới bệnh án';
-  countryControl: FormControl;
-  provinceControl: FormControl;
-  districtControl: FormControl;
-  nativeCountryControl: FormControl;
-  nativeProvinceControl: FormControl;
-  nativeDistrictControl: FormControl;
+  treatmentControl = 'Thêm mới điều trị';
   patientControl: FormControl;
+  medicalRecordControl: FormControl;
+  titleControl: FormControl;
+  contentControl: FormControl;
+  doctorControl: FormControl;
+  nurseControl: FormControl;
   startDateControl: FormControl;
-  reasonControl: FormControl;
-  statusIdControl: FormControl;
+  endDateControl: FormControl;
   filteredPatient: Observable<PatientModel[]>;
+  filteredMedicalRecord: Observable<MedicalRecordModel[]>;
+  filteredDoctor: Observable<DoctorModel[]>;
+  filteredNurse: Observable<NurseModel[]>;
+  filteredDisease: Observable<DiseaseModel[]>;
   patients: PatientModel[];
+  medicalRecords: MedicalRecordModel[];
+  doctors: DoctorModel[];
+  nurses: NurseModel[];
+  diseases: DiseaseModel[];
   patientRouteId: number;
-  public inputData: TreatmentModel;
+  public inputData: TreatmentDetailModel;
   isLoadingPatient = false;
 
   constructor(
     private spinner: NgxSpinnerService,
     private modal: NgbModal,
     private patientService: PatientService,
-    private medicalRecordService: TreatmentService,
+    private medicalRecordService: MedicalRecordService,
+    private treatmentService: TreatmentService,
+    private employeeService: EmployeeService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router) {
 
-    this.inputData = new TreatmentModel();
+    this.inputData = new TreatmentDetailModel();
     this.patientControl = new FormControl();
+    this.medicalRecordControl = new FormControl();
+    this.titleControl = new FormControl();
+    this.contentControl = new FormControl();
+    this.doctorControl = new FormControl();
+    this.nurseControl = new FormControl();
     this.startDateControl = new FormControl();
-    this.reasonControl = new FormControl();
-    this.statusIdControl = new FormControl();
+    this.endDateControl = new FormControl();
   }
 
   ngOnInit() {
@@ -61,20 +80,52 @@ export class TreatmentAddComponent implements OnInit {
     this.dropdownConfig(() => this.spinner.hide());
     this.myForm = this.formBuilder.group({
       patientControl: [0, Validators.required],
+      medicalRecordControl: [0, Validators.required],
+      titleControl: ['', Validators.required],
+      contentControl: ['', Validators.required],
       startDateControl: ['', Validators.required],
-      reasonControl: ['', Validators.required],
-      statusIdControl: [0, Validators.required],
+      endDateControl: ['', Validators.required]
     });
   }
 
   private dropdownConfig(callback) {
     this.getPatients('')
-    .subscribe((data: PaginatedListModel<PatientModel>) => {
-      this.patients = data.items;
-      this.filteredPatient = this.patientControl.valueChanges.pipe(
-        startWith(''),
-        map(value => this.filterPatient(value)));
-    });
+      .subscribe((data: PaginatedListModel<PatientModel>) => {
+        this.patients = data.items;
+        this.filteredPatient = this.patientControl.valueChanges.pipe(
+          startWith(''),
+          map(value => this.filterPatient(value)));
+        this.getMedicalRecords()
+          .subscribe((medicalRecordResponse: PaginatedListModel<MedicalRecordModel>) => {
+            this.medicalRecords = medicalRecordResponse.items;
+            this.filteredMedicalRecord = this.medicalRecordControl.valueChanges.pipe(
+              startWith(''),
+              map(value => this.filterMedicalRecord(value)));
+          });
+      });
+    this.employeeService.getAllDoctors()
+      .subscribe((doctors: PaginatedListModel<DoctorModel>) => {
+        this.doctors = doctors.items;
+        this.filteredDoctor = this.doctorControl.valueChanges.pipe(
+          startWith(''),
+          map(value => this.filterDoctor(value)));
+      });
+
+    this.employeeService.getAllNurses()
+      .subscribe((nurses: PaginatedListModel<DoctorModel>) => {
+        this.nurses = nurses.items;
+        this.filteredNurse = this.nurseControl.valueChanges.pipe(
+          startWith(''),
+          map(value => this.filterNurse(value)));
+      });
+    const params = {
+      pageIndex: 0,
+      pageSize: 2000
+    };
+    this.treatmentService.getDiseases(params)
+      .subscribe((diseases: PaginatedListModel<DiseaseModel>) => {
+        this.diseases = diseases.items;
+      });
     callback();
   }
 
@@ -83,12 +134,37 @@ export class TreatmentAddComponent implements OnInit {
     return this.patients.filter(c => this.checkMatchStringFilter(c.fullName, valueFilter));
   }
 
+  private filterDoctor(value: string) {
+    const valueFilter = (value || '').toString();
+    return this.doctors.filter(c => this.checkMatchStringFilter(c.firstName + ' ' + c.lastName, valueFilter));
+  }
+
+  private filterNurse(value: string) {
+    const valueFilter = (value || '').toString();
+    return this.nurses.filter(c => this.checkMatchStringFilter(c.firstName + ' ' + c.lastName, valueFilter));
+  }
+
+  private filterMedicalRecord = (value: string) => {
+    const valueFilter = (value || '').toString();
+    console.log(this.inputData.patientId);
+    return this.medicalRecords.filter(c => c.patientId === this.inputData.patientId && this.checkMatchStringFilter(c.code, valueFilter));
+  }
+
+
+  public getMedicalRecords = (): Observable<PaginatedListModel<MedicalRecordModel>> => {
+    const params = {
+      pageIndex: 0,
+      pageSize: 2000
+    };
+    return this.medicalRecordService.getBeingTreated(params);
+  }
+
   public getPatients = (value: string): Observable<PaginatedListModel<PatientModel>> => {
     const params = {
       pageIndex: 0,
       pageSize: 2000,
       code: 'name',
-      value: typeof(value) === 'string' && value ? value.trim() : '',
+      value: typeof (value) === 'string' && value ? value.trim() : '',
     };
     return this.patientService.get(params);
   }
@@ -98,13 +174,26 @@ export class TreatmentAddComponent implements OnInit {
     return patient ? patient.fullName : '';
   }
 
-  public onSubmit(): void {
+  public displayMedicalRecord = (medicalRecordId: number): string => {
+    const medicalRecord = this.medicalRecords ? this.medicalRecords.find(c => c.id === medicalRecordId) : null;
+    return medicalRecord ? medicalRecord.code : '';
+  }
 
+  public displayDoctor = (medicalRecordId: number): string => {
+    const model = this.doctors ? this.doctors.find(c => c.id === medicalRecordId) : null;
+    return model ? model.firstName + ' ' + model.lastName : '';
+  }
+
+  public displayNurse = (medicalRecordId: number): string => {
+    const model = this.nurses ? this.nurses.find(c => c.id === medicalRecordId) : null;
+    return model ? model.firstName + ' ' + model.lastName : '';
+  }
+
+  public onSubmit(): void {
     if (this.myForm.invalid) {
       this.submitted = true;
       return;
     }
-
     this.onAdd();
   }
 
@@ -131,7 +220,7 @@ export class TreatmentAddComponent implements OnInit {
   }
 
   private onAdd(): void {
-    this.medicalRecordService.add(this.inputData).subscribe(
+    this.treatmentService.add(this.inputData).subscribe(
       (data: number) => {
         this.spinner.hide();
         if (data > 0) {
@@ -140,7 +229,7 @@ export class TreatmentAddComponent implements OnInit {
           modalRef.componentInstance.content = Constants.MODAL.ADD_SUCCESS;
           modalRef.componentInstance.isDisplayCancel = false;
           modalRef.result.then(_result => {
-            this.router.navigate(['/medical-records']);
+            this.router.navigate(['/treatments']);
           });
         } else {
           const modalRef = this.modal.open(NgbdModalComponent);
