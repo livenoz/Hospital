@@ -47,7 +47,7 @@ namespace HMS.API.Controllers.V1
 
         // POST: api/Treatment
         [HttpPost]
-        public async Task<int> Post(TreatmentDto model)
+        public async Task<int> Post(TreatmentDetailDto model)
         {
             var result = 0;
             if (ModelState.IsValid)
@@ -57,6 +57,7 @@ namespace HMS.API.Controllers.V1
                 model.CreatedTime = dateTimeUtcNow;
                 model.UpdatedBy = _authenticationDto.UserId;
                 model.UpdatedTime = dateTimeUtcNow;
+                model.IsActived = true;
                 var modelInsert = await _treatmentBusiness.Add(model);
                 result = modelInsert.Id;
             }
@@ -65,7 +66,7 @@ namespace HMS.API.Controllers.V1
 
         // PUT: api/Treatment/5
         [HttpPut("{id}")]
-        public async Task<bool> Put(TreatmentDto model)
+        public async Task<bool> Put(TreatmentDetailDto model)
         {
             var result = false;
             if (ModelState.IsValid)

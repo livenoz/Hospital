@@ -11,6 +11,7 @@ namespace HMS.Business.Interfaces
         Task<bool> Delete(int id);
         Task<IPaginatedList<MedicalRecordDto>> GetByPatientId(int patientId, int pageIndex, int pageSize);
         Task<IPaginatedList<MedicalRecordDto>> GetAll(int pageIndex, int pageSize);
+        Task<IPaginatedList<MedicalRecordDto>> GetBeingTreated(int pageIndex, int pageSize);
         Task<MedicalRecordDto> GetById(int id);
     }
 }

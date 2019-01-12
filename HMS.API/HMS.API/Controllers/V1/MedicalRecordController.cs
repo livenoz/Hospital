@@ -83,11 +83,20 @@ namespace HMS.API.Controllers.V1
             throw new NotImplementedException();
         }
 
-        [Route("api/v1/[controller]/GetByPatientId")]
+        [Route("bypatientid")]
         public Task<IPaginatedList<MedicalRecordDto>> GetByPatientId(int patientId, 
             int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {
             return _medicalRecordBusiness.GetByPatientId(patientId, pageIndex, pageSize);
+        }
+
+
+        // GET: api/MedicalRecord
+        [HttpGet("beingtreated")]
+        public Task<IPaginatedList<MedicalRecordDto>> GetBeingTreated(
+            int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
+        {
+            return _medicalRecordBusiness.GetBeingTreated(pageIndex, pageSize);
         }
     }
 }

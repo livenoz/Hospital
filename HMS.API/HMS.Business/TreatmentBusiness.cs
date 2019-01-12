@@ -33,13 +33,30 @@ namespace HMS.Business
             _medicalRecordRepository = medicalRecordRepository;
         }
 
-        public async Task<TreatmentDto> Add(TreatmentDto model)
+        public async Task<TreatmentDetailDto> Add(TreatmentDetailDto model)
         {
-            model.Code = string.Empty;
-            var entity = _treatmentRepository.Add(_mapper.Map<TTreatment>(model));
+            var entity = _mapper.Map<TTreatment>(model);
+            entity.Code = string.Empty;
+            if (model.Diseases != null && model.Diseases.Any())
+            {
+                entity.TTreatmentDisease = new List<TTreatmentDisease>();
+                foreach (var disease in model.Diseases)
+                {
+                    entity.TTreatmentDisease.Add(new TTreatmentDisease
+                    {
+                        DiseaseId = disease.Id,
+                        CreatedBy = model.CreatedBy,
+                        CreatedTime = model.CreatedTime,
+                        UpdatedBy = model.UpdatedBy,
+                        UpdatedTime = model.UpdatedTime,
+                        IsActived = true,
+                    });
+                }
+            }
+            _treatmentRepository.Add(entity);
             await _treatmentRepository.SaveChangeAsync();
-            var maxId = await _medicalRecordRepository.Repo.MaxAsync(c => c.Id);
-            entity.Code = $"BN-{(maxId + 1):D10}";
+            var maxId = await _treatmentRepository.Repo.MaxAsync(c => c.Id);
+            entity.Code = $"DT-{(maxId + 1):D10}";
             await _treatmentRepository.SaveChangeAsync();
             model.Id = entity.Id;
             return model;
@@ -123,9 +140,10 @@ namespace HMS.Business
             return result;
         }
 
-        public async Task<bool> Update(TreatmentDto model)
+        public async Task<bool> Update(TreatmentDetailDto model)
         {
-            _treatmentRepository.Update(_mapper.Map<TTreatment>(model));
+            var entity = _mapper.Map<TTreatment>(model);
+            _treatmentRepository.Update(entity);
             var recordUpdated = await _treatmentRepository.SaveChangeAsync();
             return recordUpdated > 0;
         }

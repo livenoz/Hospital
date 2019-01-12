@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="EmployeeBusiness.cs" />
     <Compile Include="DiseaseBusiness.cs" />
     <Compile Include="Paginated\PaginatedList.cs" />
     <Compile Include="Paginated\PaginatedListExtension.cs" />

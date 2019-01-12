@@ -9,6 +9,7 @@ using HMS.Business.Interfaces.Paginated;
 using HMS.Business.Paginated;
 using Microsoft.EntityFrameworkCore;
 using HMS.Common.Dtos.Patient;
+using HMS.Common.Enums;
 
 namespace HMS.Business
 {
@@ -94,6 +95,35 @@ namespace HMS.Business
         public Task<IPaginatedList<MedicalRecordDto>> GetAll(int pageIndex, int pageSize)
         {
             var result = (from medical in _medicalRecordRepository.Repo.Where(c => c.IsActived)
+                          join patient in _patientRepository.Repo on medical.PatientId equals patient.Id
+                          join status in _medicalRecordStatusRepository.Repo on medical.StatusId equals status.Id
+                          select new MedicalRecordDto
+                          {
+                              Id = medical.Id,
+                              Code = medical.Code,
+                              PatientId = medical.PatientId,
+                              PatientFirstName = patient.FirstName,
+                              PatientLastName = patient.LastName,
+                              StartDate = medical.StartDate,
+                              EndDate = medical.EndDate,
+                              Reason = medical.Reason,
+                              StatusId = medical.StatusId,
+                              StatusName = status.Name,
+                              CreatedTime = medical.CreatedTime,
+                              CreatedBy = medical.CreatedBy,
+                              UpdatedTime = medical.UpdatedTime,
+                              UpdatedBy = medical.UpdatedBy,
+                              IsActived = medical.IsActived,
+                              IsDeleted = medical.IsDeleted,
+                          })
+                          .OrderByDescending(c => c.Id)
+                          .ToPaginatedListAsync(pageIndex, pageSize);
+            return result;
+        }
+
+        public Task<IPaginatedList<MedicalRecordDto>> GetBeingTreated(int pageIndex, int pageSize)
+        {
+            var result = (from medical in _medicalRecordRepository.Repo.Where(c => c.IsActived && c.StatusId == (int)EMedicalRecordStatus.BeingTreated)
                           join patient in _patientRepository.Repo on medical.PatientId equals patient.Id
                           join status in _medicalRecordStatusRepository.Repo on medical.StatusId equals status.Id
                           select new MedicalRecordDto

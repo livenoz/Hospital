@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using HMS.API.Attributes;
+using HMS.API.Extensions;
+using HMS.Business.Interfaces;
 using HMS.Business.Interfaces.Paginated;
+using HMS.Common.Constants;
 using HMS.Common.Dtos.Employee;
+using HMS.Common.Dtos.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +19,16 @@ namespace HMS.API.Controllers.V1
     [ApiController]
     public class EmployeeController : ControllerBase
     {
+        private readonly AuthenticationDto _authenticationDto;
+        private readonly IEmployeeBusiness _employeeBusiness;
+
+        public EmployeeController(IHttpContextAccessor httpContextAccessor,
+            IEmployeeBusiness employeeBusiness)
+        {
+            _authenticationDto = httpContextAccessor.HttpContext.User.ToAuthenticationDto();
+            _employeeBusiness = employeeBusiness;
+        }
+
         // GET: api/Employee
         [HttpGet]
         public IEnumerable<string> Get()
@@ -47,15 +61,20 @@ namespace HMS.API.Controllers.V1
         {
         }
 
-        public async Task<IPaginatedList<DoctorDto>> GetDoctors()
+        [HttpGet("doctors")]
+        public Task<IPaginatedList<DoctorDto>> GetDoctors(
+            int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {
-            throw new NotImplementedException();
+            return _employeeBusiness.GetDoctors(pageIndex, pageSize);
         }
 
 
-        public async Task<IPaginatedList<DoctorDto>> GetNurses()
+        [HttpGet("nurses")]
+        [HttpGet]
+        public Task<IPaginatedList<NurseDto>> GetNurses(
+            int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {
-            throw new NotImplementedException();
+            return _employeeBusiness.GetNurses(pageIndex, pageSize);
         }
     }
 }

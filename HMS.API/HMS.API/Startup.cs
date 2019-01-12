@@ -70,6 +70,7 @@ namespace HMS.API
             services.AddScoped<IAddressBusiness, AddressBusiness>();
             services.AddScoped<IDiseaseBusiness, DiseaseBusiness>();
             services.AddScoped<IMedicalRecordBusiness, MedicalRecordBusiness>();
+            services.AddScoped<IEmployeeBusiness, EmployeeBusiness>();
 
             services.AddScoped<IBranchRepository, BranchRepository>();
             services.AddScoped<ICountryRepository, CountryRepository>();

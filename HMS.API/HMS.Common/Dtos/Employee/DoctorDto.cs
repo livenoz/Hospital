@@ -4,7 +4,7 @@ using System.Text;
 
 namespace HMS.Common.Dtos.Employee
 {
-    public class DoctorDto
+    public class DoctorDto: EmployDto
     {
     }
 }
