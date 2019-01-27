@@ -102,7 +102,7 @@ export class TreatmentsComponent implements OnInit {
   public onDisable() {
     const modalRef = this.modal.open(NgbdModalComponent);
     modalRef.componentInstance.header = Constants.MODAL.DISABLE_HEADER;
-    modalRef.componentInstance.content = Constants.MODAL.DISABLE_CONTENT;
+    modalRef.componentInstance.content = Constants.MODAL.DISABLE_PATIENT_CONTENT;
     modalRef.componentInstance.isDisplayCancel = true;
     modalRef.result.then(result => {
       alert(result);

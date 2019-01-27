@@ -13,6 +13,7 @@ import { PatientModel } from './shared/patient.model';
 import { PaginatedListModel } from '../../shared/models/paginated-list.model';
 import { PatientFilter } from './shared/patient-filter.model';
 import { AddressService } from '../../shared/services/address.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-patients',
@@ -24,7 +25,8 @@ export class PatientsComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private modal: NgbModal,
     private patientService: PatientService,
-    private addressService: AddressService) {
+    private addressService: AddressService,
+    private router: Router) {
   }
 
   // icon
@@ -113,14 +115,100 @@ export class PatientsComponent implements OnInit {
     alert('Clicked');
   }
 
-  public onDisable() {
+  public onDisable(patientId: number) {
     const modalRef = this.modal.open(NgbdModalComponent);
     modalRef.componentInstance.header = Constants.MODAL.DISABLE_HEADER;
-    modalRef.componentInstance.content = Constants.MODAL.DISABLE_CONTENT;
+    modalRef.componentInstance.content = Constants.MODAL.DISABLE_PATIENT_CONTENT;
     modalRef.componentInstance.isDisplayCancel = true;
     modalRef.result.then(result => {
-      alert(result);
-    });
+      const params = {
+        id: patientId,
+        isActive: false
+      };
+      this.patientService.active(params).subscribe(
+        (data: boolean) => {
+          this.spinner.hide();
+          if (data) {
+            const modalRef2 = this.modal.open(NgbdModalComponent);
+            modalRef2.componentInstance.header = Constants.MODAL.INFORMATION;
+            modalRef2.componentInstance.content = Constants.MODAL.UPDATE_SUCCESS;
+            modalRef2.componentInstance.isDisplayCancel = false;
+            modalRef2.result.then(_result => {
+              this.searchConfig();
+            });
+          } else {
+            const modalRef2 = this.modal.open(NgbdModalComponent);
+            modalRef2.componentInstance.header = Constants.MODAL.INFORMATION;
+            modalRef2.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+            modalRef2.componentInstance.isDisplayCancel = false;
+          }
+        },
+        (err) => {
+          this.spinner.hide();
+          const modalRef2 = this.modal.open(NgbdModalComponent);
+          modalRef2.componentInstance.header = Constants.MODAL.INFORMATION;
+          modalRef2.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+          modalRef2.componentInstance.isDisplayCancel = false;
+        },
+        () => {
+          // this.spinner.hide();
+          // const modalRef = this.modal.open(NgbdModalComponent);
+          // modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
+          // modalRef.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+          // modalRef.componentInstance.isDisplayCancel = false;
+        });
+    })
+      .catch(res => {
+        console.log(res);
+      });
+  }
+
+  public onEnable(patientId: number) {
+    const modalRef = this.modal.open(NgbdModalComponent);
+    modalRef.componentInstance.header = Constants.MODAL.ENABLE_HEADER;
+    modalRef.componentInstance.content = Constants.MODAL.ENABLE_PATIENT_CONTENT;
+    modalRef.componentInstance.isDisplayCancel = true;
+    modalRef.result.then(result => {
+      const params = {
+        id: patientId,
+        isActive: true
+      };
+      this.patientService.active(params).subscribe(
+        (data: boolean) => {
+          this.spinner.hide();
+          if (data) {
+            const modalRef2 = this.modal.open(NgbdModalComponent);
+            modalRef2.componentInstance.header = Constants.MODAL.INFORMATION;
+            modalRef2.componentInstance.content = Constants.MODAL.UPDATE_SUCCESS;
+            modalRef2.componentInstance.isDisplayCancel = false;
+            modalRef2.result.then(_result => {
+              this.searchConfig();
+            });
+          } else {
+            const modalRef2 = this.modal.open(NgbdModalComponent);
+            modalRef2.componentInstance.header = Constants.MODAL.INFORMATION;
+            modalRef2.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+            modalRef2.componentInstance.isDisplayCancel = false;
+          }
+        },
+        (err) => {
+          this.spinner.hide();
+          const modalRef2 = this.modal.open(NgbdModalComponent);
+          modalRef2.componentInstance.header = Constants.MODAL.INFORMATION;
+          modalRef2.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+          modalRef2.componentInstance.isDisplayCancel = false;
+        },
+        () => {
+          // this.spinner.hide();
+          // const modalRef = this.modal.open(NgbdModalComponent);
+          // modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
+          // modalRef.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+          // modalRef.componentInstance.isDisplayCancel = false;
+        });
+    })
+      .catch(res => {
+        console.log(res);
+      });
   }
 
   public onViewTreatment() {

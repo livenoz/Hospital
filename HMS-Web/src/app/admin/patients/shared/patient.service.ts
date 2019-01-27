@@ -36,6 +36,10 @@ export class PatientService {
         return this.http.put<boolean>(this.patientUrl + '/' + params.id, params, { headers: this.headers});
     }
 
+    public active(params: any): Observable<boolean> {
+        return this.http.put<boolean>(this.patientUrl + `/active?id=${params.id}&isActive=${params.isActive}`, { headers: this.headers});
+    }
+
     public delete(id: number) {
         return this.http.delete(this.patientUrl + '/' + id, { headers: this.headers});
     }

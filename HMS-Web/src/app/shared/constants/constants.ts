@@ -5,7 +5,9 @@ export class Constants {
 
   public static MODAL = class {
     public static readonly DISABLE_HEADER = 'Vô hiệu hóa';
-    public static readonly DISABLE_CONTENT = 'Bệnh nhân đang chọn sẽ bị vô hiệu hóa, bấm <b>"Xác nhận"</b> để hoàn tất';
+    public static readonly ENABLE_HEADER = 'Kích hoạt';
+    public static readonly DISABLE_PATIENT_CONTENT = 'Bệnh nhân đang chọn sẽ bị vô hiệu hóa, bấm <b>"Xác nhận"</b> để hoàn tất';
+    public static readonly ENABLE_PATIENT_CONTENT = 'Bệnh nhân đang chọn sẽ được kích hoạt lại, bấm <b>"Xác nhận"</b> để hoàn tất';
     public static readonly INFORMATION = 'Thông báo';
     public static readonly UPDATE_SUCCESS = 'Cập nhật thành công ! ';
     public static readonly UPDATE_FAIL = 'Cập nhật thất bại !';
@@ -14,6 +16,7 @@ export class Constants {
   };
 
   public static readonly BASE_URL = 'http://10.211.55.4:8081';
+  // public static readonly BASE_URL = 'http://10.211.55.4:5001';
   public static readonly API_URL = '/api';
   public static readonly API_VERSION_1 = '/v1';
 
