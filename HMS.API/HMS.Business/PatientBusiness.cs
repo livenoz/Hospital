@@ -58,7 +58,8 @@ namespace HMS.Business
 
         public Task<IPaginatedList<PatientDto>> GetAll(int pageIndex = 0, int pageSize = 20)
         {
-            var result = GetAll(null, pageIndex, pageSize);
+            Expression<Func<TPatient, bool>> expression = c => c.IsActived;
+            var result = GetAll(expression, pageIndex, pageSize);
             return result;
         }
 
@@ -81,6 +82,10 @@ namespace HMS.Business
             {
                 expression = c => c.IdentifyCardNo.Contains(filter.IdentifyCardNo);
             }
+            else
+            {
+                expression = c => c.IsActived;
+            }
             return GetAll(expression, filter.PageIndex, filter.PageSize);
         }
 
@@ -97,6 +102,19 @@ namespace HMS.Business
             return _mapper.Map<PatientDto>(result);
         }
 
+        public async Task<bool> SetActive(int id, bool isActive)
+        {
+            var result = false;
+            var patient = await _patientRepository.Repo.FirstOrDefaultAsync(c => c.Id == id);
+            if(patient != null)
+            {
+                patient.IsActived = isActive;
+                await _patientRepository.SaveChangeAsync();
+                result = true;
+            }
+            return result;
+        }
+
         public async Task<bool> Update(PatientDto model)
         {
             _patientRepository.Update(_mapper.Map<TPatient>(model));
@@ -111,7 +129,7 @@ namespace HMS.Business
             {
                 patientRepo = patientRepo.Where(expression);
             }
-            var result = (from patient in patientRepo.Where(c => c.IsActived)
+            var result = (from patient in patientRepo
                           join country in _countryRepository.Repo on patient.CountryId equals country.Id
                           join province in _provinceRepository.Repo on patient.ProvinceId equals province.Id
                           join district in _districtRepository.Repo on patient.DistrictId equals district.Id
