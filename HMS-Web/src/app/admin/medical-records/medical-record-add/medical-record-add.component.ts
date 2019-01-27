@@ -48,6 +48,7 @@ export class MedicalRecordAddComponent implements OnInit {
     private router: Router) {
 
     this.inputData = new MedicalRecordModel();
+    this.inputData.startDate = new Date();
     this.patientControl = new FormControl();
     this.startDateControl = new FormControl();
     this.reasonControl = new FormControl();

@@ -89,10 +89,6 @@ export class TreatmentUpdateComponent implements OnInit {
   }
 
   private dropdownConfig(callback) {
-    this.getTreatmentDetail()
-      .subscribe((treatment: TreatmentDetailModel) => {
-        this.inputData = treatment;
-      });
     this.getPatients('')
       .subscribe((data: PaginatedListModel<PatientModel>) => {
         this.patients = data.items;
@@ -105,31 +101,37 @@ export class TreatmentUpdateComponent implements OnInit {
             this.filteredMedicalRecord = this.medicalRecordControl.valueChanges.pipe(
               startWith(''),
               map(value => this.filterMedicalRecord(value)));
+            this.employeeService.getAllDoctors()
+              .subscribe((doctors: PaginatedListModel<DoctorModel>) => {
+                this.doctors = doctors.items;
+                this.filteredDoctor = this.doctorControl.valueChanges.pipe(
+                  startWith(''),
+                  map(value => this.filterDoctor(value)));
+
+                this.employeeService.getAllNurses()
+                  .subscribe((nurses: PaginatedListModel<DoctorModel>) => {
+                    this.nurses = nurses.items;
+                    this.filteredNurse = this.nurseControl.valueChanges.pipe(
+                      startWith(''),
+                      map(value => this.filterNurse(value)));
+                    const params = {
+                      pageIndex: 0,
+                      pageSize: 2000
+                    };
+                    this.treatmentService.getDiseases(params)
+                      .subscribe((diseases: PaginatedListModel<DiseaseModel>) => {
+                        this.diseases = diseases.items;
+                        this.getTreatmentDetail()
+                          .subscribe((treatment: TreatmentDetailModel) => {
+                            this.inputData = treatment;
+                          });
+                      });
+                  });
+              });
+
           });
       });
-    this.employeeService.getAllDoctors()
-      .subscribe((doctors: PaginatedListModel<DoctorModel>) => {
-        this.doctors = doctors.items;
-        this.filteredDoctor = this.doctorControl.valueChanges.pipe(
-          startWith(''),
-          map(value => this.filterDoctor(value)));
-      });
 
-    this.employeeService.getAllNurses()
-      .subscribe((nurses: PaginatedListModel<DoctorModel>) => {
-        this.nurses = nurses.items;
-        this.filteredNurse = this.nurseControl.valueChanges.pipe(
-          startWith(''),
-          map(value => this.filterNurse(value)));
-      });
-    const params = {
-      pageIndex: 0,
-      pageSize: 2000
-    };
-    this.treatmentService.getDiseases(params)
-      .subscribe((diseases: PaginatedListModel<DiseaseModel>) => {
-        this.diseases = diseases.items;
-      });
     callback();
   }
 
@@ -206,7 +208,7 @@ export class TreatmentUpdateComponent implements OnInit {
       this.submitted = true;
       return;
     }
-    this.onAdd();
+    this.onUpdate();
   }
 
   private checkMatchStringFilter = (source: string, searchString: string): boolean => {
@@ -231,11 +233,11 @@ export class TreatmentUpdateComponent implements OnInit {
     return value;
   }
 
-  private onAdd(): void {
-    this.treatmentService.add(this.inputData).subscribe(
-      (data: number) => {
+  private onUpdate(): void {
+    this.treatmentService.update(this.inputData).subscribe(
+      (data: boolean) => {
         this.spinner.hide();
-        if (data > 0) {
+        if (data) {
           const modalRef = this.modal.open(NgbdModalComponent);
           modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
           modalRef.componentInstance.content = Constants.MODAL.ADD_SUCCESS;

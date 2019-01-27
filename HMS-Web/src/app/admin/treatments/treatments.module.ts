@@ -22,7 +22,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     MatPaginatorModule,
     FontAwesomeModule,
     NgbModule,
-    FormsModule,
     ReactiveFormsModule
   ],
   declarations: [TreatmentsComponent]
