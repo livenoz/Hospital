@@ -37,7 +37,7 @@ namespace HMS.Business
             var entity = _medicalRecordRepository.Add(_mapper.Map<TMedicalRecord>(model));
             await _medicalRecordRepository.SaveChangeAsync();
             var maxId = await _medicalRecordRepository.Repo.MaxAsync(c => c.Id);
-            entity.Code = $"BN-{(maxId + 1):D10}";
+            entity.Code = $"BA-{(maxId + 1):D10}";
             await _medicalRecordRepository.SaveChangeAsync();
             model.Id = entity.Id;
             return model;

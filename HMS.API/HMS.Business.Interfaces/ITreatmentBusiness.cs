@@ -12,6 +12,6 @@ namespace HMS.Business.Interfaces
         Task<IPaginatedList<TreatmentDto>> GetAll(int pageIndex, int pageSize);
         Task<IPaginatedList<TreatmentDto>> GetByMedicalRecordId(int medicalRecordId, int pageIndex, int pageSize);
         Task<IPaginatedList<TreatmentDto>> GetByPatientId(int patientId, int pageIndex, int pageSize);
-        Task<TreatmentDto> GetById(int id);
+        Task<TreatmentDetailDto> GetById(int id);
     }
 }

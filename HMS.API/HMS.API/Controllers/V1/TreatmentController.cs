@@ -40,7 +40,7 @@ namespace HMS.API.Controllers.V1
 
         // GET: api/Treatment/5
         [HttpGet("{id}")]
-        public Task<TreatmentDto> Get(int id)
+        public Task<TreatmentDetailDto> Get(int id)
         {
             return _treatmentBusiness.GetById(id);
         }
