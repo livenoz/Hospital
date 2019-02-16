@@ -28,6 +28,7 @@ export class PatientModel {
     secondRelativePhone: string;
     secondRelativeIdentifyCardNo: string;
     secondRelativeDescription: string;
+    diseaseHistories: string;
     description: string;
     createdTime: Date;
     createdBy: number;

@@ -5,6 +5,7 @@ export class MedicalRecordModel {
     patientLastName: string;
     patientFirstName: string;
     patientFullName: string;
+    diagnose: string;
     reason: string;
     startDate: Date;
     statusId: number;

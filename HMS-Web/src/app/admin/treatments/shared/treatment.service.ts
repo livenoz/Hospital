@@ -28,6 +28,11 @@ export class TreatmentService {
         return this.http.get<PaginatedListModel<TreatmentModel>>(this.treatmentUrl, { headers: this.headers, params: params });
     }
 
+    public getByMedicalRecordId(params: any): Observable<PaginatedListModel<TreatmentModel>> {
+        // tslint:disable-next-line:max-line-length
+        return this.http.get<PaginatedListModel<TreatmentModel>>(`${this.treatmentUrl}/GetByMedicalRecordId/${params.medicalRecordId}`, { headers: this.headers, params: params });
+    }
+
     public getDiseases(params: any): Observable<PaginatedListModel<DiseaseModel>> {
         // tslint:disable-next-line:max-line-length
         return this.http.get<PaginatedListModel<DiseaseModel>>(this.diseaseUrl, { headers: this.headers, params: params });

@@ -50,6 +50,8 @@ export class PatientAddComponent implements OnInit {
     private router: Router) {
 
     this.inputData = new PatientModel();
+    this.inputData.countryId = 237;
+    this.inputData.nativeCountryId = 237;
     this.inputData.sex = 1;
     this.countryControl = new FormControl();
     this.provinceControl = new FormControl();

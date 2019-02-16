@@ -1,4 +1,4 @@
-export class PatientFilter {
+export class FilterModel {
     code: string;
     value: string;
 }

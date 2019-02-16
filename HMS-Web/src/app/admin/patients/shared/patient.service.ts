@@ -37,7 +37,8 @@ export class PatientService {
     }
 
     public active(params: any): Observable<boolean> {
-        return this.http.put<boolean>(this.patientUrl + `/active?id=${params.id}&isActive=${params.isActive}`, { headers: this.headers});
+        // tslint:disable-next-line:max-line-length
+        return this.http.put<boolean>(this.patientUrl + `/active?id=${params.id}&isActive=${params.isActive}`, null, { headers: this.headers});
     }
 
     public delete(id: number) {

@@ -1,17 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatTableDataSource, PageEvent } from '@angular/material';
 import { FormControl } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
 import { faBriefcase } from '@fortawesome/fontawesome-free-solid';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { NgbdModalComponent } from '../../shared/modules/modal/modal-component';
 import { Constants } from '../../shared/constants/constants';
 import { PaginatedListModel } from '../../shared/models/paginated-list.model';
-import { PatientFilter } from '../patients/shared/patient-filter.model';
 import { TreatmentModel } from './shared/treatment.model';
 import { TreatmentService } from './shared/treatment.service';
+import { FilterModel } from '../../shared/models/filter.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-treatments',
@@ -22,6 +21,7 @@ export class TreatmentsComponent implements OnInit {
   constructor(
     private spinner: NgxSpinnerService,
     private modal: NgbModal,
+    private route: ActivatedRoute,
     private treatmentService: TreatmentService) {
   }
 
@@ -32,7 +32,7 @@ export class TreatmentsComponent implements OnInit {
   public searchControl = new FormControl();
   @ViewChild(MatPaginator) paginator: MatPaginator;
   public options: string[] = [];
-  public filter: PatientFilter = new PatientFilter();
+  public medicalRecordRouteId: number;
 
   // Data list [Start]
   // tslint:disable-next-line:member-ordering
@@ -51,11 +51,10 @@ export class TreatmentsComponent implements OnInit {
   public dataSource = new MatTableDataSource<TreatmentModel>();
 
   public ngOnInit() {
+    this.medicalRecordRouteId = this.route.params['value'].medicalRecordId;
     this.paginator.pageIndex = 0;
     this.paginator.pageSize = 10;
     // this.dataSource.paginator = this.paginator;
-    this.filter.code = 'code';
-    this.filter.value = '';
     this.searchConfig();
   }
 
@@ -64,10 +63,9 @@ export class TreatmentsComponent implements OnInit {
     const params = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
-      code: this.filter.code,
-      value: this.filter.value,
+      medicalRecordId: this.medicalRecordRouteId
     };
-    this.treatmentService.get(params).subscribe(
+    this.treatmentService.getByMedicalRecordId(params).subscribe(
       this.onGetNext,
       this.onGetError,
       this.onGetComplete

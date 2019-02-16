@@ -11,7 +11,7 @@ import { Constants } from '../../shared/constants/constants';
 import { PatientService } from './shared/patient.service';
 import { PatientModel } from './shared/patient.model';
 import { PaginatedListModel } from '../../shared/models/paginated-list.model';
-import { PatientFilter } from './shared/patient-filter.model';
+import { FilterModel } from '../../shared/models/filter.model';
 import { AddressService } from '../../shared/services/address.service';
 import { Router } from '@angular/router';
 
@@ -37,7 +37,7 @@ export class PatientsComponent implements OnInit {
   public filteredOptions: Observable<string[]>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   public options: string[] = [];
-  public filter: PatientFilter = new PatientFilter();
+  public filter: FilterModel = new FilterModel();
 
   // Data list [Start]
   // tslint:disable-next-line:member-ordering
@@ -73,7 +73,7 @@ export class PatientsComponent implements OnInit {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
       code: this.filter.code,
-      value: this.filter.value,
+      value: this.filter.value
     };
     this.patientService.get(params).subscribe(
       this.onGetNext,

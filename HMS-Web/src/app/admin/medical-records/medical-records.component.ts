@@ -12,6 +12,7 @@ import { MedicalRecordService } from './shared/medical-record.service';
 import { MedicalRecordModel } from './shared/medical-record.model';
 import { PaginatedListModel } from '../../shared/models/paginated-list.model';
 import { AddressService } from '../../shared/services/address.service';
+import { FilterModel } from '../../shared/models/filter.model';
 
 @Component({
   selector: 'app-medical-records',
@@ -43,17 +44,21 @@ export class MedicalRecordsComponent implements OnInit {
     'StartDate',
     'EndDate',
     'Reason',
+    'Diagnose',
     'StatusName',
     'control'
   ];
   public test: number;
   public dataSource = new MatTableDataSource<MedicalRecordModel>();
+  public filter: FilterModel = new FilterModel();
 
   public ngOnInit() {
     this.addressService.init();
     this.paginator.pageIndex = 0;
     this.paginator.pageSize = 10;
     // this.dataSource.paginator = this.paginator;
+    this.filter.code = 'code';
+    this.filter.value = '';
     this.searchConfig();
   }
 
@@ -66,6 +71,8 @@ export class MedicalRecordsComponent implements OnInit {
     const params = {
       pageIndex: this.paginator.pageIndex,
       pageSize: this.paginator.pageSize,
+      code: this.filter.code,
+      value: this.filter.value
     };
     this.medicalRecordService.get(params).subscribe(
       this.onGetNext,
@@ -101,6 +108,101 @@ export class MedicalRecordsComponent implements OnInit {
   }
 
   // Data list [End]
+  public onDisable(patientId: number) {
+    const modalRef = this.modal.open(NgbdModalComponent);
+    modalRef.componentInstance.header = Constants.MODAL.DISABLE_HEADER;
+    modalRef.componentInstance.content = Constants.MODAL.DISABLE_MEDICALRECORD_CONTENT;
+    modalRef.componentInstance.isDisplayCancel = true;
+    modalRef.result.then(result => {
+      const params = {
+        id: patientId,
+        isActive: false
+      };
+      this.medicalRecordService.active(params).subscribe(
+        (data: boolean) => {
+          this.spinner.hide();
+          if (data) {
+            const modalRef2 = this.modal.open(NgbdModalComponent);
+            modalRef2.componentInstance.header = Constants.MODAL.INFORMATION;
+            modalRef2.componentInstance.content = Constants.MODAL.UPDATE_SUCCESS;
+            modalRef2.componentInstance.isDisplayCancel = false;
+            modalRef2.result.then(_result => {
+              this.searchConfig();
+            });
+          } else {
+            const modalRef2 = this.modal.open(NgbdModalComponent);
+            modalRef2.componentInstance.header = Constants.MODAL.INFORMATION;
+            modalRef2.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+            modalRef2.componentInstance.isDisplayCancel = false;
+          }
+        },
+        (err) => {
+          this.spinner.hide();
+          const modalRef2 = this.modal.open(NgbdModalComponent);
+          modalRef2.componentInstance.header = Constants.MODAL.INFORMATION;
+          modalRef2.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+          modalRef2.componentInstance.isDisplayCancel = false;
+        },
+        () => {
+          // this.spinner.hide();
+          // const modalRef = this.modal.open(NgbdModalComponent);
+          // modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
+          // modalRef.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+          // modalRef.componentInstance.isDisplayCancel = false;
+        });
+    })
+      .catch(res => {
+        console.log(res);
+      });
+  }
+
+  public onEnable(patientId: number) {
+    const modalRef = this.modal.open(NgbdModalComponent);
+    modalRef.componentInstance.header = Constants.MODAL.ENABLE_HEADER;
+    modalRef.componentInstance.content = Constants.MODAL.ENABLE_MEDICALRECORD_CONTENT;
+    modalRef.componentInstance.isDisplayCancel = true;
+    modalRef.result.then(result => {
+      const params = {
+        id: patientId,
+        isActive: true
+      };
+      this.medicalRecordService.active(params).subscribe(
+        (data: boolean) => {
+          this.spinner.hide();
+          if (data) {
+            const modalRef2 = this.modal.open(NgbdModalComponent);
+            modalRef2.componentInstance.header = Constants.MODAL.INFORMATION;
+            modalRef2.componentInstance.content = Constants.MODAL.UPDATE_SUCCESS;
+            modalRef2.componentInstance.isDisplayCancel = false;
+            modalRef2.result.then(_result => {
+              this.searchConfig();
+            });
+          } else {
+            const modalRef2 = this.modal.open(NgbdModalComponent);
+            modalRef2.componentInstance.header = Constants.MODAL.INFORMATION;
+            modalRef2.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+            modalRef2.componentInstance.isDisplayCancel = false;
+          }
+        },
+        (err) => {
+          this.spinner.hide();
+          const modalRef2 = this.modal.open(NgbdModalComponent);
+          modalRef2.componentInstance.header = Constants.MODAL.INFORMATION;
+          modalRef2.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+          modalRef2.componentInstance.isDisplayCancel = false;
+        },
+        () => {
+          // this.spinner.hide();
+          // const modalRef = this.modal.open(NgbdModalComponent);
+          // modalRef.componentInstance.header = Constants.MODAL.INFORMATION;
+          // modalRef.componentInstance.content = Constants.MODAL.UPDATE_FAIL;
+          // modalRef.componentInstance.isDisplayCancel = false;
+        });
+    })
+      .catch(res => {
+        console.log(res);
+      });
+  }
 
   public onUpdate() {
     alert('Clicked');

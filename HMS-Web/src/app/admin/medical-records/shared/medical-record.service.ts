@@ -42,6 +42,11 @@ export class MedicalRecordService {
         return this.http.put<boolean>(this.medicalRecordUrl + '/' + params.id, params, { headers: this.headers});
     }
 
+    public active(params: any): Observable<boolean> {
+        // tslint:disable-next-line:max-line-length
+        return this.http.put<boolean>(this.medicalRecordUrl + `/active?id=${params.id}&isActive=${params.isActive}`, null, { headers: this.headers});
+    }
+
     public delete(id: number) {
         return this.http.delete(this.medicalRecordUrl + '/' + id, { headers: this.headers});
     }

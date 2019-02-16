@@ -8,6 +8,8 @@ export class Constants {
     public static readonly ENABLE_HEADER = 'Kích hoạt';
     public static readonly DISABLE_PATIENT_CONTENT = 'Bệnh nhân đang chọn sẽ bị vô hiệu hóa, bấm <b>"Xác nhận"</b> để hoàn tất';
     public static readonly ENABLE_PATIENT_CONTENT = 'Bệnh nhân đang chọn sẽ được kích hoạt lại, bấm <b>"Xác nhận"</b> để hoàn tất';
+    public static readonly DISABLE_MEDICALRECORD_CONTENT = 'Bệnh án đang chọn sẽ bị vô hiệu hóa, bấm <b>"Xác nhận"</b> để hoàn tất';
+    public static readonly ENABLE_MEDICALRECORD_CONTENT = 'Bệnh án đang chọn sẽ được kích hoạt lại, bấm <b>"Xác nhận"</b> để hoàn tất';
     public static readonly INFORMATION = 'Thông báo';
     public static readonly UPDATE_SUCCESS = 'Cập nhật thành công ! ';
     public static readonly UPDATE_FAIL = 'Cập nhật thất bại !';

@@ -6,7 +6,7 @@
     <div class="form-group row">
       <mat-form-field class="col-3">
         <mat-label class="text-right font-weight-bold">Bệnh nhân</mat-label>
-        <input type="text" [formControl]="patientControl" caria-label="String" matInput [matAutocomplete]="autoPatientControl"
+        <input [readonly]="true" type="text" [formControl]="patientControl" caria-label="String" matInput [matAutocomplete]="autoPatientControl"
           [(ngModel)]="inputData.patientId" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.patientControl.invalid }"
           required>
         <mat-autocomplete #autoPatientControl="matAutocomplete" [displayWith]="displayPatient">
@@ -18,7 +18,7 @@
 
       <mat-form-field class="col-3">
         <mat-label class="text-right font-weight-bold">Mã bệnh án</mat-label>
-        <input type="text" [formControl]="medicalRecordControl" caria-label="String" matInput [matAutocomplete]="autoMedicalRecordControl"
+        <input [readonly]="true" type="text" [formControl]="medicalRecordControl" caria-label="String" matInput [matAutocomplete]="autoMedicalRecordControl"
           [(ngModel)]="inputData.medicalRecordId" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.medicalRecordControl.invalid }"
           required>
         <mat-autocomplete #autoMedicalRecordControl="matAutocomplete" [displayWith]="displayMedicalRecord">
