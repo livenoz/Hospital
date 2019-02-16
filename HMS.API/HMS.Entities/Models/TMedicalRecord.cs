@@ -9,6 +9,7 @@ namespace HMS.Entities.Models
         {
             TPrescription = new HashSet<TPrescription>();
             TTreatment = new HashSet<TTreatment>();
+            TTreatmentDisease = new HashSet<TTreatmentDisease>();
         }
 
         public int Id { get; set; }
@@ -29,5 +30,6 @@ namespace HMS.Entities.Models
         public TMedicalRecordStatus Status { get; set; }
         public ICollection<TPrescription> TPrescription { get; set; }
         public ICollection<TTreatment> TTreatment { get; set; }
+        public ICollection<TTreatmentDisease> TTreatmentDisease { get; set; }
     }
 }

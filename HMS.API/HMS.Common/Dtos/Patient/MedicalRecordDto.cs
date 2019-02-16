@@ -23,5 +23,6 @@ namespace HMS.Common.Dtos.Patient
         public string PatientFirstName { get; set; }
         public string PatientLastName { get; set; }
         public string PatientFullName => $"{PatientFirstName} {PatientLastName}";
+        public string Diagnose { get; set; }
     }
 }

@@ -10,6 +10,9 @@ using HMS.Business.Paginated;
 using Microsoft.EntityFrameworkCore;
 using HMS.Common.Dtos.Patient;
 using HMS.Common.Enums;
+using HMS.Common.Filters;
+using System.Linq.Expressions;
+using System;
 
 namespace HMS.Business
 {
@@ -19,16 +22,22 @@ namespace HMS.Business
         private readonly IMedicalRecordRepository _medicalRecordRepository;
         private readonly IPatientRepository _patientRepository;
         private readonly IMedicalRecordStatusRepository _medicalRecordStatusRepository;
+        private readonly IDiseaseRepository _diseaseRepository;
+        private readonly ITreatmentDiseaseRepository _treatmentDiseaseRepository;
 
         public MedicalRecordBusiness(IMapper mapper,
             IMedicalRecordRepository medicalRecordRepository,
             IPatientRepository patientRepository,
-            IMedicalRecordStatusRepository medicalRecordStatusRepository)
+            IMedicalRecordStatusRepository medicalRecordStatusRepository,
+            IDiseaseRepository diseaseRepository,
+            ITreatmentDiseaseRepository treatmentDiseaseRepository)
         {
             _mapper = mapper;
             _medicalRecordRepository = medicalRecordRepository;
             _patientRepository = patientRepository;
             _medicalRecordStatusRepository = medicalRecordStatusRepository;
+            _diseaseRepository = diseaseRepository;
+            _treatmentDiseaseRepository = treatmentDiseaseRepository;
         }
 
         public async Task<MedicalRecordDto> Add(MedicalRecordDto model)
@@ -94,9 +103,39 @@ namespace HMS.Business
 
         public Task<IPaginatedList<MedicalRecordDto>> GetAll(int pageIndex, int pageSize)
         {
-            var result = (from medical in _medicalRecordRepository.Repo.Where(c => c.IsActived)
-                          join patient in _patientRepository.Repo on medical.PatientId equals patient.Id
+            Expression<Func<TMedicalRecord, bool>> expression = c => c.IsActived;
+            return GetAll(expression, null, pageIndex, pageSize);
+        }
+
+        private Task<IPaginatedList<MedicalRecordDto>> GetAll(
+            Expression<Func<TMedicalRecord, bool>> medicalRecordExpression,
+            Expression<Func<TPatient, bool>> patientExpression,
+            int pageIndex, int pageSize)
+        {
+            var medicalRecordRepo = _medicalRecordRepository.Repo;
+            if (medicalRecordExpression != null)
+            {
+                medicalRecordRepo = medicalRecordRepo.Where(medicalRecordExpression);
+            }
+
+            var patientRepo = _patientRepository.Repo;
+            if (patientExpression != null)
+            {
+                patientRepo = patientRepo.Where(patientExpression);
+            }
+
+            var result = (from medical in medicalRecordRepo
+                          join patient in patientRepo on medical.PatientId equals patient.Id
                           join status in _medicalRecordStatusRepository.Repo on medical.StatusId equals status.Id
+                          join treatmentDisease in
+                              (from treatmentDisease in _treatmentDiseaseRepository.Repo
+                               join disease in _diseaseRepository.Repo on treatmentDisease.DiseaseId equals disease.Id
+                               select new
+                               {
+                                   treatmentDisease.MedicalRecordId,
+                                   disease.Name
+                               }) on medical.Id equals treatmentDisease.MedicalRecordId
+                              into treatmentDiseases
                           select new MedicalRecordDto
                           {
                               Id = medical.Id,
@@ -115,10 +154,38 @@ namespace HMS.Business
                               UpdatedBy = medical.UpdatedBy,
                               IsActived = medical.IsActived,
                               IsDeleted = medical.IsDeleted,
+                              Diagnose = String.Join(", ", treatmentDiseases.Select(c => c.Name))
                           })
                           .OrderByDescending(c => c.Id)
                           .ToPaginatedListAsync(pageIndex, pageSize);
             return result;
+        }
+
+        public Task<IPaginatedList<MedicalRecordDto>> GetAll(MedicalRecordFilter filter)
+        {
+            Expression<Func<TMedicalRecord, bool>> medicalRecordExpression = null;
+            Expression<Func<TPatient, bool>> patientExpression = null;
+            if (!string.IsNullOrEmpty(filter.Code))
+            {
+                medicalRecordExpression = c => c.Code.Contains(filter.Code);
+            }
+            else if (!string.IsNullOrEmpty(filter.PatientCode))
+            {
+                patientExpression = c => c.Code.Contains(filter.Code);
+            }
+            else if (!string.IsNullOrEmpty(filter.PatientName))
+            {
+                patientExpression = c => (c.FirstName + " " + c.LastName).Contains(filter.PatientName);
+            }
+            else if (!string.IsNullOrEmpty(filter.IdentifyCardNo))
+            {
+                patientExpression = c => c.IdentifyCardNo.Contains(filter.IdentifyCardNo);
+            }
+            else
+            {
+                medicalRecordExpression = c => c.IsActived;
+            }
+            return GetAll(medicalRecordExpression, patientExpression, filter.PageIndex, filter.PageSize);
         }
 
         public Task<IPaginatedList<MedicalRecordDto>> GetBeingTreated(int pageIndex, int pageSize)
@@ -147,6 +214,19 @@ namespace HMS.Business
                           })
                           .OrderByDescending(c => c.Id)
                           .ToPaginatedListAsync(pageIndex, pageSize);
+            return result;
+        }
+
+        public async Task<bool> SetActive(int id, bool isActive)
+        {
+            var result = false;
+            var medicalRecord = await _medicalRecordRepository.Repo.FirstOrDefaultAsync(c => c.Id == id);
+            if (medicalRecord != null)
+            {
+                medicalRecord.IsActived = isActive;
+                await _medicalRecordRepository.SaveChangeAsync();
+                result = true;
+            }
             return result;
         }
     }

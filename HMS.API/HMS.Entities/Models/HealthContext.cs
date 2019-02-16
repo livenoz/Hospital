@@ -497,6 +497,8 @@ namespace HMS.Entities.Models
 
                 entity.Property(e => e.Description).HasMaxLength(512);
 
+                entity.Property(e => e.DiseaseHistories).HasMaxLength(2048);
+
                 entity.Property(e => e.Email)
                     .HasMaxLength(64)
                     .IsUnicode(false);
@@ -757,6 +759,18 @@ namespace HMS.Entities.Models
                     .HasForeignKey(d => d.DiseaseId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TTreatmentDisease_TDisease");
+
+                entity.HasOne(d => d.MedicalRecord)
+                    .WithMany(p => p.TTreatmentDisease)
+                    .HasForeignKey(d => d.MedicalRecordId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TTreatmentDisease_TMedicalRecord");
+
+                entity.HasOne(d => d.Patient)
+                    .WithMany(p => p.TTreatmentDisease)
+                    .HasForeignKey(d => d.PatientId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TTreatmentDisease_TPatient");
 
                 entity.HasOne(d => d.Treatment)
                     .WithMany(p => p.TTreatmentDisease)

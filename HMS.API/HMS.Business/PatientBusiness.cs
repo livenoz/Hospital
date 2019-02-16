@@ -166,6 +166,7 @@ namespace HMS.Business
                               SecondRelativePhone = patient.SecondRelativePhone,
                               SecondRelativeIdentifyCardNo = patient.SecondRelativeIdentifyCardNo,
                               SecondRelativeDescription = patient.SecondRelativeDescription,
+                              DiseaseHistories = patient.DiseaseHistories,
                               Description = patient.Description,
                               CreatedTime = patient.CreatedTime,
                               CreatedBy = patient.CreatedBy,

@@ -14,7 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace HMS.API.Controllers.V1
 {
     [Route("api/v1/[controller]")]
-    //[BearerAuthorize]
+    [BearerAuthorize]
     [ApiController]
     public class PatientController : ControllerBase
     {
@@ -24,7 +24,7 @@ namespace HMS.API.Controllers.V1
         public PatientController(IHttpContextAccessor httpContextAccessor, 
             IPatientBusiness patientBusiness)
         {
-            //_authenticationDto = httpContextAccessor.HttpContext.User.ToAuthenticationDto();
+            _authenticationDto = httpContextAccessor.HttpContext.User.ToAuthenticationDto();
             _patientBusiness = patientBusiness;
         }
 

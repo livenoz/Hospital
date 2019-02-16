@@ -33,6 +33,7 @@ namespace HMS.Common.Dtos.Patient
         public string SecondRelativeIdentifyCardNo { get; set; }
         public string SecondRelativePhone { get; set; }
         public string SecondRelativeDescription { get; set; }
+        public string DiseaseHistories { get; set; }
         public string Description { get; set; }
         public DateTime CreatedTime { get; set; }
         public int CreatedBy { get; set; }

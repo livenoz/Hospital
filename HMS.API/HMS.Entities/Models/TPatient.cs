@@ -9,6 +9,7 @@ namespace HMS.Entities.Models
         {
             TMedicalRecord = new HashSet<TMedicalRecord>();
             TTreatment = new HashSet<TTreatment>();
+            TTreatmentDisease = new HashSet<TTreatmentDisease>();
         }
 
         public int Id { get; set; }
@@ -40,6 +41,7 @@ namespace HMS.Entities.Models
         public string SecondRelativeIdentifyCardNo { get; set; }
         public string SecondRelativePhone { get; set; }
         public string SecondRelativeDescription { get; set; }
+        public string DiseaseHistories { get; set; }
         public string Description { get; set; }
         public DateTime CreatedTime { get; set; }
         public int CreatedBy { get; set; }
@@ -56,5 +58,6 @@ namespace HMS.Entities.Models
         public TProvince Province { get; set; }
         public ICollection<TMedicalRecord> TMedicalRecord { get; set; }
         public ICollection<TTreatment> TTreatment { get; set; }
+        public ICollection<TTreatmentDisease> TTreatmentDisease { get; set; }
     }
 }

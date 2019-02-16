@@ -7,6 +7,7 @@ using HMS.Business.Interfaces.Paginated;
 using HMS.Common.Constants;
 using HMS.Common.Dtos.Patient;
 using HMS.Common.Dtos.User;
+using HMS.Common.Filters;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,10 +30,19 @@ namespace HMS.API.Controllers.V1
 
         // GET: api/MedicalRecord
         [HttpGet]
-        public Task<IPaginatedList<MedicalRecordDto>> Get(
+        public Task<IPaginatedList<MedicalRecordDto>> Get(string code, string value,
             int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {
-            return _medicalRecordBusiness.GetAll(pageIndex, pageSize);
+            var filter = new MedicalRecordFilter
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                Code = string.Equals("Code", code, StringComparison.OrdinalIgnoreCase) ? value : string.Empty,
+                PatientCode = string.Equals("PatientCode", code, StringComparison.OrdinalIgnoreCase) ? value : string.Empty,
+                PatientName = string.Equals("PatientName", code, StringComparison.OrdinalIgnoreCase) ? value : string.Empty,
+                IdentifyCardNo = string.Equals("IdentifyCardNo", code, StringComparison.OrdinalIgnoreCase) ? value : string.Empty,
+            };
+            return _medicalRecordBusiness.GetAll(filter);
         }
 
         // GET: api/MedicalRecord/5
@@ -97,6 +107,12 @@ namespace HMS.API.Controllers.V1
             int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {
             return _medicalRecordBusiness.GetBeingTreated(pageIndex, pageSize);
+        }
+
+        [HttpPut("active")]
+        public Task<bool> Put(int id, bool isActive)
+        {
+            return _medicalRecordBusiness.SetActive(id, isActive);
         }
     }
 }
