@@ -1,14 +1,15 @@
-export class TreatmentModel {
+export class TreatmentDetailModel {
     id: number;
-    code: string;
     patientId: number;
     patientFirstName: string;
     patientLastName: string;
     medicalRecordId: number;
     medicalRecordCode: string;
+    treatmentId: number;
+    treatmentCode: string;
     startDate: Date;
     endDate: Date;
-    title: string;
+    result: string;
     content: string;
     doctorId: number;
     doctorFirstName: string;

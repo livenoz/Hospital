@@ -1,7 +1,8 @@
 <app-page-header [heading]="'Điều trị'" [icon]="'fa-table'"></app-page-header>
 <div class="row">
     <div class="col col-xl-9 col-lg-9 form-group">
-        <button type="button" class="btn btn-primary" [routerLink]="['/treatment-add', medicalRecordRouteId]" [routerLinkActive]="['router-link-active']">Thêm
+        <button type="button" class="btn btn-primary" [routerLink]="['/treatment-detail-add', treatmentRouteId]"
+            [routerLinkActive]="['router-link-active']">Thêm
             mới</button>
         <!-- <button type="button" class="btn btn-sm btn-success mr-1" (click)="onUpdate()" [disabled]="this.selection.selected.length !== 1">Cập
             nhật</button> -->
@@ -14,13 +15,19 @@
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
                 <!-- Patient Code Column -->
                 <ng-container matColumnDef="Code">
+                    <th mat-header-cell *matHeaderCellDef> Mã điều trị chi tiết</th>
+                    <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="TreatmentCode">
                     <th mat-header-cell *matHeaderCellDef> Mã điều trị</th>
-                    <td mat-cell *matCellDef="let element"> <a [routerLink]="['/treatment-details',  element.id ]">{{element.code}}</a> </td>
+                    <td mat-cell *matCellDef="let element"> {{element.treatmentCode}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="FullName">
                     <th mat-header-cell *matHeaderCellDef> Bệnh nhân </th>
-                    <td mat-cell *matCellDef="let element"> {{element.patientFirstName}} {{element.patientLastName}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.patientFirstName}} {{element.patientLastName}}
+                    </td>
                 </ng-container>
 
                 <ng-container matColumnDef="MedicalRecordCode">
@@ -28,14 +35,14 @@
                     <td mat-cell *matCellDef="let element"> {{element.medicalRecordCode}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="Title">
-                    <th mat-header-cell *matHeaderCellDef> Khám</th>
-                    <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+                <ng-container matColumnDef="Content">
+                    <th mat-header-cell *matHeaderCellDef> Nội dung</th>
+                    <td mat-cell *matCellDef="let element"> {{element.content}} </td>
                 </ng-container>
 
-                <ng-container matColumnDef="Content">
+                <ng-container matColumnDef="Result">
                     <th mat-header-cell *matHeaderCellDef> Kết quả </th>
-                    <td mat-cell *matCellDef="let element"> {{element.content}} </td>
+                    <td mat-cell *matCellDef="let element"> {{element.result}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="Doctor">
@@ -57,7 +64,7 @@
                 <ng-container matColumnDef="control" stickyEnd>
                     <th mat-header-cell *matHeaderCellDef> Tác vụ </th>
                     <td mat-cell *matCellDef="let element">
-                        <i class="fa fa-edit fa-lg mr-5" title="Cập nhật" [routerLink]="['/treatment-update',  element.id ]"></i>
+                        <i class="fa fa-edit fa-lg mr-5" title="Cập nhật" [routerLink]="['/treatment-detail-update',  element.id ]"></i>
                         <!-- <i class="fa fa-ban fa-lg mr-5" title="Vô hiệu hóa" (click)="onDisable()"></i> -->
                         <!-- <fa-icon [icon]="faBriefcase" class="fa-lg" style="color: #673ab7" title="Xem bệnh án"
                             [routerLink]="['/treatments',  element.id ]"></fa-icon> -->

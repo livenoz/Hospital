@@ -14,6 +14,7 @@ import { AddressService } from './shared/services/address.service';
 import { MedicalRecordService } from './admin/medical-records/shared/medical-record.service';
 import { TreatmentService } from './admin/treatments/shared/treatment.service';
 import { EmployeeService } from './shared/services/employee.service';
+import { TreatmentDetailService } from './admin/treatment-details/shared/treatment-detail.service';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { EmployeeService } from './shared/services/employee.service';
     AppRoutingModule,
     NgxSpinnerModule
   ],
-  providers: [AuthGuard, UserService, PatientService, AddressService, MedicalRecordService, TreatmentService, EmployeeService],
+  // tslint:disable-next-line:max-line-length
+  providers: [AuthGuard, UserService, PatientService, AddressService, MedicalRecordService, TreatmentService, EmployeeService, TreatmentDetailService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

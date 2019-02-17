@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { PaginatedListModel } from '../../../shared/models/paginated-list.model';
 import { TreatmentModel } from './treatment.model';
 import { DiseaseModel } from './disease.model';
-import { TreatmentDetailModel } from './treatment-detail.model';
+import { TreatmentDiseaseModel } from './treatment-disease.model';
 
 @Injectable()
 export class TreatmentService {
@@ -38,11 +38,11 @@ export class TreatmentService {
         return this.http.get<PaginatedListModel<DiseaseModel>>(this.diseaseUrl, { headers: this.headers, params: params });
     }
 
-    public getDetail(id: any): Observable<TreatmentDetailModel> {
-        return this.http.get<TreatmentDetailModel>(this.treatmentUrl + '/' + id, { headers: this.headers });
+    public getDetail(id: any): Observable<TreatmentDiseaseModel> {
+        return this.http.get<TreatmentDiseaseModel>(this.treatmentUrl + '/' + id, { headers: this.headers });
     }
 
-    public add(patientProfileModel: TreatmentDetailModel): Observable<number> {
+    public add(patientProfileModel: TreatmentDiseaseModel): Observable<number> {
         return this.http.post<number>(this.treatmentUrl, patientProfileModel, { headers: this.headers});
     }
 

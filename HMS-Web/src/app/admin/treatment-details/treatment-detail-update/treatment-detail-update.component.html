@@ -1,0 +1,109 @@
+<app-page-header [heading]="treatmentDetailControl" [icon]="'fa-edit'"></app-page-header>
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+  <fieldset class="fieldset-border">
+    <legend class="legend-border">Thông tin điều trị chi tiết</legend>
+    <div class="form-group row"></div>
+    <div class="form-group row">
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Bệnh nhân</mat-label>
+        <input [readonly]="true" type="text" [formControl]="patientControl" caria-label="String" matInput
+          [matAutocomplete]="autoPatientControl" [(ngModel)]="inputData.patientId" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.patientControl.invalid }"
+          required>
+        <mat-autocomplete #autoPatientControl="matAutocomplete" [displayWith]="displayPatient">
+          <mat-option *ngFor="let patient of filteredPatient | async" [value]="patient.id">
+            {{patient.code}} - {{patient.fullName}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Mã bệnh án</mat-label>
+        <input [readonly]="true" type="text" [formControl]="medicalRecordControl" caria-label="String" matInput
+          [matAutocomplete]="autoMedicalRecordControl" [(ngModel)]="inputData.medicalRecordId" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.medicalRecordControl.invalid }"
+          required>
+        <mat-autocomplete #autoMedicalRecordControl="matAutocomplete" [displayWith]="displayMedicalRecord">
+          <mat-option *ngFor="let medicalRecord of filteredMedicalRecord | async" [value]="medicalRecord.id">
+            {{medicalRecord.code}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Mã điều trị</mat-label>
+        <input [readonly]="true" type="text" [formControl]="treatmentControl" caria-label="String" matInput
+          [matAutocomplete]="autoTreatmentControl" [(ngModel)]="inputData.treatmentId" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.treatmentControl.invalid }"
+          required>
+        <mat-autocomplete #autoTreatmentControl="matAutocomplete" [displayWith]="displayTreatment">
+          <mat-option *ngFor="let treatment of filteredTreatment | async" [value]="treatment.id">
+            {{treatment.code}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="form-group row">
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Ngày bắt đầu</mat-label>
+        <input matInput [matDatepicker]="startDate" [(ngModel)]="inputData.startDate" formControlName="startDateControl"
+          [ngClass]="{ 'is-invalid': myForm.submitted && myForm.startDate.invalid }" required>
+        <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+        <mat-datepicker #startDate></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Ngày kết thúc</mat-label>
+        <input matInput [matDatepicker]="endDate" [(ngModel)]="inputData.endDate" formControlName="endDateControl"
+          [ngClass]="{ 'is-invalid': myForm.submitted && myForm.startDate.invalid }" required>
+        <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+        <mat-datepicker #endDate></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Bác sĩ</mat-label>
+        <input type="text" [formControl]="doctorControl" caria-label="String" matInput [matAutocomplete]="autoDoctorControl"
+          [(ngModel)]="inputData.doctorId">
+        <mat-autocomplete #autoDoctorControl="matAutocomplete" [displayWith]="displayDoctor">
+          <mat-option *ngFor="let doctor of filteredDoctor | async" [value]="doctor.id">
+            {{doctor.firstName}} {{doctor.lastName}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field class="col-3">
+        <mat-label class="text-right font-weight-bold">Y tá</mat-label>
+        <input type="text" [formControl]="nurseControl" caria-label="String" matInput [matAutocomplete]="autoNurseControl"
+          [(ngModel)]="inputData.nurseId">
+        <mat-autocomplete #autoNurseControl="matAutocomplete" [displayWith]="displayNurse">
+          <mat-option *ngFor="let nurse of filteredNurse | async" [value]="nurse.id">
+            {{nurse.firstName}} {{nurse.lastName}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <!-- <mat-form-field class="col-6">
+        <mat-label class="text-right font-weight-bold">Chẩn đoán</mat-label>
+        <mat-select multiple [(ngModel)]="inputData.diseases" [ngModelOptions]="{standalone:true}">
+          <mat-option *ngFor="let disease of diseases" [value]="disease">{{disease.name}}</mat-option>
+        </mat-select>
+      </mat-form-field> -->
+    </div>
+    <div class="form-group row">
+        <mat-form-field class="col-6">
+          <mat-label class="text-right font-weight-bold">Nội dung</mat-label>
+          <textarea matInput [(ngModel)]="inputData.content" formControlName="contentControl" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.contentControl.invalid }"
+            required></textarea>
+        </mat-form-field>
+      <mat-form-field class="col-6">
+        <mat-label class="text-right font-weight-bold">Kết quả</mat-label>
+        <textarea matInput [(ngModel)]="inputData.result" formControlName="resultControl" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.resultControl.invalid }"
+          required></textarea>
+      </mat-form-field>
+    </div>
+    <div class="form-group row">
+      <mat-form-field class="col-6">
+        <mat-label class="text-right font-weight-bold">Ghi chú</mat-label>
+        <textarea matInput [(ngModel)]="inputData.note" [ngModelOptions]="{standalone:true}"></textarea>
+      </mat-form-field>
+    </div>
+  </fieldset>
+  <button type="button" class="btn float-right" [routerLink]="['/treatment-details', inputData.treatmentId]" [routerLinkActive]="['router-link-active']">Quay
+    lại</button>
+  <button type="submit" class="btn btn-primary float-right mr-2">Cập nhật</button>
+</form>

@@ -11,14 +11,13 @@ import { PatientModel } from '../../patients/shared/patient.model';
 import { Observable } from 'rxjs';
 import { PaginatedListModel } from '../../../shared/models/paginated-list.model';
 import { TreatmentService } from '../shared/treatment.service';
-import { TreatmentModel } from '../shared/treatment.model';
 import { MedicalRecordModel } from '../../medical-records/shared/medical-record.model';
 import { MedicalRecordService } from '../../medical-records/shared/medical-record.service';
 import { EmployeeService } from '../../../shared/services/employee.service';
 import { DoctorModel } from '../../../shared/models/employee/nurse.model';
 import { NurseModel } from '../../../shared/models/employee/doctor.model';
 import { DiseaseModel } from '../shared/disease.model';
-import { TreatmentDetailModel } from '../shared/treatment-detail.model';
+import { TreatmentDiseaseModel } from '../shared/treatment-disease.model';
 
 @Component({
   selector: 'app-treatment-add',
@@ -48,8 +47,9 @@ export class TreatmentAddComponent implements OnInit {
   nurses: NurseModel[];
   diseases: DiseaseModel[];
   patientRouteId: number;
-  public inputData: TreatmentDetailModel;
+  public inputData: TreatmentDiseaseModel;
   isLoadingPatient = false;
+  medicalRecordRouteId: number;
 
   constructor(
     private spinner: NgxSpinnerService,
@@ -62,7 +62,7 @@ export class TreatmentAddComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) {
 
-    this.inputData = new TreatmentDetailModel();
+    this.inputData = new TreatmentDiseaseModel();
     this.patientControl = new FormControl();
     this.medicalRecordControl = new FormControl();
     this.titleControl = new FormControl();
@@ -74,10 +74,10 @@ export class TreatmentAddComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.route.params) {
-      this.patientRouteId = this.route.params['value'].id;
-    }
+    // tslint:disable-next-line:radix
+    this.medicalRecordRouteId = parseInt(this.route.params['value'].medicalRecordId);
     this.dropdownConfig(() => this.spinner.hide());
+    this.inputData.startDate = new Date();
     this.myForm = this.formBuilder.group({
       patientControl: [0, Validators.required],
       medicalRecordControl: [0, Validators.required],
@@ -101,6 +101,11 @@ export class TreatmentAddComponent implements OnInit {
             this.filteredMedicalRecord = this.medicalRecordControl.valueChanges.pipe(
               startWith(''),
               map(value => this.filterMedicalRecord(value)));
+            this.inputData.medicalRecordId = this.medicalRecordRouteId;
+            const medicalRecord = this.medicalRecords ? this.medicalRecords.find(c => c.id === this.medicalRecordRouteId) : null;
+            if (medicalRecord != null) {
+              this.inputData.patientId = medicalRecord.patientId;
+            }
           });
       });
     this.employeeService.getAllDoctors()
@@ -146,7 +151,6 @@ export class TreatmentAddComponent implements OnInit {
 
   private filterMedicalRecord = (value: string) => {
     const valueFilter = (value || '').toString();
-    console.log(this.inputData.patientId);
     return this.medicalRecords.filter(c => c.patientId === this.inputData.patientId && this.checkMatchStringFilter(c.code, valueFilter));
   }
 
@@ -229,7 +233,7 @@ export class TreatmentAddComponent implements OnInit {
           modalRef.componentInstance.content = Constants.MODAL.ADD_SUCCESS;
           modalRef.componentInstance.isDisplayCancel = false;
           modalRef.result.then(_result => {
-            this.router.navigate(['/treatments']);
+            this.router.navigate(['/treatments', this.medicalRecordRouteId]);
           });
         } else {
           const modalRef = this.modal.open(NgbdModalComponent);

@@ -49,4 +49,9 @@ export class Constants {
     public static readonly treatment = '/treatment';
     public static readonly disease = '/disease';
   };
+
+  public static API_TREATMENT_DETAIL = class {
+    public static readonly treatmentDetail = '/treatmentDetail';
+    public static readonly disease = '/disease';
+  };
 }
