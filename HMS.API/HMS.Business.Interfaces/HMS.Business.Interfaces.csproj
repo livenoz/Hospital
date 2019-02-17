@@ -10,6 +10,7 @@
     <Compile Include="IPatientBusiness.cs" />
     <Compile Include="IMedicalRecordBusiness.cs" />
     <Compile Include="IDiseaseBusiness.cs" />
+    <Compile Include="ITreatmentDetailBusiness.cs" />
     <Compile Include="ITreatmentBusiness.cs" />
     <Compile Include="IAddressBusiness.cs" />
     <Compile Include="IUserBusiness.cs" />

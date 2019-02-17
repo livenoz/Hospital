@@ -8,6 +8,8 @@ namespace HMS.Entities.Models
         public TEmployee()
         {
             TPrescription = new HashSet<TPrescription>();
+            TTreatmentDetailDoctor = new HashSet<TTreatmentDetail>();
+            TTreatmentDetailNurse = new HashSet<TTreatmentDetail>();
             TTreatmentDoctor = new HashSet<TTreatment>();
             TTreatmentNurse = new HashSet<TTreatment>();
         }
@@ -52,6 +54,8 @@ namespace HMS.Entities.Models
         public TProvince Province { get; set; }
         public TEmployeeType Type { get; set; }
         public ICollection<TPrescription> TPrescription { get; set; }
+        public ICollection<TTreatmentDetail> TTreatmentDetailDoctor { get; set; }
+        public ICollection<TTreatmentDetail> TTreatmentDetailNurse { get; set; }
         public ICollection<TTreatment> TTreatmentDoctor { get; set; }
         public ICollection<TTreatment> TTreatmentNurse { get; set; }
     }

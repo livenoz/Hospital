@@ -20,6 +20,7 @@
     <Compile Include="MedicalRecordStatusRepository.cs" />
     <Compile Include="DiseaseRepository.cs" />
     <Compile Include="TreatmentDiseaseRepository.cs" />
+    <Compile Include="TreatmentDetailRepository.cs" />
     <Compile Include="TreatmentRepository.cs" />
     <Compile Include="UserRepository.cs" />
     <Compile Include="PatientRepository.cs" />

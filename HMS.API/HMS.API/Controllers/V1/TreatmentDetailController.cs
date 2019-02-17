@@ -17,37 +17,37 @@ namespace HMS.API.Controllers.V1
     [Route("api/v1/[controller]")]
     [BearerAuthorize]
     [ApiController]
-    public class TreatmentController : ControllerBase
+    public class TreatmentDetailController : ControllerBase
     {
         private readonly AuthenticationDto _authenticationDto;
-        private readonly ITreatmentBusiness _treatmentBusiness;
+        private readonly ITreatmentDetailBusiness _treatmentDetailBusiness;
 
-        public TreatmentController(IHttpContextAccessor httpContextAccessor,
-            ITreatmentBusiness treatmentBusiness)
+        public TreatmentDetailController(IHttpContextAccessor httpContextAccessor,
+            ITreatmentDetailBusiness treatmentDetailBusiness)
         {
             _authenticationDto = httpContextAccessor.HttpContext.User.ToAuthenticationDto();
-            _treatmentBusiness = treatmentBusiness;
+            _treatmentDetailBusiness = treatmentDetailBusiness;
         }
 
 
         // GET: api/Treatment
         [HttpGet]
-        public Task<IPaginatedList<TreatmentDto>> Get(
+        public Task<IPaginatedList<TreatmentDetailDto>> Get(
             int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {
-            return _treatmentBusiness.GetAll(pageIndex, pageSize);
+            return _treatmentDetailBusiness.GetAll(pageIndex, pageSize);
         }
 
         // GET: api/Treatment/5
         [HttpGet("{id}")]
-        public Task<TreatmentDiseaseDto> Get(int id)
+        public Task<TreatmentDetailDto> Get(int id)
         {
-            return _treatmentBusiness.GetById(id);
+            return _treatmentDetailBusiness.GetById(id);
         }
 
         // POST: api/Treatment
         [HttpPost]
-        public async Task<int> Post(TreatmentDiseaseDto model)
+        public async Task<int> Post(TreatmentDetailDto model)
         {
             var result = 0;
             if (ModelState.IsValid)
@@ -58,7 +58,7 @@ namespace HMS.API.Controllers.V1
                 model.UpdatedBy = _authenticationDto.UserId;
                 model.UpdatedTime = dateTimeUtcNow;
                 model.IsActived = true;
-                var modelInsert = await _treatmentBusiness.Add(model);
+                var modelInsert = await _treatmentDetailBusiness.Add(model);
                 result = modelInsert.Id;
             }
             return result;
@@ -66,7 +66,7 @@ namespace HMS.API.Controllers.V1
 
         // PUT: api/Treatment/5
         [HttpPut("{id}")]
-        public async Task<bool> Put(TreatmentDiseaseDto model)
+        public async Task<bool> Put(TreatmentDetailDto model)
         {
             var result = false;
             if (ModelState.IsValid)
@@ -74,7 +74,7 @@ namespace HMS.API.Controllers.V1
                 var dateTimeUtcNow = DateTime.Now;
                 model.UpdatedBy = _authenticationDto.UserId;
                 model.UpdatedTime = dateTimeUtcNow;
-                result = await _treatmentBusiness.Update(model);
+                result = await _treatmentDetailBusiness.Update(model);
             }
             return result;
         }
@@ -87,17 +87,24 @@ namespace HMS.API.Controllers.V1
         }
 
         [HttpGet("GetByMedicalRecordId/{medicalRecordId}")]
-        public Task<IPaginatedList<TreatmentDto>> GetByMedicalRecordId(int medicalRecordId,
+        public Task<IPaginatedList<TreatmentDetailDto>> GetByMedicalRecordId(int medicalRecordId,
                 int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {
-            return _treatmentBusiness.GetByMedicalRecordId(medicalRecordId, pageIndex, pageSize);
+            return _treatmentDetailBusiness.GetByMedicalRecordId(medicalRecordId, pageIndex, pageSize);
         }
 
         [Route("GetByPatientId/{patientId}")]
-        public Task<IPaginatedList<TreatmentDto>> GetByPatientId(int patientId,
+        public Task<IPaginatedList<TreatmentDetailDto>> GetByPatientId(int patientId,
                 int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {
-            return _treatmentBusiness.GetByPatientId(patientId, pageIndex, pageSize);
+            return _treatmentDetailBusiness.GetByPatientId(patientId, pageIndex, pageSize);
+        }
+
+        [HttpGet("GetByTreatmentId/{treatmentId}")]
+        public Task<IPaginatedList<TreatmentDetailDto>> GetByTreatmentId(int treatmentId,
+                int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
+        {
+            return _treatmentDetailBusiness.GetByTreatmentId(treatmentId, pageIndex, pageSize);
         }
     }
 }

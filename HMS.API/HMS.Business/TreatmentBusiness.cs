@@ -40,7 +40,7 @@ namespace HMS.Business
             _diseaseRepository = diseaseRepository;
         }
 
-        public async Task<TreatmentDetailDto> Add(TreatmentDetailDto model)
+        public async Task<TreatmentDiseaseDto> Add(TreatmentDiseaseDto model)
         {
             var entity = _mapper.Map<TTreatment>(model);
             entity.Code = string.Empty;
@@ -81,8 +81,8 @@ namespace HMS.Business
         public Task<IPaginatedList<TreatmentDto>> GetByMedicalRecordId(int medicalRecordId, int pageIndex, int pageSize)
         {
             var result = (from treatment in _treatmentRepository.Repo.Where(c => c.MedicalRecordId == medicalRecordId && c.IsActived)
-                          join patient in _patientRepository.Repo.Where(c => c.IsActived) on treatment.PatientId equals patient.Id
-                          join medicalRecord in _medicalRecordRepository.Repo.Where(c => c.IsActived) on treatment.MedicalRecordId equals medicalRecord.Id
+                          join patient in _patientRepository.Repo on treatment.PatientId equals patient.Id
+                          join medicalRecord in _medicalRecordRepository.Repo on treatment.MedicalRecordId equals medicalRecord.Id
                           join doctor in _employeeRepository.Repo on treatment.DoctorId equals doctor.Id
                           into leftDoctors
                           from doctor in leftDoctors.DefaultIfEmpty()
@@ -121,21 +121,26 @@ namespace HMS.Business
             return result;
         }
 
-        public async Task<TreatmentDetailDto> GetById(int id)
+        public async Task<TreatmentDiseaseDto> GetById(int id)
         {
             var treatmentTask = (from treatment in _treatmentRepository.Repo.Where(c => c.Id == id && c.IsActived)
+                                 join patient in _patientRepository.Repo on treatment.PatientId equals patient.Id
+                                 join medicalRecord in _medicalRecordRepository.Repo on treatment.MedicalRecordId equals medicalRecord.Id
                                  join doctor in _employeeRepository.Repo on treatment.DoctorId equals doctor.Id
                                  into leftDoctors
                                  from doctor in leftDoctors.DefaultIfEmpty()
                                  join nurse in _employeeRepository.Repo on treatment.NurseId equals nurse.Id
                                  into leftNurses
                                  from nurse in leftNurses.DefaultIfEmpty()
-                                 select new TreatmentDetailDto
+                                 select new TreatmentDiseaseDto
                                  {
                                      Id = treatment.Id,
                                      Code = treatment.Code,
                                      PatientId = treatment.PatientId,
+                                     PatientFirstName = patient.FirstName,
+                                     PatientLastName = patient.LastName,
                                      MedicalRecordId = treatment.MedicalRecordId,
+                                     MedicalRecordCode = medicalRecord.Code,
                                      StartDate = treatment.StartDate,
                                      EndDate = treatment.EndDate,
                                      DoctorId = treatment.DoctorId,
@@ -178,13 +183,11 @@ namespace HMS.Business
             return treatmentTask.Result;
         }
 
-        public async Task<bool> Update(TreatmentDetailDto model)
+        public async Task<bool> Update(TreatmentDiseaseDto model)
         {
             var entity = await _treatmentRepository.Repo
                 .Include(c => c.TTreatmentDisease)
                 .FirstOrDefaultAsync(c => c.Id == model.Id);
-            entity.PatientId = model.PatientId;
-            entity.MedicalRecordId = model.MedicalRecordId;
             entity.StartDate = model.StartDate;
             entity.EndDate = model.EndDate;
             entity.DoctorId = model.DoctorId;

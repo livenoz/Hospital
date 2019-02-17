@@ -39,6 +39,7 @@ namespace HMS.Entities.Models
         public virtual DbSet<TRight> TRight { get; set; }
         public virtual DbSet<TRole> TRole { get; set; }
         public virtual DbSet<TTreatment> TTreatment { get; set; }
+        public virtual DbSet<TTreatmentDetail> TTreatmentDetail { get; set; }
         public virtual DbSet<TTreatmentDisease> TTreatmentDisease { get; set; }
         public virtual DbSet<TUnit> TUnit { get; set; }
         public virtual DbSet<TUser> TUser { get; set; }
@@ -619,6 +620,12 @@ namespace HMS.Entities.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TPrescription_TMedicalRecord");
 
+                entity.HasOne(d => d.Patient)
+                    .WithMany(p => p.TPrescription)
+                    .HasForeignKey(d => d.PatientId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TPrescription_TPatient");
+
                 entity.HasOne(d => d.Treatment)
                     .WithMany(p => p.TPrescription)
                     .HasForeignKey(d => d.TreatmentId)
@@ -744,6 +751,56 @@ namespace HMS.Entities.Models
                     .HasForeignKey(d => d.PatientId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TTreatment_TPatient");
+            });
+
+            modelBuilder.Entity<TTreatmentDetail>(entity =>
+            {
+                entity.Property(e => e.Code)
+                    .IsRequired()
+                    .HasMaxLength(16)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Content).HasMaxLength(1024);
+
+                entity.Property(e => e.CreatedTime).HasColumnType("datetime");
+
+                entity.Property(e => e.EndDate).HasColumnType("datetime");
+
+                entity.Property(e => e.Note).HasMaxLength(1024);
+
+                entity.Property(e => e.Result).HasMaxLength(1024);
+
+                entity.Property(e => e.StartDate).HasColumnType("datetime");
+
+                entity.Property(e => e.UpdatedTime).HasColumnType("datetime");
+
+                entity.HasOne(d => d.Doctor)
+                    .WithMany(p => p.TTreatmentDetailDoctor)
+                    .HasForeignKey(d => d.DoctorId)
+                    .HasConstraintName("FK_TTreatmentDetail_Doctor");
+
+                entity.HasOne(d => d.MedicalRecord)
+                    .WithMany(p => p.TTreatmentDetail)
+                    .HasForeignKey(d => d.MedicalRecordId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TTreatmentDetail_TMedicalRecord");
+
+                entity.HasOne(d => d.Nurse)
+                    .WithMany(p => p.TTreatmentDetailNurse)
+                    .HasForeignKey(d => d.NurseId)
+                    .HasConstraintName("FK_TTreatmentDetail_Nurse");
+
+                entity.HasOne(d => d.Patient)
+                    .WithMany(p => p.TTreatmentDetail)
+                    .HasForeignKey(d => d.PatientId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TTreatmentDetail_TPatient");
+
+                entity.HasOne(d => d.Treatment)
+                    .WithMany(p => p.TTreatmentDetail)
+                    .HasForeignKey(d => d.TreatmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TTreatmentDetail_TTreatment");
             });
 
             modelBuilder.Entity<TTreatmentDisease>(entity =>

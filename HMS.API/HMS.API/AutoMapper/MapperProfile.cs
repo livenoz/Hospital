@@ -17,14 +17,17 @@ namespace HMS.API.AutoMapper
             CreateMap<TTreatment, TreatmentDto>();
             CreateMap<TreatmentDto, TTreatment>();
 
-            CreateMap<TTreatment, TreatmentDetailDto>();
-            CreateMap<TreatmentDetailDto, TTreatment>();
+            CreateMap<TTreatment, TreatmentDiseaseDto>();
+            CreateMap<TreatmentDiseaseDto, TTreatment>();
 
             CreateMap<TPrescription, PrescriptionDto>();
             CreateMap<PrescriptionDto, TPrescription>();
 
             CreateMap<TDisease, DiseaseDto>();
             CreateMap<DiseaseDto, TDisease>();
+
+            CreateMap<TTreatmentDetail, TreatmentDetailDto>();
+            CreateMap<TreatmentDetailDto, TTreatmentDetail>();
         }
     }
 }

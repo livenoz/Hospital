@@ -11,6 +11,7 @@
     <Compile Include="Paginated\PaginatedList.cs" />
     <Compile Include="Paginated\PaginatedListExtension.cs" />
     <Compile Include="MedicalRecordBusiness.cs" />
+    <Compile Include="TreatmentDetailBusiness.cs" />
     <Compile Include="TreatmentBusiness.cs" />
     <Compile Include="PatientBusiness.cs" />
     <Compile Include="AddressBusiness.cs" />
