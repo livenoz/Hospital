@@ -62,7 +62,7 @@
                     <td mat-cell *matCellDef="let element">
                         <i class="fa fa-edit fa-lg mr-5" title="Cập nhật" [routerLink]="['/medical-record-update',  element.id ]"></i>
                         <i *ngIf="element.isActived" class="fa fa-ban fa-lg mr-5" title="Vô hiệu hóa" (click)="onDisable(element.id)"></i>
-                        <i *ngIf="!element.isActived" class="fa fa-ban fa-lg mr-5" title="Kích hoạt" (click)="onEnable(element.id)"></i>
+                        <i *ngIf="!element.isActived" class="fa fa-undo fa-lg mr-5" title="Kích hoạt" (click)="onEnable(element.id)"></i>
                         <!-- <i class="fa fa-ban fa-lg mr-5" title="Vô hiệu hóa" (click)="onDisable()"></i> -->
                         <!-- <fa-icon [icon]="faBriefcase" class="fa-lg" style="color: #673ab7" title="Xem bệnh án"
                             [routerLink]="['/treatments',  element.id ]"></fa-icon> -->

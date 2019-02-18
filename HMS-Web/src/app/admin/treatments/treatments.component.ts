@@ -40,6 +40,7 @@ export class TreatmentsComponent implements OnInit {
     'Code',
     'FullName',
     'MedicalRecordCode',
+    'StartDate',
     'Title',
     'Content',
     'Doctor',

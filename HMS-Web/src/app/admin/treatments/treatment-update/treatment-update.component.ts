@@ -36,7 +36,7 @@ export class TreatmentUpdateComponent implements OnInit {
   doctorControl: FormControl;
   nurseControl: FormControl;
   startDateControl: FormControl;
-  endDateControl: FormControl;
+  // endDateControl: FormControl;
   filteredPatient: Observable<PatientModel[]>;
   filteredMedicalRecord: Observable<MedicalRecordModel[]>;
   filteredDoctor: Observable<DoctorModel[]>;
@@ -70,7 +70,7 @@ export class TreatmentUpdateComponent implements OnInit {
     this.doctorControl = new FormControl();
     this.nurseControl = new FormControl();
     this.startDateControl = new FormControl();
-    this.endDateControl = new FormControl();
+    // this.endDateControl = new FormControl();
   }
 
   ngOnInit() {
@@ -84,7 +84,7 @@ export class TreatmentUpdateComponent implements OnInit {
       titleControl: ['', Validators.required],
       contentControl: ['', Validators.required],
       startDateControl: ['', Validators.required],
-      endDateControl: ['', Validators.required]
+      // endDateControl: ['', Validators.required]
     });
   }
 
@@ -208,6 +208,7 @@ export class TreatmentUpdateComponent implements OnInit {
       this.submitted = true;
       return;
     }
+    this.inputData.endDate = this.inputData.startDate;
     this.onUpdate();
   }
 

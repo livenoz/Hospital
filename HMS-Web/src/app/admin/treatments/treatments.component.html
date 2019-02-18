@@ -28,6 +28,11 @@
                     <td mat-cell *matCellDef="let element"> {{element.medicalRecordCode}} </td>
                 </ng-container>
 
+                <ng-container matColumnDef="StartDate">
+                    <th mat-header-cell *matHeaderCellDef> Ngày bắt đầu </th>
+                    <td mat-cell *matCellDef="let element"> {{element.startDate | date: 'MM-dd-yyyy' : 'vn-VN'}} </td>
+                </ng-container>
+
                 <ng-container matColumnDef="Title">
                     <th mat-header-cell *matHeaderCellDef> Khám</th>
                     <td mat-cell *matCellDef="let element"> {{element.title}} </td>
