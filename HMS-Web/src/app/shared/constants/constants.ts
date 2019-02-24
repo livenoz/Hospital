@@ -18,7 +18,7 @@ export class Constants {
   };
 
   public static readonly BASE_URL = 'http://10.211.55.4:8081';
-  // public static readonly BASE_URL = 'http://10.211.55.4:5001';
+  // public static readonly BASE_URL = 'https://10.211.55.4:5001';
   public static readonly API_URL = '/api';
   public static readonly API_VERSION_1 = '/v1';
 
@@ -53,5 +53,11 @@ export class Constants {
   public static API_TREATMENT_DETAIL = class {
     public static readonly treatmentDetail = '/treatmentDetail';
     public static readonly disease = '/disease';
+  };
+
+  public static API_PRESCRIPTIONS = class {
+    public static readonly prescription = '/prescription';
+    public static readonly drug = '/prescription/drugs';
+    public static readonly unit = '/prescription/units';
   };
 }

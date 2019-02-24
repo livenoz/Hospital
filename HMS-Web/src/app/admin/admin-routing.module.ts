@@ -26,6 +26,8 @@ const routes: Routes = [
             // tslint:disable-next-line:max-line-length
             { path: 'treatment-detail-update/:id', loadChildren: './treatment-details/treatment-detail-update/treatment-detail-update.module#TreatmentDetailUpdateModule' },
             { path: 'treatment-details/:treatmentId', loadChildren: './treatment-details/treatment-details.module#TreatmentDetailsModule' },
+            // tslint:disable-next-line:max-line-length
+            { path: 'prescriptions/:treatmentId/:treatmentDetailId', loadChildren: './prescriptions/prescriptions.module#PrescriptionsModule' },
         ]
     }
 ];

@@ -1,0 +1,103 @@
+<app-page-header [heading]="prescriptionsControl" [icon]="'fa-edit'"></app-page-header>
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <fieldset class="fieldset-border">
+        <legend class="legend-border">Toa thuốc</legend>
+        <div class="col col-xl-12 col-lg-12">
+            <div class="card mb-12">
+                <table class="mat-elevation-z8 mat-table">
+                    <thead>
+                        <tr class="mat-header-row">
+                            <th class="mat-header-cell mat-table-sticky">Tên thuốc</th>
+                            <th class="mat-header-cell mat-table-sticky">Đơn vị tính</th>
+                            <th class="mat-header-cell mat-table-sticky">Số lượng</th>
+                            <th class="mat-header-cell mat-table-sticky">Sáng</th>
+                            <th class="mat-header-cell mat-table-sticky">Trưa</th>
+                            <th class="mat-header-cell mat-table-sticky">Chiều</th>
+                            <th class="mat-header-cell mat-table-sticky">Ghi chú</th>
+                            <th class="mat-header-cell mat-table-sticky">Tác vụ</th>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="prescriptionDetailsControl">
+                        <!-- <tr *ngFor="let item of inputDatas; last as isLast; index as i" class="mat-row"> -->
+                        <tr *ngFor="let p of myForm.controls.prescriptionDetailsControl.controls; last as isLast; index as i;"
+                            class="mat-row" [formGroupName]="i">
+                            <td class="mat-cell">
+                                <div class="col-12">
+                                    <mat-form-field class="col-12">
+                                        <input type="text" caria-label="String" matInput [matAutocomplete]="autoDrugControl"
+                                            [(ngModel)]="inputDatas[i].drugId" required formControlName="drugControl">
+                                        <mat-autocomplete #autoDrugControl="matAutocomplete" [displayWith]="displayDrug">
+                                            <mat-option *ngFor="let drug of filteredDrugs[i] | async" [value]="drug.id"
+                                                (onSelectionChange)="selectionChangeDrug(drug, inputDatas[i])">
+                                                {{drug.name}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div>
+                            </td>
+                            <td class="mat-cell">
+                                <div class="col-12">
+                                    <mat-form-field class="col-12 small-input">
+                                        <input type="text" caria-label="String" matInput [matAutocomplete]="autoUnitControl"
+                                            [(ngModel)]="inputDatas[i].unitId" required formControlName="unitControl">
+                                        <mat-autocomplete #autoUnitControl="matAutocomplete" [displayWith]="displayUnit">
+                                            <mat-option *ngFor="let unit of filteredUnits[i] | async" [value]="unit.id">
+                                                {{unit.name}}
+                                            </mat-option>
+                                        </mat-autocomplete>
+                                    </mat-form-field>
+                                </div>
+                            </td>
+                            <td class="mat-cell">
+                                <div class="col-12">
+                                    <mat-form-field class="col-12 small-input">
+                                        <input matInput type="number" [(ngModel)]="inputDatas[i].amount"
+                                            formControlName="amountControl" required>
+                                    </mat-form-field>
+                                </div>
+                            </td>
+                            <td class="mat-cell">
+                                <div class="col-12">
+                                    <mat-form-field class="col-12 small-input">
+                                        <input matInput type="number" [(ngModel)]="inputDatas[i].amountMorning"
+                                            [ngModelOptions]="{standalone:true}">
+                                    </mat-form-field>
+                                </div>
+                            </td>
+                            <td class="mat-cell">
+                                <div class="col-12">
+                                    <mat-form-field class="col-12 small-input">
+                                        <input matInput type="number" [(ngModel)]="inputDatas[i].amountAfternoon"
+                                            [ngModelOptions]="{standalone:true}">
+                                    </mat-form-field>
+                                </div>
+                            </td>
+                            <td class="mat-cell">
+                                <div class="col-12">
+                                    <mat-form-field class="col-12 small-input">
+                                        <input matInput type="number" [(ngModel)]="inputDatas[i].amountEvening"
+                                            [ngModelOptions]="{standalone:true}">
+                                    </mat-form-field>
+                                </div>
+                            </td>
+                            <td class="mat-cell">
+                                <div class="col-12">
+                                    <mat-form-field class="col-12 medium-input">
+                                        <input matInput [(ngModel)]="inputDatas[i].note" [ngModelOptions]="{standalone:true}">
+                                    </mat-form-field>
+                                </div>
+                            </td>
+                            <td class="mat-cell">
+                                <i *ngIf="i !== 0" class="fa fa-trash  a-lg mr-5" title="Xóa" (click)="removePrescriptionDetail(i)"></i>
+                                <i *ngIf="isLast" class="fa fa-plus fa-lg" title="Thêm" (click)="addPrescriptionDetail()"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </fieldset>
+    <button type="button" class="btn float-right" [routerLink]="['/treatment-details', treatmentRouteId]" [routerLinkActive]="['router-link-active']">Quay
+        lại</button>
+    <button type="submit" class="btn btn-primary float-right mr-2">Lưu</button>
+</form>

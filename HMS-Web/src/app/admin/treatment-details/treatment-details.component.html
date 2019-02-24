@@ -72,8 +72,9 @@
                     <td mat-cell *matCellDef="let element">
                         <i class="fa fa-edit fa-lg mr-5" title="Cập nhật" [routerLink]="['/treatment-detail-update',  element.id ]"></i>
                         <!-- <i class="fa fa-ban fa-lg mr-5" title="Vô hiệu hóa" (click)="onDisable()"></i> -->
+                        <i class="fa fa-toggle-on fa-lg" title="Toa thuốc" [routerLink]="['/prescriptions', element.treatmentId,  element.id ]"></i>
                         <!-- <fa-icon [icon]="faBriefcase" class="fa-lg" style="color: #673ab7" title="Xem bệnh án"
-                            [routerLink]="['/treatments',  element.id ]"></fa-icon> -->
+                            [routerLink]="['/prescriptions',  element.id ]"></fa-icon> -->
                     </td>
                 </ng-container>
 
