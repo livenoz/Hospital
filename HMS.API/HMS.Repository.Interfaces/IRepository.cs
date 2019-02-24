@@ -13,7 +13,9 @@ namespace HMS.Repository.Interfaces
         Task<IList<TEntity>> GetAllAsync(Expression<Func<TEntity, bool>> expression);
         Task<TEntity> GetAsync(int id);
         TEntity Add(TEntity entity);
+        void AddRange(List<TEntity> entities);
         void Delete(TEntity entity);
+        void DeleteRange(List<TEntity> entities);
         void Delete(int id);
         void Update(TEntity entity);
         Task<int> SaveChangeAsync();

@@ -72,6 +72,7 @@ namespace HMS.API
             services.AddScoped<IMedicalRecordBusiness, MedicalRecordBusiness>();
             services.AddScoped<IEmployeeBusiness, EmployeeBusiness>();
             services.AddScoped<ITreatmentDetailBusiness, TreatmentDetailBusiness>();
+            services.AddScoped<IPrescriptionBusiness, PrescriptionBusiness>();
 
             services.AddScoped<IBranchRepository, BranchRepository>();
             services.AddScoped<ICountryRepository, CountryRepository>();
@@ -89,6 +90,8 @@ namespace HMS.API
             services.AddScoped<IDiseaseGroupRepository, DiseaseGroupRepository>();
             services.AddScoped<ITreatmentDiseaseRepository, TreatmentDiseaseRepository>();
             services.AddScoped<ITreatmentDetailRepository, TreatmentDetailRepository>();
+            services.AddScoped<IDrugRepository, DrugRepository>();
+            services.AddScoped<IUnitRepository, UnitRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -28,6 +28,9 @@ namespace HMS.API.AutoMapper
 
             CreateMap<TTreatmentDetail, TreatmentDetailDto>();
             CreateMap<TreatmentDetailDto, TTreatmentDetail>();
+
+            CreateMap<TPrescriptionDetail, PrescriptionDetailDto>();
+            CreateMap<PrescriptionDetailDto, TPrescriptionDetail>();
         }
     }
 }

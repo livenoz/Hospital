@@ -5,11 +5,6 @@ namespace HMS.Entities.Models
 {
     public partial class TPrescription
     {
-        public TPrescription()
-        {
-            TPrescriptionDetail = new HashSet<TPrescriptionDetail>();
-        }
-
         public int Id { get; set; }
         public int PatientId { get; set; }
         public int MedicalRecordId { get; set; }
@@ -27,6 +22,5 @@ namespace HMS.Entities.Models
         public TMedicalRecord MedicalRecord { get; set; }
         public TPatient Patient { get; set; }
         public TTreatment Treatment { get; set; }
-        public ICollection<TPrescriptionDetail> TPrescriptionDetail { get; set; }
     }
 }

@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <Compile Include="IEmployeeBusiness.cs" />
+    <Compile Include="IPrescriptionBusiness.cs" />
     <Compile Include="IPatientBusiness.cs" />
     <Compile Include="IMedicalRecordBusiness.cs" />
     <Compile Include="IDiseaseBusiness.cs" />

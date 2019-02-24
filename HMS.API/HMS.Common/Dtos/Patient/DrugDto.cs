@@ -1,15 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
-namespace HMS.Entities.Models
+namespace HMS.Common.Dtos.Patient
 {
-    public partial class TDrug
+    public class DrugDto
     {
-        public TDrug()
-        {
-            TPrescriptionDetail = new HashSet<TPrescriptionDetail>();
-        }
-
         public int Id { get; set; }
         public string Code { get; set; }
         public string Name { get; set; }
@@ -22,10 +18,6 @@ namespace HMS.Entities.Models
         public string Description { get; set; }
         public string Note { get; set; }
         public bool IsActive { get; set; }
-
-        public TDrugGroup Group { get; set; }
-        public TUnit Unit { get; set; }
-        public TDrugUse Use { get; set; }
-        public ICollection<TPrescriptionDetail> TPrescriptionDetail { get; set; }
+        public string UnitName { get; set; }
     }
 }

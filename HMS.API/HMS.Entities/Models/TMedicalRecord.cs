@@ -8,6 +8,7 @@ namespace HMS.Entities.Models
         public TMedicalRecord()
         {
             TPrescription = new HashSet<TPrescription>();
+            TPrescriptionDetail = new HashSet<TPrescriptionDetail>();
             TTreatment = new HashSet<TTreatment>();
             TTreatmentDetail = new HashSet<TTreatmentDetail>();
             TTreatmentDisease = new HashSet<TTreatmentDisease>();
@@ -30,6 +31,7 @@ namespace HMS.Entities.Models
         public TPatient Patient { get; set; }
         public TMedicalRecordStatus Status { get; set; }
         public ICollection<TPrescription> TPrescription { get; set; }
+        public ICollection<TPrescriptionDetail> TPrescriptionDetail { get; set; }
         public ICollection<TTreatment> TTreatment { get; set; }
         public ICollection<TTreatmentDetail> TTreatmentDetail { get; set; }
         public ICollection<TTreatmentDisease> TTreatmentDisease { get; set; }

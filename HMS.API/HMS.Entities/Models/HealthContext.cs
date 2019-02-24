@@ -263,7 +263,6 @@ namespace HMS.Entities.Models
                 entity.HasOne(d => d.Use)
                     .WithMany(p => p.TDrug)
                     .HasForeignKey(d => d.UseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TDrug_TDrugUse");
             });
 
@@ -637,9 +636,7 @@ namespace HMS.Entities.Models
             {
                 entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
-                entity.Property(e => e.Diagnose)
-                    .IsRequired()
-                    .HasMaxLength(512);
+                entity.Property(e => e.Diagnose).HasMaxLength(512);
 
                 entity.Property(e => e.Note).HasMaxLength(512);
 
@@ -651,11 +648,29 @@ namespace HMS.Entities.Models
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TPrescriptionDetail_TDrug");
 
-                entity.HasOne(d => d.Prescription)
+                entity.HasOne(d => d.MedicalRecord)
                     .WithMany(p => p.TPrescriptionDetail)
-                    .HasForeignKey(d => d.PrescriptionId)
+                    .HasForeignKey(d => d.MedicalRecordId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_TPrescriptionDetail_TPrescription");
+                    .HasConstraintName("FK_TPrescriptionDetail_TMedicalRecord");
+
+                entity.HasOne(d => d.Patient)
+                    .WithMany(p => p.TPrescriptionDetail)
+                    .HasForeignKey(d => d.PatientId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TPrescriptionDetail_TPatient");
+
+                entity.HasOne(d => d.TreatmentDetail)
+                    .WithMany(p => p.TPrescriptionDetail)
+                    .HasForeignKey(d => d.TreatmentDetailId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TPrescriptionDetail_TTreatmentDetail");
+
+                entity.HasOne(d => d.Treatment)
+                    .WithMany(p => p.TPrescriptionDetail)
+                    .HasForeignKey(d => d.TreatmentId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TPrescriptionDetail_TTreatment");
 
                 entity.HasOne(d => d.Unit)
                     .WithMany(p => p.TPrescriptionDetail)
@@ -666,7 +681,6 @@ namespace HMS.Entities.Models
                 entity.HasOne(d => d.Use)
                     .WithMany(p => p.TPrescriptionDetail)
                     .HasForeignKey(d => d.UseId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_TPrescriptionDetail_TDrugUse");
             });
 

@@ -26,6 +26,11 @@ namespace HMS.Repository
             return _context.Set<TEntity>().Add(entity).Entity;
         }
 
+        public virtual void AddRange(List<TEntity> entities)
+        {
+            _context.Set<TEntity>().AddRange(entities);
+        }
+
         public virtual void Update(TEntity entity)
         {
             _context.Entry(entity).State = EntityState.Modified;
@@ -71,6 +76,11 @@ namespace HMS.Repository
         public virtual void Delete(TEntity entity)
         {
             _context.Set<TEntity>().Remove(entity);
+        }
+
+        public virtual void DeleteRange(List<TEntity> entities)
+        {
+            _context.Set<TEntity>().RemoveRange(entities);
         }
 
     }
