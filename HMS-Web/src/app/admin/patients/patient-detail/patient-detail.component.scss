@@ -1,0 +1,40 @@
+table {
+  width: 100%;
+}
+
+th {
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #fafafa;
+  color: #212529;
+}
+
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell{
+  width: 6%;
+}
+
+.cdk-column-control{
+  text-align: center;
+}
+
+.cdk-column-control i, .cdk-column-control fa-icon{
+  cursor: pointer;
+}
+
+.fa-edit{
+  color: #17a2b8;
+}
+
+.fa-ban{
+  color: #dc3545;
+}
+
+.fa-undo{
+  color: #079107;
+}
+
+:host /deep/ .datepicker-input {
+  .custom-select {
+      width: 50%;
+  }
+}

@@ -35,6 +35,11 @@ export class TreatmentDetailService {
         return this.http.get<PaginatedListModel<TreatmentDetailModel>>(`${this.treatmentDetailUrl}/GetByTreatmentId/${params.treatmentId}`, { headers: this.headers, params: params });
     }
 
+    public getByPatientId(params: any): Observable<PaginatedListModel<TreatmentDetailModel>> {
+        // tslint:disable-next-line:max-line-length
+        return this.http.get<PaginatedListModel<TreatmentDetailModel>>(`${this.treatmentDetailUrl}/GetByPatientId`, { headers: this.headers, params: params });
+    }
+
     public getDetail(id: any): Observable<TreatmentDetailModel> {
         return this.http.get<TreatmentDetailModel>(this.treatmentDetailUrl + '/' + id, { headers: this.headers });
     }

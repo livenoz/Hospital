@@ -30,6 +30,11 @@ export class MedicalRecordService {
         return this.http.get<PaginatedListModel<MedicalRecordModel>>(this.medicalRecordUrl + '/beingtreated', { headers: this.headers, params: params });
     }
 
+    public getByPatientId(params: any): Observable<PaginatedListModel<MedicalRecordModel>> {
+        // tslint:disable-next-line:max-line-length
+        return this.http.get<PaginatedListModel<MedicalRecordModel>>(this.medicalRecordUrl + '/bypatientId', { headers: this.headers, params: params });
+    }
+
     public getDetail(id: any): Observable<MedicalRecordModel> {
         return this.http.get<MedicalRecordModel>(this.medicalRecordUrl + '/' + id, { headers: this.headers });
     }

@@ -1,0 +1,429 @@
+<app-page-header [heading]="'Chi tiết bệnh nhân'" [icon]="'fa-table'"></app-page-header>
+<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <fieldset class="fieldset-border">
+        <legend class="legend-border">Thông tin bệnh nhân</legend>
+        <div class="form-group row"></div>
+        <div class="form-group row">
+            <mat-form-field class="col-3">
+                <mat-label class="text-right font-weight-bold">Mã bệnh nhân</mat-label>
+                <input matInput [readonly]="true" [(ngModel)]="inputData.code" [ngModelOptions]="{standalone:true}">
+            </mat-form-field>
+        </div>
+        <!-- <label for="code" class="col-form-label text-right font-weight-bold">Mã bệnh nhân</label>
+        <input class="form-control" type="text" value="" id="code" [(ngModel)]="inputData.code" [ngModelOptions]="{standalone:true}"
+          #code="ngModel" required>
+        <div *ngIf="code.invalid && (code.dirty || code.touched)" class="alert alert-danger">
+          <div *ngIf="code.errors.required">
+            Mã bệnh nhân là thông tin bắt buộc.
+          </div>
+        </div> -->
+        <div class="form-group row">
+            <mat-form-field class="col-3">
+                <mat-label class="text-right font-weight-bold">Họ</mat-label>
+                <input matInput [readonly]="true" [(ngModel)]="inputData.firstName" formControlName="firstName"
+                    [ngClass]="{ 'is-invalid': myForm.submitted && myForm.firstName.invalid }" required>
+            </mat-form-field>
+
+            <mat-form-field class="col-3">
+                <mat-label class="text-right font-weight-bold">Tên</mat-label>
+                <input matInput [readonly]="true" [(ngModel)]="inputData.lastName" formControlName="lastName" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.lastName.invalid }"
+                    required>
+            </mat-form-field>
+            <mat-radio-group disabled class="col-3" [(ngModel)]="inputData.sex" formControlName="sex"
+                [ngClass]="{ 'is-invalid': myForm.submitted && myForm.sex.invalid }" required>
+                <mat-radio-button class="example-radio-button" *ngFor="let sex of [{id: 1, name: 'Nam'}, {id: 2, name: 'Nữ'}]"
+                    [value]="sex.id">
+                    {{sex.name}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div class="form-group row">
+            <mat-form-field class="col-3">
+                <mat-label class="text-right font-weight-bold">Số điện thoại</mat-label>
+                <input matInput [readonly]="true" [(ngModel)]="inputData.phone" formControlName="phone" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.phone.invalid }"
+                    required>
+            </mat-form-field>
+            <mat-form-field class="col-3">
+                <mat-label class="text-right font-weight-bold">Email</mat-label>
+                <input matInput [readonly]="true" [(ngModel)]="inputData.email" [ngModelOptions]="{standalone:true}">
+            </mat-form-field>
+            <mat-form-field class="col-3">
+                <mat-label class="text-right font-weight-bold">Ngày sinh</mat-label>
+                <input matInput [readonly]="true" [matDatepicker]="birthday" placeholder="Choose a date" [(ngModel)]="inputData.birthday"
+                    formControlName="birthday" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.birthday.invalid }"
+                    required>
+                <mat-datepicker-toggle matSuffix [for]="birthday"></mat-datepicker-toggle>
+                <mat-datepicker #birthday></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="form-group row">
+            <mat-form-field class="col-3">
+                <mat-label class="text-right font-weight-bold">CMND</mat-label>
+                <input matInput [readonly]="true" [(ngModel)]="inputData.identifyCardNo" [ngModelOptions]="{standalone:true}">
+            </mat-form-field>
+            <mat-form-field class="col-3">
+                <mat-label class="text-right font-weight-bold">Ngày cấp</mat-label>
+                <input matInput [readonly]="true" [matDatepicker]="dateOfIssue" [(ngModel)]="inputData.dateOfIssue"
+                    [ngModelOptions]="{standalone:true}">
+                <mat-datepicker-toggle matSuffix [for]="dateOfIssue"></mat-datepicker-toggle>
+                <mat-datepicker #dateOfIssue></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="col-3">
+                <mat-label class="text-right font-weight-bold">Nơi cấp</mat-label>
+                <input matInput [readonly]="true" [(ngModel)]="inputData.placeOfIssue" [ngModelOptions]="{standalone:true}">
+            </mat-form-field>
+        </div>
+        <fieldset class="fieldset-border">
+            <legend class="legend-border"><small>Địa chỉ thường trú</small></legend>
+            <div class="form-group row"></div>
+            <div class="form-group row">
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">Quốc gia</mat-label>
+                    <input [readonly]="true" type="text" id="nativeCountryId" caria-label="String" matInput
+                        [formControl]="nativeCountryControl" [matAutocomplete]="autoNativeCountry" [(ngModel)]="inputData.nativeCountryId"
+                        [ngClass]="{ 'is-invalid': myForm.submitted && myForm.nativeCountryControl.invalid }" required>
+                    <mat-autocomplete #autoNativeCountry="matAutocomplete" [displayWith]="displayCountry">
+                        <mat-option *ngFor="let country of filteredNativeCountries | async" [value]="country.id">
+                            {{country.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">Thành phố</mat-label>
+                    <input [readonly]="true" type="text" id="nativeProvince" [formControl]="nativeProvinceControl"
+                        caria-label="String" matInput [matAutocomplete]="autoNativeProvince" [(ngModel)]="inputData.nativeProvinceId"
+                        [ngClass]="{ 'is-invalid': myForm.submitted && myForm.nativeProvinceControl.invalid }" required>
+                    <mat-autocomplete #autoNativeProvince="matAutocomplete" [displayWith]="displayProvince">
+                        <mat-option *ngFor="let province of filteredNativeProvinces | async" [value]="province.id">
+                            {{province.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">Quận</mat-label>
+                    <input [readonly]="true" type="text" id="nativeDistrict" [(ngModel)]="inputData.nativeDistrictId"
+                        caria-label="String" matInput [formControl]="nativeDistrictControl" [matAutocomplete]="autoNativeDistrict"
+                        [ngClass]="{ 'is-invalid': myForm.submitted && myForm.nativeDistrictControl.invalid }" required>
+                    <mat-autocomplete #autoNativeDistrict="matAutocomplete" [displayWith]="displayDistrict">
+                        <mat-option *ngFor="let district of filteredNativeDistricts | async" [value]="district.id">
+                            {{district.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">Địa chỉ</mat-label>
+                    <input matInput [readonly]="true" [(ngModel)]="inputData.nativeAddress" formControlName="nativeAddress"
+                        [ngClass]="{ 'is-invalid': myForm.submitted && myForm.nativeAddress.invalid }" required>
+                </mat-form-field>
+            </div>
+        </fieldset>
+        <fieldset class="fieldset-border">
+            <legend class="legend-border"><small>Địa chỉ tạm trú</small></legend>
+            <div class="form-group row"></div>
+            <div class="form-group row">
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">Quốc gia</mat-label>
+                    <input type="text" [readonly]="true" id="country" caria-label="String" matInput [formControl]="countryControl"
+                        [matAutocomplete]="autoCountry" [(ngModel)]="inputData.countryId" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.countryControl.invalid }"
+                        required>
+                    <mat-autocomplete #autoCountry="matAutocomplete" [displayWith]="displayCountry">
+                        <mat-option *ngFor="let country of filteredCountries | async" [value]="country.id">
+                            {{country.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">Thành phố</mat-label>
+                    <input type="text" [readonly]="true" id="province" caria-label="String" matInput [formControl]="provinceControl"
+                        [matAutocomplete]="autoProvince" [(ngModel)]="inputData.provinceId" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.provinceControl.invalid }"
+                        required>
+                    <mat-autocomplete #autoProvince="matAutocomplete" [displayWith]="displayProvince">
+                        <mat-option *ngFor="let province of filteredProvinces | async" [value]="province.id">
+                            {{province.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">Quận</mat-label>
+                    <input type="text" [readonly]="true" id="district" caria-label="String" matInput [formControl]="districtControl"
+                        [matAutocomplete]="autoDistrict" [(ngModel)]="inputData.districtId" [ngClass]="{ 'is-invalid': myForm.submitted && myForm.districtControl.invalid }"
+                        required>
+                    <mat-autocomplete #autoDistrict="matAutocomplete" [displayWith]="displayDistrict">
+                        <mat-option *ngFor="let district of filteredDistricts | async" [value]="district.id">
+                            {{district.name}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">Địa chỉ</mat-label>
+                    <input matInput [readonly]="true" [(ngModel)]="inputData.address" formControlName="address"
+                        [ngClass]="{ 'is-invalid': myForm.submitted && myForm.address.invalid }" required>
+                </mat-form-field>
+            </div>
+        </fieldset>
+        <fieldset class="fieldset-border">
+            <legend class="legend-border"><small>Thông tin người thân 1</small></legend>
+            <div class="form-group row"></div>
+            <div class="form-group row">
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">Họ tên</mat-label>
+                    <input matInput [readonly]="true" [(ngModel)]="inputData.firstRelativeName" [ngModelOptions]="{standalone:true}">
+                </mat-form-field>
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">Số điện thoại</mat-label>
+                    <input matInput [readonly]="true" [(ngModel)]="inputData.firstRelativePhone" [ngModelOptions]="{standalone:true}">
+                </mat-form-field>
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">CMND</mat-label>
+                    <input matInput [readonly]="true" [(ngModel)]="inputData.firstRelativeIdentifyCardNo"
+                        [ngModelOptions]="{standalone:true}">
+                </mat-form-field>
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">Quan hệ với bệnh nhân</mat-label>
+                    <input matInput [readonly]="true" [(ngModel)]="inputData.firstRelativeDescription" [ngModelOptions]="{standalone:true}">
+                </mat-form-field>
+            </div>
+        </fieldset>
+        <fieldset class="fieldset-border">
+            <legend class="legend-border"><small>Thông tin người thân 2</small></legend>
+            <div class="form-group row"></div>
+            <div class="form-group row">
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">Họ tên</mat-label>
+                    <input matInput [readonly]="true" [(ngModel)]="inputData.secondRelativeName" [ngModelOptions]="{standalone:true}">
+                </mat-form-field>
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">Số điện thoại</mat-label>
+                    <input matInput [readonly]="true" [(ngModel)]="inputData.secondRelativePhone" [ngModelOptions]="{standalone:true}">
+                </mat-form-field>
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">CMND</mat-label>
+                    <input matInput [readonly]="true" [(ngModel)]="inputData.secondRelativeIdentifyCardNo"
+                        [ngModelOptions]="{standalone:true}">
+                </mat-form-field>
+                <mat-form-field class="col-3">
+                    <mat-label class="text-right font-weight-bold">Quan hệ với bệnh nhân</mat-label>
+                    <input matInput [readonly]="true" [(ngModel)]="inputData.secondRelativeDescription"
+                        [ngModelOptions]="{standalone:true}">
+                </mat-form-field>
+            </div>
+        </fieldset>
+        <div class="form-group row">
+            <mat-form-field class="col-12">
+                <mat-label class="text-right font-weight-bold">Lịch sử bệnh</mat-label>
+                <textarea matInput [readonly]="true" [(ngModel)]="inputData.diseaseHistories" [ngModelOptions]="{standalone:true}"
+                    matTextareaAutosize matAutosizeMinRows=1 matAutosizeMaxRows=20></textarea>
+            </mat-form-field>
+        </div>
+    </fieldset>
+</form>
+<div class="row">
+    <div class="col col-xl-9 col-lg-9 form-group">
+        <h1>Danh sách bệnh án</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col col-xl-12 col-lg-12">
+        <div class="card mb-12">
+            <table mat-table [dataSource]="medicalRecordDataSource" class="mat-elevation-z8">
+                <!-- Patient Code Column -->
+                <ng-container matColumnDef="Code">
+                    <th mat-header-cell *matHeaderCellDef> Mã bệnh án</th>
+                    <td mat-cell *matCellDef="let element"> <a [routerLink]="['/treatments',  element.id ]">{{element.code}}</a> </td>
+                </ng-container>
+                <ng-container matColumnDef="StartDate">
+                    <th mat-header-cell *matHeaderCellDef> Ngày bắt đầu </th>
+                    <td mat-cell *matCellDef="let element"> {{element.startDate | date: 'MM-dd-yyyy' : 'vn-VN'}} </td>
+                </ng-container>
+                <ng-container matColumnDef="EndDate">
+                    <th mat-header-cell *matHeaderCellDef> Ngày kết thúc </th>
+                    <td mat-cell *matCellDef="let element"> {{element.endDate | date: 'MM-dd-yyyy' : 'vn-VN'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Reason">
+                    <th mat-header-cell *matHeaderCellDef> Lý do </th>
+                    <td mat-cell *matCellDef="let element"> {{element.reason}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Diagnose">
+                    <th mat-header-cell *matHeaderCellDef> Chẩn đoán </th>
+                    <td mat-cell *matCellDef="let element"> {{element.diagnose}} </td>
+                </ng-container>
+                <ng-container matColumnDef="StatusName">
+                    <th mat-header-cell *matHeaderCellDef> Trạng thái </th>
+                    <td mat-cell *matCellDef="let element"> {{element.statusName}} </td>
+                </ng-container>
+                <!-- Control Column -->
+                <ng-container matColumnDef="control" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef> Tác vụ </th>
+                    <td mat-cell *matCellDef="let element">
+                        <i class="fa fa-edit fa-lg mr-5" title="Cập nhật" [routerLink]="['/medical-record-update',  element.id ]"></i>
+                        <i *ngIf="element.isActived" class="fa fa-ban fa-lg mr-5" title="Vô hiệu hóa" (click)="onDisableMedicalRecord(element.id)"></i>
+                        <i *ngIf="!element.isActived" class="fa fa-undo fa-lg mr-5" title="Kích hoạt" (click)="onEnableMedicalRecord(element.id)"></i>
+                        <!-- <i class="fa fa-ban fa-lg mr-5" title="Vô hiệu hóa" (click)="onDisable()"></i> -->
+                        <!-- <fa-icon [icon]="faBriefcase" class="fa-lg" style="color: #673ab7" title="Xem bệnh án"
+                            [routerLink]="['/treatments',  element.id ]"></fa-icon> -->
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="medicalRecordDisplayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: medicalRecordDisplayedColumns;">
+                </tr>
+            </table>
+            <!-- Paging -->
+            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[10, 20, 50]" (page)="pageEvent = searchConfigMedicalRecord($event)"
+                showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col col-xl-9 col-lg-9 form-group">
+        <h1>Danh sách điều trị</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col col-xl-12 col-lg-12">
+        <div class="card mb-12">
+            <table mat-table [dataSource]="treatmentDataSource" class="mat-elevation-z8">
+                <!-- Patient Code Column -->
+                <ng-container matColumnDef="Code">
+                    <th mat-header-cell *matHeaderCellDef> Mã điều trị</th>
+                    <td mat-cell *matCellDef="let element"> <a [routerLink]="['/treatment-details',  element.id ]">{{element.code}}</a> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="MedicalRecordCode">
+                    <th mat-header-cell *matHeaderCellDef> Mã bệnh án </th>
+                    <td mat-cell *matCellDef="let element"> <a [routerLink]="['/treatments',  element.medicalRecordId ]">{{element.medicalRecordCode}}</a> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="StartDate">
+                    <th mat-header-cell *matHeaderCellDef> Ngày bắt đầu </th>
+                    <td mat-cell *matCellDef="let element"> {{element.startDate | date: 'MM-dd-yyyy' : 'vn-VN'}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Title">
+                    <th mat-header-cell *matHeaderCellDef> Khám</th>
+                    <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Content">
+                    <th mat-header-cell *matHeaderCellDef> Kết quả </th>
+                    <td mat-cell *matCellDef="let element"> {{element.content}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Doctor">
+                    <th mat-header-cell *matHeaderCellDef> Bác sĩ </th>
+                    <td mat-cell *matCellDef="let element">{{element.doctorFirstName}} {{element.doctorLastName}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Nurse">
+                    <th mat-header-cell *matHeaderCellDef> Y tá </th>
+                    <td mat-cell *matCellDef="let element">{{element.nurseFirstName}} {{element.nurseLastName}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Note">
+                    <th mat-header-cell *matHeaderCellDef> Ghi chú </th>
+                    <td mat-cell *matCellDef="let element"> {{element.note}} </td>
+                </ng-container>
+
+                <!-- Control Column -->
+                <ng-container matColumnDef="control" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef> Tác vụ </th>
+                    <td mat-cell *matCellDef="let element">
+                        <i class="fa fa-edit fa-lg mr-5" title="Cập nhật" [routerLink]="['/treatment-update',  element.id ]"></i>
+                        <!-- <i class="fa fa-ban fa-lg mr-5" title="Vô hiệu hóa" (click)="onDisable()"></i> -->
+                        <!-- <fa-icon [icon]="faBriefcase" class="fa-lg" style="color: #673ab7" title="Xem bệnh án"
+                            [routerLink]="['/treatments',  element.id ]"></fa-icon> -->
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="treatmentDisplayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: treatmentDisplayedColumns;">
+                </tr>
+            </table>
+            <!-- Paging -->
+            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[10, 20, 50]" (page)="pageEvent = onPageChangeTreatment($event)"
+                showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>
+<br>
+<div class="row">
+    <div class="col col-xl-9 col-lg-9 form-group">
+        <h1>Danh sách điều trị chi tiết</h1>
+    </div>
+</div>
+<div class="row">
+    <div class="col col-xl-12 col-lg-12">
+        <div class="card mb-12">
+            <table mat-table [dataSource]="treatmentDetailDataSource" class="mat-elevation-z8">
+                <!-- Patient Code Column -->
+                <ng-container matColumnDef="Code">
+                    <th mat-header-cell *matHeaderCellDef> Mã điều trị chi tiết</th>
+                    <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="TreatmentCode">
+                    <th mat-header-cell *matHeaderCellDef> Mã điều trị</th>
+                    <td mat-cell *matCellDef="let element"> <a [routerLink]="['/treatment-details',  element.treatmentId ]">{{element.treatmentCode}}</a> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="MedicalRecordCode">
+                    <th mat-header-cell *matHeaderCellDef> Mã bệnh án </th>
+                    <td mat-cell *matCellDef="let element"><a [routerLink]="['/treatments',  element.medicalRecordId ]">{{element.medicalRecordCode}}</a>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="StartDate">
+                    <th mat-header-cell *matHeaderCellDef> Ngày bắt đầu </th>
+                    <td mat-cell *matCellDef="let element"> {{element.startDate | date: 'MM-dd-yyyy' : 'vn-VN'}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="Content">
+                    <th mat-header-cell *matHeaderCellDef> Nội dung</th>
+                    <td mat-cell *matCellDef="let element"> {{element.content}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Result">
+                    <th mat-header-cell *matHeaderCellDef> Kết quả </th>
+                    <td mat-cell *matCellDef="let element"> {{element.result}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Doctor">
+                    <th mat-header-cell *matHeaderCellDef> Bác sĩ </th>
+                    <td mat-cell *matCellDef="let element">{{element.doctorFirstName}} {{element.doctorLastName}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Nurse">
+                    <th mat-header-cell *matHeaderCellDef> Y tá </th>
+                    <td mat-cell *matCellDef="let element">{{element.nurseFirstName}} {{element.nurseLastName}}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="Note">
+                    <th mat-header-cell *matHeaderCellDef> Ghi chú </th>
+                    <td mat-cell *matCellDef="let element"> {{element.note}} </td>
+                </ng-container>
+
+                <!-- Control Column -->
+                <ng-container matColumnDef="control" stickyEnd>
+                    <th mat-header-cell *matHeaderCellDef> Tác vụ </th>
+                    <td mat-cell *matCellDef="let element">
+                        <i class="fa fa-edit fa-lg mr-5" title="Cập nhật" [routerLink]="['/treatment-detail-update',  element.id ]"></i>
+                        <!-- <i class="fa fa-ban fa-lg mr-5" title="Vô hiệu hóa" (click)="onDisable()"></i> -->
+                        <i class="fa fa-toggle-on fa-lg" title="Toa thuốc" [routerLink]="['/prescriptions', element.treatmentId,  element.id ]"></i>
+                        <!-- <fa-icon [icon]="faBriefcase" class="fa-lg" style="color: #673ab7" title="Xem bệnh án"
+                            [routerLink]="['/prescriptions',  element.id ]"></fa-icon> -->
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="treatmentDetailDisplayedColumns; sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: treatmentDetailDisplayedColumns;">
+                </tr>
+            </table>
+            <!-- Paging -->
+            <mat-paginator [length]="length" [pageSize]="pageSize" [pageSizeOptions]="[10, 20, 50]" (page)="pageEvent = onPageChangeTreatmentDetail($event)"
+                showFirstLastButtons></mat-paginator>
+        </div>
+    </div>
+</div>

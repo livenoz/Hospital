@@ -12,6 +12,7 @@ const routes: Routes = [
             { path: 'patients', loadChildren: './patients/patients.module#PatientsModule' },
             { path: 'patient-add', loadChildren: './patients/patient-add/patient-add.module#PatientAddModule' },
             { path: 'patient-update/:id', loadChildren: './patients/patient-update/patient-update.module#PatientUpdateModule' },
+            { path: 'patient-detail/:id', loadChildren: './patients/patient-detail/patient-detail.module#PatientDetailModule' },
             { path: 'medical-records', loadChildren: './medical-records/medical-records.module#MedicalRecordsModule' },
             // tslint:disable-next-line:max-line-length
             { path: 'medical-record-add', loadChildren: './medical-records/medical-record-add/medical-record-add.module#MedicalRecordAddModule' },
