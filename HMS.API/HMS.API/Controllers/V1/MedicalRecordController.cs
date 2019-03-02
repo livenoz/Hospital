@@ -93,7 +93,7 @@ namespace HMS.API.Controllers.V1
             throw new NotImplementedException();
         }
 
-        [Route("bypatientid")]
+        [HttpGet("bypatientid")]
         public Task<IPaginatedList<MedicalRecordDto>> GetByPatientId(int patientId, 
             int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {

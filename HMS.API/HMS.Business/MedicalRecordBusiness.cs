@@ -76,29 +76,8 @@ namespace HMS.Business
 
         public Task<IPaginatedList<MedicalRecordDto>> GetByPatientId(int patientId, int pageIndex, int pageSize)
         {
-            var result = (from medical in _medicalRecordRepository.Repo
-                          .Where(c => c.PatientId == patientId && c.IsActived)
-                          join status in _medicalRecordStatusRepository.Repo on medical.StatusId equals status.Id
-                          select new MedicalRecordDto
-                          {
-                              Id = medical.Id,
-                              Code = medical.Code,
-                              PatientId = medical.PatientId,
-                              StartDate = medical.StartDate,
-                              EndDate = medical.EndDate,
-                              Reason = medical.Reason,
-                              StatusId = medical.StatusId,
-                              StatusName = status.Name,
-                              CreatedTime = medical.CreatedTime,
-                              CreatedBy = medical.CreatedBy,
-                              UpdatedTime = medical.UpdatedTime,
-                              UpdatedBy = medical.UpdatedBy,
-                              IsActived = medical.IsActived,
-                              IsDeleted = medical.IsDeleted,
-                          })
-                          .OrderByDescending(c => c.Id)
-                          .ToPaginatedListAsync(pageIndex, pageSize);
-            return result;
+            Expression<Func<TMedicalRecord, bool>> medicalRecordExpression = c => c.PatientId == patientId;
+            return GetAll(medicalRecordExpression, null, pageIndex, pageSize);
         }
 
         public Task<IPaginatedList<MedicalRecordDto>> GetAll(int pageIndex, int pageSize)

@@ -93,7 +93,7 @@ namespace HMS.API.Controllers.V1
             return _treatmentBusiness.GetByMedicalRecordId(medicalRecordId, pageIndex, pageSize);
         }
 
-        [Route("GetByPatientId/{patientId}")]
+        [HttpGet("GetByPatientId")]
         public Task<IPaginatedList<TreatmentDto>> GetByPatientId(int patientId,
                 int pageIndex = Constant.PAGE_INDEX_DEFAULT, int pageSize = Constant.PAGE_SIZE_DEFAULT)
         {

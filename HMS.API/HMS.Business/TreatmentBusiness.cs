@@ -238,8 +238,7 @@ namespace HMS.Business
         public Task<IPaginatedList<TreatmentDto>> GetByPatientId(int patientId, int pageIndex, int pageSize)
         {
             var result = (from treatment in _treatmentRepository.Repo.Where(c => c.PatientId == patientId && c.IsActived)
-                          join patient in _patientRepository.Repo.Where(c => c.IsActived) on treatment.PatientId equals patient.Id
-                          join medicalRecord in _medicalRecordRepository.Repo.Where(c => c.IsActived) on treatment.MedicalRecordId equals medicalRecord.Id
+                          join medicalRecord in _medicalRecordRepository.Repo on treatment.MedicalRecordId equals medicalRecord.Id
                           join doctor in _employeeRepository.Repo on treatment.DoctorId equals doctor.Id
                           into leftDoctors
                           from doctor in leftDoctors.DefaultIfEmpty()
@@ -251,8 +250,6 @@ namespace HMS.Business
                               Id = treatment.Id,
                               Code = treatment.Code,
                               PatientId = treatment.PatientId,
-                              PatientFirstName = patient.FirstName,
-                              PatientLastName = patient.LastName,
                               MedicalRecordId = treatment.MedicalRecordId,
                               MedicalRecordCode = medicalRecord.Code,
                               StartDate = treatment.StartDate,
@@ -273,8 +270,8 @@ namespace HMS.Business
                               NurseFirstName = nurse.FirstName,
                               NurseLastName = nurse.LastName,
                           })
-                          .OrderByDescending(c => c.Id)
-                          .ToPaginatedListAsync(pageIndex, pageSize);
+                             .OrderByDescending(c => c.Id)
+                             .ToPaginatedListAsync(pageIndex, pageSize);
             return result;
         }
 
