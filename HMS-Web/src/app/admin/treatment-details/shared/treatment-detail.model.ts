@@ -24,4 +24,5 @@ export class TreatmentDetailModel {
     updatedTime: Date;
     isActived: boolean;
     isDeleted: boolean;
+    hasPrescription: boolean;
 }

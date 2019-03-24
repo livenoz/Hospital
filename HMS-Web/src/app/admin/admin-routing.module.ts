@@ -7,7 +7,7 @@ const routes: Routes = [
         path: '',
         component: AdminComponent,
         children: [
-            { path: '', redirectTo: 'dashboard', pathMatch: 'prefix' },
+            { path: '', redirectTo: 'patients', pathMatch: 'prefix' },
             { path: 'dashboard', loadChildren: './dashboard/dashboard.module#DashboardModule' },
             { path: 'patients', loadChildren: './patients/patients.module#PatientsModule' },
             { path: 'patient-add', loadChildren: './patients/patient-add/patient-add.module#PatientAddModule' },

@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
         this.userService.login(this.user.username, this.user.password).subscribe((data: any) => {
             if (data && data.accessToken) {
                 localStorage.setItem('accessToken', data.accessToken);
-                this.router.navigate(['/dashboard']);
+                this.router.navigate(['/patients']);
             }
         });
     }
