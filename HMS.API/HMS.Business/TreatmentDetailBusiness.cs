@@ -23,6 +23,7 @@ namespace HMS.Business
         private readonly IMedicalRecordRepository _medicalRecordRepository;
         private readonly ITreatmentDiseaseRepository _treatmentDiseaseRepository;
         private readonly IDiseaseRepository _diseaseRepository;
+        private readonly IPrescriptionDetailRepository _prescriptionDetailRepository;
 
         public TreatmentDetailBusiness(IMapper mapper,
             ITreatmentDetailRepository treatmentDetailRepository,
@@ -31,7 +32,8 @@ namespace HMS.Business
             IPatientRepository patientRepository,
             IMedicalRecordRepository medicalRecordRepository,
             ITreatmentDiseaseRepository treatmentDiseaseRepository,
-            IDiseaseRepository diseaseRepository)
+            IDiseaseRepository diseaseRepository,
+            IPrescriptionDetailRepository prescriptionDetailRepository)
         {
             _mapper = mapper;
             _treatmentDetailRepository = treatmentDetailRepository;
@@ -41,6 +43,7 @@ namespace HMS.Business
             _medicalRecordRepository = medicalRecordRepository;
             _treatmentDiseaseRepository = treatmentDiseaseRepository;
             _diseaseRepository = diseaseRepository;
+            _prescriptionDetailRepository = prescriptionDetailRepository;
         }
 
         public async Task<TreatmentDetailDto> Add(TreatmentDetailDto model)
@@ -75,6 +78,8 @@ namespace HMS.Business
                           join nurse in _employeeRepository.Repo on treatmentDetail.NurseId equals nurse.Id
                           into leftNurses
                           from nurse in leftNurses.DefaultIfEmpty()
+                          join prescriptionDetail in _prescriptionDetailRepository.Repo.Where(c => c.IsActived) on treatmentDetail.Id equals prescriptionDetail.TreatmentDetailId
+                          into leftPrescriptionDetails
                           select new TreatmentDetailDto
                           {
                               Id = treatmentDetail.Id,
@@ -103,6 +108,7 @@ namespace HMS.Business
                               DoctorLastName = doctor.LastName,
                               NurseFirstName = nurse.FirstName,
                               NurseLastName = nurse.LastName,
+                              HasPrescription = leftPrescriptionDetails.Any()
                           })
                           .OrderByDescending(c => c.Id)
                           .ToPaginatedListAsync(pageIndex, pageSize);
@@ -121,6 +127,8 @@ namespace HMS.Business
                           join nurse in _employeeRepository.Repo on treatmentDetail.NurseId equals nurse.Id
                           into leftNurses
                           from nurse in leftNurses.DefaultIfEmpty()
+                          join prescriptionDetail in _prescriptionDetailRepository.Repo.Where(c => c.IsActived) on treatmentDetail.Id equals prescriptionDetail.TreatmentDetailId
+                          into leftPrescriptionDetails
                           select new TreatmentDetailDto
                           {
                               Id = treatmentDetail.Id,
@@ -149,6 +157,7 @@ namespace HMS.Business
                               DoctorLastName = doctor.LastName,
                               NurseFirstName = nurse.FirstName,
                               NurseLastName = nurse.LastName,
+                              HasPrescription = leftPrescriptionDetails.Any()
                           })
                           .OrderByDescending(c => c.Id)
                           .ToPaginatedListAsync(pageIndex, pageSize);
@@ -228,6 +237,8 @@ namespace HMS.Business
                           join nurse in _employeeRepository.Repo on treatmentDetail.NurseId equals nurse.Id
                           into leftNurses
                           from nurse in leftNurses.DefaultIfEmpty()
+                          join prescriptionDetail in _prescriptionDetailRepository.Repo.Where(c => c.IsActived) on treatmentDetail.Id equals prescriptionDetail.TreatmentDetailId
+                          into leftPrescriptionDetails
                           select new TreatmentDetailDto
                           {
                               Id = treatmentDetail.Id,
@@ -256,6 +267,7 @@ namespace HMS.Business
                               DoctorLastName = doctor.LastName,
                               NurseFirstName = nurse.FirstName,
                               NurseLastName = nurse.LastName,
+                              HasPrescription = leftPrescriptionDetails.Any()
                           })
                           .OrderByDescending(c => c.Id)
                           .ToPaginatedListAsync(pageIndex, pageSize);
@@ -275,6 +287,8 @@ namespace HMS.Business
                           join nurse in _employeeRepository.Repo on treatmentDetail.NurseId equals nurse.Id
                           into leftNurses
                           from nurse in leftNurses.DefaultIfEmpty()
+                          join prescriptionDetail in _prescriptionDetailRepository.Repo.Where(c => c.IsActived) on treatmentDetail.Id equals prescriptionDetail.TreatmentDetailId
+                          into leftPrescriptionDetails
                           select new TreatmentDetailDto
                           {
                               Id = treatmentDetail.Id,
@@ -303,6 +317,7 @@ namespace HMS.Business
                               DoctorLastName = doctor.LastName,
                               NurseFirstName = nurse.FirstName,
                               NurseLastName = nurse.LastName,
+                              HasPrescription = leftPrescriptionDetails.Any()
                           })
                           .OrderByDescending(c => c.Id)
                           .ToPaginatedListAsync(pageIndex, pageSize);

@@ -30,5 +30,6 @@ namespace HMS.Common.Dtos.Patient
         public string NurseLastName { get; set; }
         public string PatientFirstName { get; set; }
         public string PatientLastName { get; set; }
+        public bool HasPrescription { get; set; }
     }
 }
